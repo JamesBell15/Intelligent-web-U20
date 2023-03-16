@@ -1,5 +1,5 @@
 let mongoose = require('mongoose');
-let mongoDB = 'mongodb://127.0.0.1:27017/sightings';
+let mongoDB = 'mongodb://127.0.0.1:27017/database';
 mongoose.Promise = global.Promise;
 
 try {

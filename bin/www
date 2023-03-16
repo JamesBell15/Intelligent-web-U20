@@ -8,7 +8,7 @@ var app = require('../app');
 var debug = require('debug')('intelligent-web-u20:server');
 var http = require('http');
 var mongoose = require('mongoose');
-var database = require('../databases/characters')
+var database = require('../databases/database')
 
 /**
  * Get port from environment and store in Express.
