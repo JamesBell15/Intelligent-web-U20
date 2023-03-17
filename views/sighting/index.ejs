@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <ul>
+      <% for(var i=0; i<sightings.length; i++) {%>
+          <li>
+            <%- include('show', {sighting: sightings[i]}) %>
+          </li>
+      <%}%>
+    </ul>
+    <a href="add"> add new </a>
+  </body>
+</html>
