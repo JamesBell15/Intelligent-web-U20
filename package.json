@@ -13,6 +13,9 @@
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "mongoose": "^5.11.18",
-    "body-parser": "~1.20.1"
+    "body-parser": "~1.20.1",
+    "serve-favicon": "~2.4.5",
+    "multer": "^1.4.2",
+    "bcryptjs": "^2.4.3"
   }
 }
