@@ -1,0 +1,76 @@
+{
+    let name = 'James';
+    let room = null;
+    let socket = io();
+    const insertChatRoom = () => {
+        const chatRoomIn = document.getElementById('chatRoomIn').value
+        const div = document.createElement('div')
+        div.setAttribute("chat-room-id", chatRoomIn)
+        div.innerHTML = `${chatRoomIn}`
+        div.onclick = handleClickChatRoom
+        const chatRoomCatalogue = document.getElementById('chatRoomCatalogue')
+        chatRoomCatalogue.appendChild(div)
+    }
+    const handleClickChatRoom = (ev) => {
+        const clicked_elem = ev.target
+        enterChat()
+        const chatTitle = document.getElementById('chatTitle')
+        let room = clicked_elem.getAttribute("chat-room-id")
+        chatTitle.innerHTML = room
+        connectToRoom(room, name)
+    }
+
+    const handleExitChatRoom = () => {
+        const history = document.getElementById('chatHistory')
+        while (history.firstChild) {
+            history.removeChild(history.firstChild)
+        }
+        enterChat(false)
+        socket.emit('disconnect', room)
+    }
+
+    const enterChat = (enter = true) => {
+        let hide = document.getElementById('chatRoomMain')
+        let show = document.getElementById('chatMain')
+        if (!enter)
+            [hide, show] = [show, hide]
+        hide.classList.add('hidden')
+        show.classList.remove('hidden')
+    }
+
+    const connectToRoom = (room, name) => {
+        socket.emit('create or join', room, name)
+    }
+
+    const sendChatMsg = () => {
+        const msg = document.getElementById('msgIn').value
+        socket.emit('send msg', room, name, msg)
+    }
+
+
+    socket.on('msg', (data) => {
+        outputMsg(data)
+    })
+
+    socket.on('history', data => {
+        for (const i in data) {
+            outputMsg(data[i])
+        }
+    })
+
+    const outputMsg = (data) => {
+        const div = document.createElement('div')
+        div.innerHTML = `<p><strong>${data.sender}:</strong>${data.msg}</p>`
+        document.getElementById('chatHistory').appendChild(div)
+        document.getElementById('msgIn').value = ''
+    }
+
+    const addChatRoomBtn = document.getElementById('addChatRoomBtn')
+    const chatRoomIn = document.getElementById('chatRoomIn')
+    const exitChatBtn = document.getElementById('exitChatBtn')
+    const sendMsgBtn = document.getElementById('sendMsgBtn')
+    const chatMain = document.getElementById('chatMain')
+    addChatRoomBtn.addEventListener('click', insertChatRoom)
+    exitChatBtn.addEventListener('click', handleExitChatRoom)
+    sendMsgBtn.addEventListener('click', sendChatMsg)
+}

@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('intelligent-web-u20:server');
 var http = require('http');
+var mongoose = require('mongoose');
+var database = require('../databases/database');
 
 /**
  * Get port from environment and store in Express.
@@ -88,3 +90,9 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+const io = require('socket.io')(server, {
+  pingTimeout:60000,
+});
+var socket_module = require('../controllers/socket-io');
+socket_module.init(io, app);
