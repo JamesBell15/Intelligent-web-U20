@@ -6,8 +6,8 @@
         <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     </head>
     <body>
-        <div id="chatRoomMain" class="chatRoomMain">
-            <form id="chatRoomForm" class="chatRoomForm" onsubmit="return false">
+        <div id="chatRoomMain">
+            <form id="chatRoomForm" onsubmit="return false">
                 <input
                         id="chatRoomIn"
                         type="text"
@@ -20,9 +20,9 @@
             <section id="chatRoomCatalogue">
             </section>
         </div>
-        <div id="chatMain" class="chatMain hidden">
+        <div id="chatMain" class="hidden">
             <div id="chatTitle"></div>
-            <section id="chatHistory" class="chatHistory">
+            <section id="chatHistory">
             </section>
             <form class="chatFormContainer" onsubmit="return false;">
                 <input
