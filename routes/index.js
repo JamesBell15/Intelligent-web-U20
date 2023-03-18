@@ -22,4 +22,8 @@ router.get("/sighting/show/:id", sighting_controller.show)
 router.get("/sighting/new", sighting_controller.new);
 router.post("/sighting/new", upload.single('sightingImage'), sighting_controller.create);
 
+router.get('/chat', function(req, res, next) {
+  res.render('chat');
+})
+
 module.exports = router;

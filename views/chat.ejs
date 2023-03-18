@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel='stylesheet' href='/stylesheets/chat.css'>
+        <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    </head>
+    <body>
+        <div id="chatRoomMain" class="chatRoomMain">
+            <form id="chatRoomForm" class="chatRoomForm" onsubmit="return false">
+                <input
+                        id="chatRoomIn"
+                        type="text"
+                        placeholder="Create room"
+                        required
+                        autocomplete="off"
+                />
+                <input id="addChatRoomBtn" type="button" value="Add"/>
+            </form>
+            <section id="chatRoomCatalogue">
+            </section>
+        </div>
+        <div id="chatMain" class="chatMain hidden">
+            <div id="chatTitle"></div>
+            <section id="chatHistory" class="chatHistory">
+            </section>
+            <form class="chatFormContainer" onsubmit="return false;">
+                <input
+                        id="msgIn"
+                        type="text"
+                        placeholder="Enter Message"
+                        required
+                        autocomplete="off"
+                />
+                <input id="sendMsgBtn" type="button" value="Send"/>
+                <input id="exitChatBtn" type="button" value="Exit"/>
+            </form>
+        </div>
+        <script src="javascripts/chat.js"></script>
+    </body>
+</html>

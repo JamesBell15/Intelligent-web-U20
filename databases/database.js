@@ -12,4 +12,3 @@ try {
 } catch (e) {
   console.log('error in db connection: ' + e.message);
 }
-
