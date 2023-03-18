@@ -19,7 +19,7 @@
         const clicked_elem = ev.target
         enterChat()
         const chatTitle = document.getElementById('chatTitle')
-        let room = clicked_elem.getAttribute("chat-room-id")
+        room = clicked_elem.getAttribute("chat-room-id")
         chatTitle.innerHTML = room
         connectToRoom(room, name)
     }
