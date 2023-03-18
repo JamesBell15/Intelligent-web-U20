@@ -1,6 +1,10 @@
 const Message = require('../models/messages')
 const mongoose = require('mongoose')
 
+/**
+ * Controller might be useless as you can't use socket.io here BUT you can in socket-io.js
+ */
+
 exports.insert = (data) => {
     let message = new Message({
         sender: data.sender,

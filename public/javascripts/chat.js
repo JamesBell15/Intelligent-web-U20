@@ -2,6 +2,10 @@
     let name = 'James';
     let room = null;
     let socket = io();
+
+    /**
+     * Method will be replaced with handling posts rather than manually generated rooms
+     */
     const insertChatRoom = () => {
         const chatRoomIn = document.getElementById('chatRoomIn').value
         const div = document.createElement('div')
@@ -66,10 +70,8 @@
     }
 
     const addChatRoomBtn = document.getElementById('addChatRoomBtn')
-    const chatRoomIn = document.getElementById('chatRoomIn')
     const exitChatBtn = document.getElementById('exitChatBtn')
     const sendMsgBtn = document.getElementById('sendMsgBtn')
-    const chatMain = document.getElementById('chatMain')
     addChatRoomBtn.addEventListener('click', insertChatRoom)
     exitChatBtn.addEventListener('click', handleExitChatRoom)
     sendMsgBtn.addEventListener('click', sendChatMsg)
