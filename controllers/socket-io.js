@@ -21,6 +21,12 @@ exports.init = function(io) {
                 messageController.insert(data)
                 io.to(room).emit('msg', data)
             })
+            socket.on('get rooms', () => {
+                messageModel.distinct('post').then(result => {
+                    socket.emit('rooms in', result)
+                    console.log(result)
+                })
+            })
             socket.on('disconnect', (room) => {
                 socket.leave(room)
             })

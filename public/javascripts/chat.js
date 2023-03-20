@@ -4,8 +4,27 @@
     let socket = io();
 
     /**
+     * Populates the homepage with all existing rooms in the DB which is called window.onload.
+     */
+    const insertChatRoomDB = () => {
+        socket.emit('get rooms')
+        socket.on('rooms in', data => {
+            const chatRoomCatalogue = document.getElementById('chatRoomCatalogue')
+            for (const i in data) {
+                let chatRoomIn = data[i]
+                const div = document.createElement('div')
+                div.setAttribute("chat-room-id", chatRoomIn)
+                div.innerHTML = `${chatRoomIn}`
+                div.onclick = handleClickChatRoom
+                chatRoomCatalogue.appendChild(div)
+            }
+        })
+    }
+
+    /**
      * Method will be replaced with handling posts rather than manually generated rooms
      */
+
     const insertChatRoom = () => {
         const chatRoomIn = document.getElementById('chatRoomIn').value
         const div = document.createElement('div')
@@ -73,6 +92,7 @@
     const exitChatBtn = document.getElementById('exitChatBtn')
     const sendMsgBtn = document.getElementById('sendMsgBtn')
     addChatRoomBtn.addEventListener('click', insertChatRoom)
+    window.onload = insertChatRoomDB // window.addEventListener('load', insertChatRoomDB)
     exitChatBtn.addEventListener('click', handleExitChatRoom)
     sendMsgBtn.addEventListener('click', sendChatMsg)
 }
