@@ -3,7 +3,7 @@ var multer = require('multer');
 const Sighting = require('../models/sighting')
 
 exports.new = (req, res) => {
-  res.render('sighting/add');
+  res.render('sighting/new');
 };
 
 exports.create = (req, res) => {
