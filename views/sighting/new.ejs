@@ -15,7 +15,7 @@
       <input type="datetime-local" id="dateTime" name="dateTime"> <br>
 
       <label for="locationLabel">Location: </label>
-      <input type="text" id="location" name="location"> <br>
+      <input type="text" id="location" name="location" value="<%=getCurrentPosition()%>"> <br>
 
       <label for="imageLabel">Image: </label>
       <div>
@@ -26,4 +26,6 @@
     </form>
     <a href="index"> Cancel </a>
   </body>
+
+  <script src="javascripts/sighting/geolocation.js"></script>
 </html>

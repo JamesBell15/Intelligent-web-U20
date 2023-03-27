@@ -8,10 +8,11 @@ exports.new = (req, res) => {
 
 exports.create = (req, res) => {
   let body = req.body
+
   let sighting = new Sighting({
     identificationId: body.identification,
     userId: 'TODO',
-    location: body.location,
+    location: JSON.parse(body.location),
     description: body.description,
     dateTime: new Date(body.dateTime),
     image: req.file.path

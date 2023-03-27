@@ -7,7 +7,17 @@ const sighting = new Schema({
   description: {type: String, required: true, max:280},
   dateTime: {type: Date, required: true},
   identificationId: {type: String},
-  location: {type: String},
+  location: {
+    type: {
+      type: String, // Don't do `{ location: { type: String } }`
+      enum: ['Point'], // 'location.type' must be 'Point'
+      required: true
+    },
+    coordinates: {
+      type: [Number], // Long, Lat
+      required: true
+    }
+  },
   image: {type: String}
 });
 
