@@ -1,7 +1,7 @@
 {
-    let name = 'James';
-    let room = null;
-    let socket = io();
+    let name = 'James'
+    let room = null
+    let socket = io()
 
     /**
      * Populates the homepage with all existing rooms in the DB which is called window.onload.
@@ -49,7 +49,7 @@
             history.removeChild(history.firstChild)
         }
         enterChat(false)
-        socket.emit('disconnect', room)
+        socket.emit('leave chatroom', room)
     }
 
     const enterChat = (enter = true) => {
