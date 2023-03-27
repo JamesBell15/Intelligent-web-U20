@@ -36,6 +36,7 @@
         document.getElementById('closeModalBtn').click()
         document.getElementById('loginModalBtn').classList.add('hidden')
         document.getElementById('profileBtn').classList.remove('hidden')
+        document.getElementById('logoutBtn').classList.remove('hidden')
         document.getElementById('profileBtn').innerText = username
     })
 
@@ -61,7 +62,16 @@
         }
     }
 
+    const logout = () => {
+        username = null
+        coords = null
+        document.querySelector('#loginModalBtn').classList.remove('hidden')
+        document.querySelector('#logoutBtn').classList.add('hidden')
+        document.querySelector('#profileBtn').classList.add('hidden')
+    }
+
     // There is some inconsistency with use of querySelector and getElementById, better to use one consistently.
     document.querySelector("#findUserBtn").addEventListener("click", geoFindUser)
     document.getElementById('loginBtn').addEventListener("click", submitLoginRegister)
+    document.querySelector('#logoutBtn').addEventListener("click", logout)
 }
