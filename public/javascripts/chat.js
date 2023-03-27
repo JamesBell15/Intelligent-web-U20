@@ -66,6 +66,7 @@
     }
 
     const sendChatMsg = () => {
+        // Need to add logic to deal with a non-logged in user attempting to send a message.
         const msg = document.getElementById('msgIn').value
         socket.emit('send msg', room, name, msg)
     }
