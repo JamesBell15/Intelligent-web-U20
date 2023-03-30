@@ -2,8 +2,8 @@
   <span><%= sighting.userID %></span><br>
   <span><%= sighting.identificationId %></span><br>
   <span><%= sighting.description %></span><br>
-  <span><%= sighting.timeAsUTC%></span><br>
+  <span><%= sighting.timeAsUTC()%></span><br>
   <span><%= sighting.location %></span><br>
-  <span><img src="/<%=String(sighting.image).replace('public/', '../') %>" height=40px></span>
+  <span><img src="/<%=String(sighting.image).replace('public/', '../') %>" height=40px></span><br>
   <a href="/sighting/index"> back to index </a>
 </div>
