@@ -6,6 +6,15 @@ exports.new = (req, res) => {
   res.render('sighting/new');
 };
 
+function extractFilePathOrURL(req) {
+  try {
+    let url = req.body.sightingImage;
+    return url
+  } catch (_) {
+    return req.file.path;
+  }
+}
+
 exports.create = (req, res) => {
   let body = req.body
   let sighting = new Sighting({
@@ -14,7 +23,7 @@ exports.create = (req, res) => {
     location: body.location,
     description: body.description,
     dateTime: new Date(body.dateTime),
-    image: req.file.path
+    image: extractFilePathOrURL(req)
   });
 
   sighting.save(function (err, results) {
