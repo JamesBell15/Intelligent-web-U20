@@ -18,6 +18,7 @@ var router = express.Router();
 const sighting_controller = require("../controllers/sighting_controller");
 
 router.get("/sighting/index", sighting_controller.index)
+router.get("/sighting/show/:id", sighting_controller.show)
 router.get("/sighting/new", sighting_controller.new);
 router.post("/sighting/new", upload.single('sightingImage'), sighting_controller.create);
 
