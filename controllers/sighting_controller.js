@@ -8,11 +8,12 @@ exports.new = (req, res) => {
 
 function extractFilePathOrURL(req) {
   try {
-    let url = req.body.sightingImage;
+    let url = new URL(req.body.sightingImage);
     return url
   } catch (_) {
     return req.file.path;
   }
+  return req.file.path;
 }
 
 exports.create = (req, res) => {
