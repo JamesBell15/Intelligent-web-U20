@@ -5,10 +5,14 @@
   </head>
   <body>
     <ul>
-      <% for(var i=0; i<sightings.length; i++) {%>
-          <li>
-            <%- include('show', {sighting: sightings[i]}) %>
-          </li>
+
+      <%for(let sighting of sightings){%>
+        <li>
+          <span><%= sighting.userID %></span>
+          <span><%= sighting.identificationId %></span>
+          <span><%= sighting.timeAsUTC() %></span>
+          <a href="show/<%=sighting.id%>"> show sighting </a>
+        </li>
       <%}%>
     </ul>
     <a href="new"> add new </a>
