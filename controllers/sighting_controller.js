@@ -8,11 +8,10 @@ exports.new = (req, res) => {
 
 exports.create = (req, res) => {
   let body = req.body
-
   let sighting = new Sighting({
     identificationId: body.identification,
     userId: 'TODO',
-    location: JSON.parse(body.location),
+    location: body.location,
     description: body.description,
     dateTime: new Date(body.dateTime),
     image: req.file.path
@@ -35,3 +34,12 @@ exports.index = (req, res) => {
     res.render('sighting/index', { sightings: sightings });
   });
 };
+
+exports.show = (req, res) => {
+  sighting_id = req.params.id
+  Sighting.findById(sighting_id).exec(function (err, sighting) {
+    if (err) err.type = 'database';
+
+    res.render('sighting/show', { sighting: sighting });
+  });
+}
