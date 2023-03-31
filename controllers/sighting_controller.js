@@ -1,20 +1,11 @@
 var bodyParser = require("body-parser");
 var multer = require('multer');
 const Sighting = require('../models/sighting')
+const Helper = require('../helpers/controller_helpers/sighting')
 
 exports.new = (req, res) => {
   res.render('sighting/new');
 };
-
-function extractFilePathOrURL(req) {
-  try {
-    let url = new URL(req.body.sightingImage);
-    return url
-  } catch (_) {
-    return req.file.path;
-  }
-  return req.file.path;
-}
 
 exports.create = (req, res) => {
   let body = req.body
@@ -24,7 +15,7 @@ exports.create = (req, res) => {
     location: body.location,
     description: body.description,
     dateTime: new Date(body.dateTime),
-    image: extractFilePathOrURL(req)
+    image: Helper.extractFilePathOrURL(req)
   });
 
   sighting.save(function (err, results) {
