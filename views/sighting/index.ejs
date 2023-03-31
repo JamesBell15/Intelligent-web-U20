@@ -4,16 +4,24 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <ul>
+    <table>
+      <tr>
+        <th>User</th>
+        <th>Identification</th>
+        <th>Time</th>
+        <th></th>
+      </tr>
+
       <%for(let sighting of sightings){%>
-        <li>
-          <span><%= sighting.userID %></span>
-          <span><%= sighting.identificationId %></span>
-          <span><%= sighting.timeAsUTC() %></span>
-          <a href="show/<%=sighting.id%>"> show sighting </a>
-        </li>
+        <tr>
+          <td><%= sighting.userID %></td>
+          <td><%= sighting.identificationId %></td>
+          <td><%= sighting.timeAsUTC() %></td>
+          <td><a href="show/<%=sighting.id%>">More detail</a></td>
+        </tr>
       <%}%>
-    </ul>
+    </table>
+
     <a href="new"> add new </a>
   </body>
 </html>
