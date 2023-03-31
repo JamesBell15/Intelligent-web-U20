@@ -8,7 +8,7 @@ const sighting = new Schema({
   dateTime: {type: Date, required: true},
   identificationId: {type: String},
   location: {type: String},
-  image: {type: String}
+  image: {type: String, set: normalisePath}
 });
 
 sighting.methods.timeAsUTC = function() {
@@ -16,14 +16,13 @@ sighting.methods.timeAsUTC = function() {
 };
 
 // Method to handel url images and those stored directly in the DB
-sighting.methods.getImageSrc = function() {
-  let image_path = this.image
+function normalisePath(path) {
   let url;
 
   try {
-    url = new URL(image_path);
+    url = new URL(path);
   } catch (_) {
-    return String(image_path).replace('public/', '/');
+    return String(path).replace('\\', '/').replace('public/', '/');
   }
 
   return url
