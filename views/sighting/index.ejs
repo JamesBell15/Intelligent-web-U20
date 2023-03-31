@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>User</th>
+        <th>Identification</th>
+        <th>Time</th>
+        <th></th>
+      </tr>
+
+      <%for(let sighting of sightings){%>
+        <tr>
+          <td><%= sighting.userId %></td>
+          <td><%= sighting.identificationId %></td>
+          <td><%= sighting.timeAsUTC() %></td>
+          <td><a href="show/<%=sighting.id%>">More detail</a></td>
+        </tr>
+      <%}%>
+    </table>
+
+    <a href="new"> add new </a>
+  </body>
+</html>
