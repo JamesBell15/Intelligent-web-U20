@@ -14,7 +14,7 @@
 
       <%for(let sighting of sightings){%>
         <tr>
-          <td><%= sighting.userID %></td>
+          <td><%= sighting.userId %></td>
           <td><%= sighting.identificationId %></td>
           <td><%= sighting.timeAsUTC() %></td>
           <td><a href="show/<%=sighting.id%>">More detail</a></td>
