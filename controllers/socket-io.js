@@ -7,9 +7,8 @@ exports.init = function(io) {
     io.sockets.on('connection', function (socket) {
         try {
             // Sockets need renaming
-            socket.on('create or join', (room, name) => {
+            socket.on('create or join', (room) => {
                 messageModel.find({post:room}).then(result => {
-                    console.log(name+' => '+room)
                     socket.join(room)
                     socket.emit('history', result)
                 })
