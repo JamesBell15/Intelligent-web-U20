@@ -8,6 +8,7 @@
          * Retrieve all existing rooms in the DB which is called on window.onload.
          */
         function init() {
+            /*
             socket.emit('get rooms')
             socket.on('rooms in', data => {
                 userPresentOnLoad()
@@ -21,29 +22,10 @@
                     chatRoomCatalogue.appendChild(div)
                 }
             })
-        }
-
-        /**
-         * Check that there is a user in IDB upon opening a window and alter html to show appropriate elements.
-         */
-        const userPresentOnLoad = () => {
-            db = requestIDB.result
-            const store = db.transaction('userInfo', 'readonly').objectStore('userInfo')
-            const storeRequest = store.get('user')
-            storeRequest.onsuccess = (event) => {
-                const user = event.target.result
-                if (user) {
-                    const profileBtn = document.querySelector('#profileBtn')
-                    profileBtn.innerHTML = user.username
-                    profileBtn.classList.remove('hidden')
-                    document.querySelector('#logoutBtn').classList.remove('hidden')
-                    document.querySelector('#loginModalBtn').classList.add('hidden')
-                } else {
-                    console.log('No user present in IDB.')
-                }
-            }
-            storeRequest.onerror = (event) => {
-                console.log(event.target.error)
+            */
+            const children = document.querySelector('#chatRoomCatalogue').children
+            for (let i = 0; i < children.length; i++) {
+                children[i].onclick = handleClickChatRoom
             }
         }
 
@@ -59,6 +41,10 @@
             div.onclick = handleClickChatRoom
             const chatRoomCatalogue = document.getElementById('chatRoomCatalogue')
             chatRoomCatalogue.appendChild(div)
+
+            if (document.querySelector('#noChatRoomsMsg').style.display != 'none') {
+                document.querySelector('#noChatRoomsMsg').style.display = 'none'
+            }
         }
         const handleClickChatRoom = (ev) => {
             const clicked_elem = ev.target

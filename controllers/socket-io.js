@@ -23,6 +23,12 @@ exports.init = function(io) {
                 messageController.insert(data)
                 io.to(room).emit('msg', data)
             })
+
+
+            // NEED to update lists of chat rooms/posts when one is created from another user.
+
+
+            // get rooms not needed
             socket.on('get rooms', () => {
                 messageModel.distinct('post').then(result => {
                     socket.emit('rooms in', result)

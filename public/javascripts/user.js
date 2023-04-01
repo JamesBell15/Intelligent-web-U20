@@ -90,8 +90,30 @@
         db = requestIDB.result
         const store = db.transaction('userInfo', 'readwrite').objectStore('userInfo')
         const storeRequest = store.clear()
-        storeRequest.onsuccess = () => {
+        storeRequest.onsuccess = async () => {
             console.log('IDB: User information deleted.')
+            /**
+             *
+             * Example code of sending data to a route which is not used.
+             *
+            const data = {
+                loginStatus: false
+            }
+            const options = {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            }
+            try {
+                const response = await fetch('/chat', options)
+                const data = await response.json()
+                console.log(data)
+            } catch (e) {
+                console.error(e)
+            }
+             **/
         }
     }
 

@@ -16,3 +16,9 @@ exports.insert = (data) => {
         console.log(results+' saved')
     })
 }
+
+exports.getRooms = (onSuccess) => {
+    Message.distinct('post').then(result => {
+        onSuccess(result)
+    })
+}
