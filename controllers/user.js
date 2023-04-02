@@ -2,10 +2,6 @@ const User = require('../models/user')
 const mongoose = require('mongoose')
 mongoose.set('useFindAndModify', false) // avoid deprecation warning when using findOneAndUpdate
 
-/**
- * Controller might be useless as you can't use socket.io here BUT you can in socket-io.js
- */
-
 exports.insert = (data) => {
     let user = new User({
         username: data.username,
@@ -25,13 +21,20 @@ exports.insert = (data) => {
                            }}
             User.findOneAndUpdate(query, update, () => {
                 if (err) return console.error(err)
-                console.log('updated user location')
+                //console.log('updated user location')
             })
         } else {
             user.save((err, results) => {
                 if (err) return console.error(err)
-                console.log(results+' saved')
+                //console.log(results+' saved')
             })
         }
+    })
+}
+
+exports.findUser = (name, onSuccess) => {
+    User.findOne({username: name}, (err, docs) => {
+        if (err) console.error(err)
+        onSuccess(docs)
     })
 }
