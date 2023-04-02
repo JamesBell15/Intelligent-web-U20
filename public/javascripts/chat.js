@@ -5,24 +5,9 @@
 
     requestIDB.onsuccess = (event) => {
         /**
-         * Retrieve all existing rooms in the DB which is called on window.onload.
+         * Give on click method to rooms loaded via routes.
          */
         function init() {
-            /*
-            socket.emit('get rooms')
-            socket.on('rooms in', data => {
-                userPresentOnLoad()
-                const chatRoomCatalogue = document.getElementById('chatRoomCatalogue')
-                for (const i in data) {
-                    let chatRoomIn = data[i]
-                    const div = document.createElement('div')
-                    div.setAttribute("chat-room-id", chatRoomIn)
-                    div.innerHTML = `${chatRoomIn}`
-                    div.onclick = handleClickChatRoom
-                    chatRoomCatalogue.appendChild(div)
-                }
-            })
-            */
             const children = document.querySelector('#chatRoomCatalogue').children
             for (let i = 0; i < children.length; i++) {
                 children[i].onclick = handleClickChatRoom
@@ -110,7 +95,6 @@
             }
         }
 
-
         socket.on('msg', (data) => {
             outputMsg(data)
         })
@@ -128,15 +112,11 @@
             document.getElementById('msgIn').value = ''
         }
 
+        init()
         const addChatRoomBtn = document.getElementById('addChatRoomBtn')
         const exitChatBtn = document.getElementById('exitChatBtn')
         const sendMsgBtn = document.getElementById('sendMsgBtn')
         addChatRoomBtn.addEventListener('click', insertChatRoom)
-        //window.addEventListener('load', init)
-        // init is not always being called onload
-        // i think it might have something to do with socket emitting and receiving
-        // could do it in the routes to retrieve the list on load instead?
-        document.body.onload = init
         exitChatBtn.addEventListener('click', handleExitChatRoom)
         sendMsgBtn.addEventListener('click', sendChatMsg)
     }
