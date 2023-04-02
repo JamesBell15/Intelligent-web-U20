@@ -73,12 +73,44 @@
             storeRequest.onsuccess = (event) => {
                 console.log('IDB: Request to add user successful.')
             }
-
+            findUser(username, (returnUser) => {
+                if (returnUser) {
+                    // I want to be able to differentiate between an update and a register to create a different alert in response which is done here.
+                    // HOWEVER, I want to implement a confirmation modal to ask the user if they want to make changes before logging them in.
+                    // i.e. alert to say if you want to make changes to a user's location -> alert might include the user's most current location in DB for reference.
+                    // Might not be necessary and just overkill.
+                    alert(`You have made changes to an existing user: ${returnUser.username}`)
+                } else {
+                    alert('You have created a brand new user!')
+                }
+            })
+                .catch(e => {
+                    console.error(e)
+                })
             socket.emit('login/register', data)
-
         } else {
             // Want to do this with bootstrap alerts, looks a bit complicated?
             document.querySelector('#formStatus').textContent = 'Username and location is require to submit'
+        }
+    }
+
+    const findUser = async (name, onSuccess) => {
+        const data = {
+            name: name
+        }
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-type': 'application/json'
+            }
+        }
+        try {
+            const response = await fetch('/api/data/users', options)
+            const json = await response.json()
+            onSuccess(json)
+        } catch (err) {
+            console.error(err)
         }
     }
 
@@ -92,28 +124,6 @@
         const storeRequest = store.clear()
         storeRequest.onsuccess = async () => {
             console.log('IDB: User information deleted.')
-            /**
-             *
-             * Example code of sending data to a route which is not used.
-             *
-            const data = {
-                loginStatus: false
-            }
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            }
-            try {
-                const response = await fetch('/chat', options)
-                const data = await response.json()
-                console.log(data)
-            } catch (e) {
-                console.error(e)
-            }
-             **/
         }
     }
 

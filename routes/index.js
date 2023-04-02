@@ -23,7 +23,25 @@ router.get("/sighting/new", sighting_controller.new);
 router.post("/sighting/new", upload.single('sightingImage'), sighting_controller.create);
 
 const messagesController = require('../controllers/messages')
-const {response} = require("express");
+router.post('/api/data/messages', function (req, res) {
+    const room = req.body.room
+    messagesController.getMessagesForRoom(room, (messages) => {
+        res.json(messages)
+    })
+})
+
+const usersController = require('../controllers/user')
+
+router.post('/api/data/users', function(req, res) {
+    const userToQuery = req.body.name
+    usersController.findUser(userToQuery, (docs) => {
+        res.json(docs)
+    })
+})
+
+/**
+ * Should be the home page rather than '/chat'
+ */
 router.get('/chat', function(req, res, next) {
   messagesController.getRooms(
       (result) => {
@@ -36,25 +54,6 @@ router.get('/chat', function(req, res, next) {
       }
   )
 })
-
-/**
- *
- * Un-used but maybe useful later.
- *
-let username, coordinates
-let loginStatus = false
-router.post('/chat', function(req, res) {
-    username = req.body.username
-    coordinates = req.body.coords
-    loginStatus = req.body.loginStatus
-    console.log(req.body)
-    res.json({
-      username: username,
-      coords: coordinates,
-      loginStatus: loginStatus
-    })
-})
- **/
 
 router.get('/test', function(req, res, next) {
   res.render('user');

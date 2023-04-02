@@ -1,10 +1,6 @@
 const Message = require('../models/messages')
 const mongoose = require('mongoose')
 
-/**
- * Controller might be useless as you can't use socket.io here BUT you can in socket-io.js
- */
-
 exports.insert = (data) => {
     let message = new Message({
         sender: data.sender,
@@ -19,6 +15,14 @@ exports.insert = (data) => {
 
 exports.getRooms = (onSuccess) => {
     Message.distinct('post').then(result => {
+        onSuccess(result)
+    }).catch(err => {
+        console.error(err)
+    })
+}
+
+exports.getMessagesForRoom = (room, onSuccess) => {
+    Message.find({post:room}).then(result => {
         onSuccess(result)
     }).catch(err => {
         console.error(err)

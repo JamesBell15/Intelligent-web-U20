@@ -37,7 +37,43 @@
             const chatTitle = document.getElementById('chatTitle')
             room = clicked_elem.getAttribute("chat-room-id")
             chatTitle.innerHTML = room
+            getMessages(room, (messages) => {
+                populateChatHistory(messages)
+            })
+                .catch(e => {
+                    console.error(e)
+                })
             socket.emit('create or join', room)
+        }
+
+        const getMessages = async (room, onSuccess) => {
+            const data = {
+                room: room
+            }
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+            try {
+                const response = await fetch('/api/data/messages', options)
+                const json = await response.json()
+                onSuccess(json)
+            } catch (e) {
+                console.error(e)
+            }
+        }
+
+        const populateChatHistory = (messages) => {
+            const fragment = document.createDocumentFragment()
+            for (let message of messages) {
+                const div = document.createElement('div')
+                div.innerHTML = `<p><strong>${message.sender}:</strong>${message.msg}</p>`
+                fragment.appendChild(div);
+            }
+            document.getElementById('chatHistory').appendChild(fragment)
         }
 
         const handleExitChatRoom = () => {
@@ -97,12 +133,6 @@
 
         socket.on('msg', (data) => {
             outputMsg(data)
-        })
-
-        socket.on('history', data => {
-            for (const i in data) {
-                outputMsg(data[i])
-            }
         })
 
         const outputMsg = (data) => {
