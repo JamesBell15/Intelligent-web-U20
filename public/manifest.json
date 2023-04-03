@@ -1,0 +1,11 @@
+{
+  "lang": "en-uk",
+  "name": "Bird sighting app",
+  "short_name": "bird-sight",
+  "description": "Users can record sightings of birds and share them",
+  "start_url": "/sighting/index",
+  "background_color": "#2f3d58",
+  "theme_color": "#2f3d58",
+  "orientation": "any",
+  "display": "standalone"
+}
