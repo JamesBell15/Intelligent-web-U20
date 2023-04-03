@@ -3,24 +3,14 @@ const addResourcesToCache = async (resources) => {
   await cache.addAll(resources);
 };
 
-const indexDBDummy = {
-  _id: ObjectId("6426f1c25af377c7ca1fbc87"),
-  active: true,
-  identificationId: 'Bird',
-  userId: 'TODO',
-  location: 'Hull',
-  description: 'Fluffy!',
-  dateTime: ISODate("2023-03-31T14:44:00.000Z"),
-  image: 'https://i.redd.it/zkblo85nmqqa1.jpg',
-  __v: 0
-}
-
 self.addEventListener("install", (event) => {
   event.waitUntil(
     addResourcesToCache([
       "sighting/index",
       "/manifest.json",
-      "/app_sw.js"
+      "/app_sw.js",
+      "/stylesheets/style.css",
+      "/html/offline.html"
     ])
   );
 });
@@ -31,16 +21,30 @@ const putInCache = async (request, response) => {
 };
 
 // PWA Architecture cache first
-const cacheFirst = async (request) => {
+const cacheFirst = async (request, fallbackUrl) => {
   const responseFromCache = await caches.match(request);
   if (responseFromCache) {
     return responseFromCache;
   }
-  const responseFromNetwork = await fetch(request);
-  putInCache(request, responseFromNetwork.clone());
-  return responseFromNetwork;
+  try {
+    const responseFromNetwork = await fetch(request);
+    putInCache(request, responseFromNetwork.clone());
+    return responseFromNetwork;
+  } catch (error) {
+    const fallbackResponse = await caches.match(fallbackUrl);
+    if (fallbackResponse) {
+      return fallbackResponse;
+    }
+    // when even the fallback response is not available,
+    // there is nothing we can do, but we must always
+    // return a Response object
+    return new Response("Network error happened", {
+      status: 408,
+      headers: { "Content-Type": "text/plain" },
+    });
+  }
 };
 
 self.addEventListener("fetch", (event) => {
-  event.respondWith(cacheFirst(event.request));
+  event.respondWith(cacheFirst(event.request, "/html/offline.html"))
 });
