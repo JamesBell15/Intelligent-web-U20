@@ -10,7 +10,8 @@ self.addEventListener("install", (event) => {
       "/manifest.json",
       "/app_sw.js",
       "/stylesheets/style.css",
-      "/html/offline.html"
+      "/html/offline.html",
+      "/html/sighting/create.html"
     ])
   );
 });
