@@ -44,3 +44,11 @@ exports.show = (req, res) => {
     res.render('sighting/show', { sighting: sighting });
   });
 }
+
+exports.getSighting = (sightingID, onSuccess) => {
+  Sighting.findById({_id: sightingID}).then(result => {
+    onSuccess(result)
+  }).catch(err => {
+    console.error(err)
+  })
+}
