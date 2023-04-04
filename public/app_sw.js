@@ -11,7 +11,11 @@ self.addEventListener("install", (event) => {
       "/app_sw.js",
       "/stylesheets/style.css",
       "/html/offline.html",
-      "/html/sighting/create.html"
+      "/html/sighting/create.html",
+      "/html/sighting/show.html",
+      "/javascripts/sighting/show_helper.js",
+      "/javascripts/sighting/create_helper.js",
+      "/javascripts/indexedDB.js"
     ])
   );
 });
