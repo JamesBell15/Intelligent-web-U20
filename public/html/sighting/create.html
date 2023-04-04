@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel="manifest" href="/manifest.json">
+  <script src="/javascripts/indexedDB.js"></script>
+  <script src="/javascripts/sighting/create_helper.js"></script>
+</head>
+
+<body>
+  <h1>
+    Creating offline sighting
+  </h1>
+
+  <form id="xForm" enctype="multipart/form-data">
+    <label for="identificationLabel">Identification: </label>
+    <input type="text" id="identification" name="identification"> <br>
+
+    <label for="descriptionLabel">Description: </label>
+    <input type="text" id="description" name="description" required> <br>
+
+    <label for="dateLabel">Date & Time: </label>
+    <input type="datetime-local" id="dateTime" name="dateTime" required> <br>
+
+    <label for="locationLabel">Location: </label>
+    <input type="text" id="location" name="location"> <br>
+
+    <label for="imageLabel">Image: </label>
+    <div>
+      <input type="file" id="sightingImage" name="sightingImage" accept="image/*">
+      <br>Or paste url:<br>
+      <input type="url" id="sightingImage" name="sightingImage">
+    </div> <br>
+
+    <input onclick="addNewRecord(requestIDB)" type="button" value="Submit"/>
+  </form>
+  <a href="index"> Cancel </a>
+</body>
+
+
+
+</html>
