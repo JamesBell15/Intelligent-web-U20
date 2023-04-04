@@ -1,6 +1,4 @@
 {
-    // I've kept the user.js file separate from chat.js, might want to combine them? Might be hard to understand.
-    // username value needs to be parsed to chat.js somehow if the js classes aren't combined.
     let socket = io()
     let db
 
@@ -74,20 +72,22 @@
                 console.log('IDB: Request to add user successful.')
             }
             findUser(username, (returnUser) => {
+                console.log(returnUser)
                 if (returnUser) {
                     // I want to be able to differentiate between an update and a register to create a different alert in response which is done here.
                     // HOWEVER, I want to implement a confirmation modal to ask the user if they want to make changes before logging them in.
                     // i.e. alert to say if you want to make changes to a user's location -> alert might include the user's most current location in DB for reference.
                     // Might not be necessary and just overkill.
                     alert(`You have made changes to an existing user: ${returnUser.username}`)
+                    socket.emit('login/register', data)
                 } else {
                     alert('You have created a brand new user!')
+                    socket.emit('login/register', data)
                 }
             })
                 .catch(e => {
                     console.error(e)
                 })
-            socket.emit('login/register', data)
         } else {
             // Want to do this with bootstrap alerts, looks a bit complicated?
             document.querySelector('#formStatus').textContent = 'Username and location is require to submit'
