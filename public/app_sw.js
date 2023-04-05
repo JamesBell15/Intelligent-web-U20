@@ -1,7 +1,7 @@
 const addResourcesToCache = async (resources) => {
-  const cache = await caches.open("v1");
-  await cache.addAll(resources);
-};
+  const cache = await caches.open("v1")
+  await cache.addAll(resources)
+}
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -19,28 +19,28 @@ self.addEventListener("install", (event) => {
       "/javascripts/sighting/show_helper.js",
       "/javascripts/indexedDB.js"
     ])
-  );
-});
+  )
+})
 
 const putInCache = async (request, response) => {
-  const cache = await caches.open("v1");
-  await cache.put(request, response);
-};
+  const cache = await caches.open("v1")
+  await cache.put(request, response)
+}
 
 // PWA Architecture cache first
 const cacheFirst = async (request, fallbackUrl) => {
-  const responseFromCache = await caches.match(request);
+  const responseFromCache = await caches.match(request)
   if (responseFromCache) {
-    return responseFromCache;
+    return responseFromCache
   }
   try {
-    const responseFromNetwork = await fetch(request);
-    putInCache(request, responseFromNetwork.clone());
-    return responseFromNetwork;
+    const responseFromNetwork = await fetch(request)
+    putInCache(request, responseFromNetwork.clone())
+    return responseFromNetwork
   } catch (error) {
-    const fallbackResponse = await caches.match(fallbackUrl);
+    const fallbackResponse = await caches.match(fallbackUrl)
     if (fallbackResponse) {
-      return fallbackResponse;
+      return fallbackResponse
     }
     // when even the fallback response is not available,
     // there is nothing we can do, but we must always
@@ -48,10 +48,21 @@ const cacheFirst = async (request, fallbackUrl) => {
     return new Response("Network error happened", {
       status: 408,
       headers: { "Content-Type": "text/plain" },
-    });
+    })
   }
-};
+}
+
+const rerouting = async (pathname) => {
+  return await caches.match('/html' + pathname + '.html')
+}
 
 self.addEventListener("fetch", (event) => {
-  event.respondWith(cacheFirst(event.request, "/html/offline.html"))
-});
+  let pathname = new URL(event.request.url).pathname
+
+  if (pathname == '/sighting/index' || pathname == '/sighting/show' || pathname == '/sighting/create'){
+    let responseFromCache = rerouting(pathname)
+    event.respondWith(responseFromCache)
+  } else {
+    event.respondWith(cacheFirst(event.request, "/html/offline.html"))
+  }
+})
