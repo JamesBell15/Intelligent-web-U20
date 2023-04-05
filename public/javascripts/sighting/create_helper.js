@@ -31,6 +31,6 @@ const addNewRecord = (requestIDB) => {
   const request = objectStore.add(sighting);
 
   request.onsuccess = (event) => {
-    console.log(`added! ${sighting}`)
+    setSightingId(event.target.result)
   }
 }
