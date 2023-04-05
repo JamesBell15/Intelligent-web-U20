@@ -36,12 +36,18 @@ exports.index = (req, res) => {
   });
 };
 
+const messageController = require('../controllers/messages')
+
 exports.show = (req, res) => {
   sighting_id = req.params.id
   Sighting.findById(sighting_id).exec(function (err, sighting) {
     if (err) err.type = 'database';
+    messageController.getMessagesForRoom(sighting_id, (results) => {
+      res.render('sighting/show', {
+        sighting: sighting, messages: results
+      });
+    });
 
-    res.render('sighting/show', { sighting: sighting });
   });
 }
 

@@ -1,9 +1,32 @@
 <div>
-  <span><%= sighting.userId %></span><br>
-  <span><%= sighting.identificationId %></span><br>
-  <span><%= sighting.description %></span><br>
-  <span><%= sighting.timeAsUTC()%></span><br>
-  <span><%= sighting.location %></span><br>
-  <span><img src="<%=sighting.image%>" height=200px></span><br>
-  <a href="/sighting/index"> back to index </a>
+    <span><%= sighting.userId %></span><br>
+    <span><%= sighting.identificationId %></span><br>
+    <span><%= sighting.description %></span><br>
+    <span><%= sighting.timeAsUTC() %></span><br>
+    <span><%= sighting.location %></span><br>
+    <span><img src="<%= sighting.image %>" height=200px></span><br>
 </div>
+
+<div id="chat">
+    <div id="chatTitle"></div>
+    <section id="chatHistory">
+        <% messages.forEach(function(message) {%>
+            <div><p><strong><%= message.sender %>:</strong> <%= message.msg %></p></div>
+        <%});%>
+    </section>
+    <form class="chatFormContainer">
+        <input
+                id="msgIn"
+                type="text"
+                class="form-control-sm"
+                placeholder="Enter Message"
+                required
+                autocomplete="off"
+        />
+        <input id="sendMsgBtn" type="button" value="Send"/>
+    </form>
+</div>
+
+<button id="toIndexBtn" type="button" class="btn btn-outline-primary">Return to index.</button>
+<script src="../../javascripts/tempChat.js" ></script>
+

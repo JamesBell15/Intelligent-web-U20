@@ -1,4 +1,5 @@
 {
+    let socket = io()
     let sightingID
 
     const init = () => {

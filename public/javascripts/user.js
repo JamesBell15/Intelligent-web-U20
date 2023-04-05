@@ -4,7 +4,7 @@
 
     const geoFindUser = () => {
         const status = document.querySelector('#status')
-        const coordinateIn =  document.querySelector('#coordinateIn')
+        const coordinateIn = document.querySelector('#coordinateIn')
 
         const success = (position) => {
             const latitude = position.coords.latitude
@@ -67,7 +67,7 @@
             }
             db = requestIDB.result
             const store = db.transaction('userInfo', 'readwrite').objectStore('userInfo')
-            const storeRequest = store.add({username: username, coords:coords}, 'user')
+            const storeRequest = store.add({username: username, coords: coords}, 'user')
             storeRequest.onsuccess = (event) => {
                 console.log('IDB: Request to add user successful.')
             }
@@ -144,7 +144,7 @@
         document.querySelector('#logoutBtn').addEventListener("click", logout)
     }
     requestIDB.onerror = (event) => {
-        console.error('IDB: '+requestIDB.error)
+        console.error('IDB: ' + requestIDB.error)
     }
 
 }
