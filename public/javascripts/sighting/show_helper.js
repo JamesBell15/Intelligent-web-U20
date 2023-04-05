@@ -1,13 +1,20 @@
-const getAllRecords = (requestIDB) => {
+const getRecord = () => {
+  return new Promise(function(resolve) {
+      const db = requestIDB.result
+      const currentSightingObjStr = db.transaction(["currentSighting"], "readwrite").objectStore("currentSighting")
 
-  const objectStore = requestIDB.result.transaction("sightings").objectStore("sightings");
+      currentSightingObjStr.get('current').onsuccess = (event) => {
+        const sightingObjStr = db.transaction(["sightings"], "readwrite").objectStore("sightings")
 
-  objectStore.getAll().onsuccess = (event) => {
-    showAllRecords(event.target.result)
-  };
+        sightingObjStr.get(parseInt(event.target.result.sightingId)).onsuccess = (event) => {
+          return resolve(event.target.result)
+        }
+      }
+    }
+  )
 }
 
-const showAllRecords = (records) => {
+const showRecord = (record) => {
   let table = document.getElementById("sightingTable")
 
   // Set up headers
@@ -21,24 +28,20 @@ const showAllRecords = (records) => {
     <th></th>
   </tr>`
 
-  // Write each record to a row
-  for (const record of records) {
-    output += `
-      <tr>
-        <td>${record.userId}</td>
-        <td>${record.description}</td>
-        <td>${record.dateTime}</td>
-        <td>${record.identificationId}</td>
-        <td>${record.location}</td>
-        <td>${record.image}</td>
-      </tr>`
-
-  }
+  output += `
+    <tr>
+      <td>${record.userId}</td>
+      <td>${record.description}</td>
+      <td>${record.dateTime}</td>
+      <td>${record.identificationId}</td>
+      <td>${record.location}</td>
+      <td>${record.image}</td>
+    </tr>`
 
   table.innerHTML = output
 }
 
-// when indexedDB opens populate page
-requestIDB.onsuccess = (event) => {
-  getAllRecords(requestIDB)
+requestIDB.onsuccess = async (event) => {
+  let record = await getRecord()
+  showRecord(record)
 }
