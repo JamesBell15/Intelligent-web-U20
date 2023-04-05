@@ -32,9 +32,19 @@ exports.insert = (data) => {
     })
 }
 
-exports.findUser = (name, onSuccess) => {
+/**
+ exports.findUser = (name, onSuccess) => {
     User.findOne({username: name}, (err, docs) => {
         if (err) console.error(err)
         onSuccess(docs)
     })
+}
+ **/
+
+exports.findUser = async (name) => {
+    try {
+        return await User.findOne({username: name}).exec()
+    } catch (e) {
+        console.error(e)
+    }
 }

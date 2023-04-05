@@ -1,5 +1,7 @@
 const messageController = require('../controllers/messages.js')
 const userController = require('../controllers/user.js')
+const sightingController = require('../controllers/sighting_controller.js')
+
 
 exports.init = function(io) {
     io.sockets.on('connection', function (socket) {
@@ -11,15 +13,21 @@ exports.init = function(io) {
             socket.on('leave sighting', (room) => {
                 socket.leave(room)
             })
-            socket.on('send msg', (room, name, msg) => {
+            socket.on('send msg', async (room, name, msg) => {
+                const user = await userController.findUser(name)
+                const sighting = await sightingController.findSighting(room)
+
                 const data = {
-                    sender: name,
-                    post: room,
+                    sender: user,
+                    post: sighting,
                     msg: msg
                 }
+
                 messageController.insert(data, () => {
                     io.to(room).emit('msg', data)
                 })
+
+
             })
 
             // NEED to update lists of chat rooms/posts when one is created from another user.

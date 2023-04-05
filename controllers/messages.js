@@ -25,10 +25,19 @@ exports.getRooms = (onSuccess) => {
     })
 }
 
+// probably can delete
 exports.getMessagesForRoom = (room, onSuccess) => {
     Message.find({post:room}).then(result => {
         onSuccess(result)
     }).catch(err => {
         console.error(err)
     })
+}
+
+exports.findMessagesForSighting = async (sighting) => {
+    try {
+        return await Message.find({post: sighting}).populate(['sender', 'post']).exec()
+    } catch (e) {
+        console.error(e)
+    }
 }

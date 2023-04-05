@@ -53,7 +53,7 @@
 
     const outputMsg = (data) => {
         const div = document.createElement('div')
-        div.innerHTML = `<p><strong>${data.sender}:</strong>${data.msg}</p>`
+        div.innerHTML = `<p><strong>${data.sender.username}:</strong> ${data.msg}</p>`
         document.getElementById('chatHistory').appendChild(div)
         document.getElementById('msgIn').value = ''
     }

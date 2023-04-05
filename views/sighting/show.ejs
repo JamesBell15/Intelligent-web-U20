@@ -11,7 +11,7 @@
     <div id="chatTitle"></div>
     <section id="chatHistory">
         <% messages.forEach(function(message) {%>
-            <div><p><strong><%= message.sender %>:</strong> <%= message.msg %></p></div>
+            <div><p><strong><%= message.sender.username %>:</strong> <%= message.msg %></p></div>
         <%});%>
     </section>
     <form class="chatFormContainer">

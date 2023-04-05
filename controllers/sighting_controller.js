@@ -40,21 +40,33 @@ const messageController = require('../controllers/messages')
 
 exports.show = (req, res) => {
   sighting_id = req.params.id
-  Sighting.findById(sighting_id).exec(function (err, sighting) {
-    if (err) err.type = 'database';
-    messageController.getMessagesForRoom(sighting_id, (results) => {
+  Sighting.findById(sighting_id).exec(async function (err, sighting) {
+    if (err) {
+      err.type = 'database'
+    } else {
+      const messages = await messageController.findMessagesForSighting(sighting)
+      console.log(messages)
       res.render('sighting/show', {
-        sighting: sighting, messages: results
-      });
-    });
+        sighting: sighting, messages: messages
+      })
+    }
 
   });
 }
 
+// prob can delete, dont think this is used
 exports.getSighting = (sightingID, onSuccess) => {
   Sighting.findById({_id: sightingID}).then(result => {
     onSuccess(result)
   }).catch(err => {
     console.error(err)
   })
+}
+
+exports.findSighting = async (sightingID) => {
+  try {
+    return await Sighting.findById(sightingID).exec()
+  } catch (e) {
+    console.error(e)
+  }
 }
