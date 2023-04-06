@@ -1,11 +1,29 @@
 <div id="sightingsCatalogue">
-    <% for(let sighting of sightings){ %>
-        <div sighting-post-id="<%= sighting._id %>" id="sightingBody" class="d-flex">
-            <div><%= sighting.userId %></div>
-            <div><%= sighting.identificationId %></div>
-            <div><%= sighting.timeAsUTC() %></div>
+    <div id="sighting-headers" class="container p-2">
+        <div class="row row-cols-5">
+            <div class="col fs-6"><span>SPECIES NAME</span></div>
+            <div class="col fs-6"><span>OBSERVER</span></div>
+            <div class="col fs-6"><span>LOCATION</span></div>
+            <div class="col fs-6"><span>TIME</span></div>
+            <div class="col fs-6"></div>
         </div>
-    <% } %>
+    </div>
+    <div>
+        <% for(let sighting of sightings){ %>
+            <section sighting-post-id="<%= sighting._id %>" id="sightingBody" class="container p-2">
+                <div class="row row-cols-5 border-bottom border-light-dark">
+                    <h4 class="col fs-6"><%= sighting.identificationId %></h4>
+                    <div class="col fs-6"><%= sighting.timeAsUTC() %></div>
+                    <div class="col fs-6"><%= sighting.userId %></div>
+                    <div class="col fs-6"><%= sighting.userId %></div>
+                    <div class="col fs-6"><a href="show/<%=sighting.id%>" class="view-more"><i class="fa-solid fa-binoculars"></i></a></div>
+                </div>
+            </section>
+        <% } %>
+    </div>
+    <table>
+
+    </table>
 </div>
 <a href="new"> add new </a>
 <script src="../javascripts/temp.js"></script>

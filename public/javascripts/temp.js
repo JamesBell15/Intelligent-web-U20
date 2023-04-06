@@ -17,6 +17,6 @@
         window.location.href = `show/${sightingID}`
     }
 
-    init()
+    //init()
 
 }
