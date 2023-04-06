@@ -1,5 +1,5 @@
 <div>
-    <span><%= sighting.userId %></span><br>
+    <span><%= sighting.userId.username %></span><br>
     <span><%= sighting.identificationId %></span><br>
     <span><%= sighting.description %></span><br>
     <span><%= sighting.timeAsUTC() %></span><br>
@@ -10,9 +10,11 @@
 <div id="chat">
     <div id="chatTitle"></div>
     <section id="chatHistory">
-        <% messages.forEach(function(message) {%>
-            <div><p><strong><%= message.sender.username %>:</strong> <%= message.msg %></p></div>
-        <%});%>
+        <% if (typeof messages != 'undefined') {%>
+            <% messages.forEach(function(message) {%>
+                <div><p><strong><%= message.sender.username %>:</strong> <%= message.msg %></p></div>
+            <%})%>
+        <%}%>
     </section>
     <form class="chatFormContainer">
         <input

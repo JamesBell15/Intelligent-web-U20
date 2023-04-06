@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 const sighting = new Schema({
   active: {type: Boolean, default: true},
-  userId: {type: String, required: true},
+  userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
   description: {type: String, required: true, max:280},
   dateTime: {type: Date, required: true},
   identificationId: {type: String},

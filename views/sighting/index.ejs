@@ -13,9 +13,9 @@
             <section sighting-post-id="<%= sighting._id %>" id="sightingBody" class="container p-2">
                 <div class="row row-cols-5 border-bottom border-light-dark">
                     <h4 class="col fs-6"><%= sighting.identificationId %></h4>
+                    <div class="col fs-6"><%= sighting.userId.username %></div>
+                    <div class="col fs-6"><%= sighting.location %></div>
                     <div class="col fs-6"><%= sighting.timeAsUTC() %></div>
-                    <div class="col fs-6"><%= sighting.userId %></div>
-                    <div class="col fs-6"><%= sighting.userId %></div>
                     <div class="col fs-6"><a href="show/<%=sighting.id%>" class="view-more"><i class="fa-solid fa-binoculars"></i></a></div>
                 </div>
             </section>
