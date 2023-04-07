@@ -45,8 +45,6 @@ const showAllRecords = (records) => {
   }
 }
 
-
-
 // when indexedDB opens populate page
 requestIDB.onsuccess = (event) => {
   getAllRecords(requestIDB)
