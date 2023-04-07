@@ -21,11 +21,19 @@ exports.create = async (req, res) => {
     image: Helper.extractFilePathOrURL(req)
   });
 
-  sighting.save(function (err, results) {
+  sighting.save(async function (err, results) {
         if (err) {
           res.status(500).send('Invalid data!');
         } else {
-          res.render('sighting/create', {sighting: sighting})
+          const findSightingByIdentification = async (identificationId, userId) => {
+            try {
+              return await Sighting.findOne({identificationId: identificationId, userId: userId}).populate('userId').exec()
+            } catch (e) {
+              console.error(e)
+            }
+          }
+          const sightingDb = await findSightingByIdentification(sighting.identificationId, sighting.userId)
+          res.redirect(`/sighting/show/${sightingDb._id}`)
         }
       }
   );
@@ -71,3 +79,4 @@ exports.findSighting = async (sightingID) => {
     console.error(e)
   }
 }
+
