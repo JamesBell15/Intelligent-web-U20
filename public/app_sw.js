@@ -61,6 +61,7 @@ self.addEventListener("fetch", (event) => {
 
   if (pathname == '/sighting/index' || pathname == '/sighting/show' || pathname == '/sighting/new'){
     let responseFromCache = rerouting(pathname)
+
     event.respondWith(responseFromCache)
   } else {
     event.respondWith(cacheFirst(event.request, "/html/offline.html"))

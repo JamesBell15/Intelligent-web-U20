@@ -63,3 +63,6 @@ exports.show = (req, res) => {
   });
 }
 
+exports.refresh = (req, res) => {
+  res.status(200).json({hi: 'hello'})
+}

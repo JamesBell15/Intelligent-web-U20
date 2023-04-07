@@ -29,4 +29,7 @@ router.post('/api/data/users', async function (req, res) {
 })
 
 
+router.get("/sighting/refresh", sighting_controller.refresh)
 module.exports = router;
+
+

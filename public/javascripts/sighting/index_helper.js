@@ -33,12 +33,12 @@ const showAllRecords = (records) => {
         <td>${record.identificationId}</td>
         <td>${record.dateTime}</td>
         <td>
-        <button id="${indexKey}" type="button">More details</button>
+        <button class="showButton" id="${indexKey}" type="button">More details</button>
         </td>
       </tr>`
   }
 
-  let btns = document.getElementsByTagName('button')
+  let btns = document.getElementsByClassName('showButton')
 
   for (let btn of btns) {
     btn.addEventListener("click", (event) => {setSightingId(btn.id)})
