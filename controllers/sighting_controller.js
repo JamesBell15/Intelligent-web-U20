@@ -44,3 +44,7 @@ exports.show = (req, res) => {
     res.render('sighting/show', { sighting: sighting });
   });
 }
+
+exports.refresh = (req, res) => {
+  res.status(200).json({hi: 'hello'})
+}

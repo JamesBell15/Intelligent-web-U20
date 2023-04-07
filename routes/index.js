@@ -22,4 +22,6 @@ router.get("/sighting/show/:id", sighting_controller.show)
 router.get("/sighting/new", sighting_controller.new)
 router.post("/sighting/new", upload.single('sightingImage'), sighting_controller.create)
 
+router.get("/sighting/refresh", sighting_controller.refresh)
+
 module.exports = router
