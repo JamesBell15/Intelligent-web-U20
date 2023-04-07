@@ -1,7 +1,3 @@
-const handleSuccess = (event) => {
-  console.log(`indexedDB success ${event.target.result}`)
-}
-
 const upgradeStores = (event) => {
   console.log("Upgrading...")
 
@@ -37,7 +33,7 @@ requestIDB.onupgradeneeded = (event) => {
 }
 
 requestIDB.onsuccess = (event) => {
-  handleSuccess(event)
+  console.log(`indexedDB success ${event.target.result}`)
 }
 
 requestIDB.onerror = (event) => {
