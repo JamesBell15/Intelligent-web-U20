@@ -1,4 +1,8 @@
 {
+    /**
+     * Used to pass IDB user to the routes as an invisible input.
+     *
+     */
 
     const requestIDB = indexedDB.open('db', 4)
 

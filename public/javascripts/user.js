@@ -38,7 +38,7 @@
         storeRequest.onsuccess = (event) => {
             let user = event.target.result
             if (user) {
-                document.getElementById('profileBtn').innerText = user.username
+                document.getElementById('profileBtn').querySelector(":nth-child(2)").innerText = user.username
             } else {
                 console.log('You are not logged in.')
             }

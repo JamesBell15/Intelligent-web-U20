@@ -21,7 +21,7 @@
                     document.getElementById('loginModalBtn').classList.add('hidden')
                     document.getElementById('logoutBtn').classList.remove('hidden')
                     document.getElementById('profileBtn').classList.remove('hidden')
-                    document.getElementById('profileBtn').innerText = user.username
+                    document.getElementById('profileBtn').querySelector(":nth-child(2)").innerText = user.username
                 }
             }
         }
