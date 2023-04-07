@@ -11,10 +11,10 @@ self.addEventListener("install", (event) => {
       "/app_sw.js",
       "/stylesheets/style.css",
       "/html/offline.html",
-      "/html/sighting/create.html",
+      "/html/sighting/new.html",
       "/html/sighting/index.html",
       "/html/sighting/show.html",
-      "/javascripts/sighting/create_helper.js",
+      "/javascripts/sighting/new_helper.js",
       "/javascripts/sighting/index_helper.js",
       "/javascripts/sighting/show_helper.js",
       "/javascripts/indexedDB.js"
@@ -59,7 +59,7 @@ const rerouting = async (pathname) => {
 self.addEventListener("fetch", (event) => {
   let pathname = new URL(event.request.url).pathname
 
-  if (pathname == '/sighting/index' || pathname == '/sighting/show' || pathname == '/sighting/create'){
+  if (pathname == '/sighting/index' || pathname == '/sighting/show' || pathname == '/sighting/new'){
     let responseFromCache = rerouting(pathname)
     event.respondWith(responseFromCache)
   } else {
