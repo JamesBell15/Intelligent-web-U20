@@ -1,7 +1,6 @@
-const messageController = require('../controllers/messages.js')
-const userController = require('../controllers/user.js')
-const sightingController = require('../controllers/sighting_controller.js')
-
+const User = require('../models/user.js')
+const Sighting = require('../models/sighting.js')
+const Message = require('../models/messages.js')
 
 exports.init = function(io) {
     io.sockets.on('connection', function (socket) {
@@ -14,18 +13,17 @@ exports.init = function(io) {
                 socket.leave(room)
             })
             socket.on('send msg', async (room, name, msg) => {
-                const user = await userController.findUser(name)
-                const sighting = await sightingController.findSighting(room)
+                const user = await User.findUser(name)
+                const sighting = await Sighting.findSighting(room)
 
-                const data = {
+                const message = new Message({
                     sender: user,
                     post: sighting,
                     msg: msg
-                }
-
-                messageController.insert(data, () => {
-                    io.to(room).emit('msg', data)
                 })
+
+                await message.insert()
+                io.to(room).emit('msg', message)
 
 
             })
@@ -34,7 +32,14 @@ exports.init = function(io) {
 
             // INTERACTIONS WITH USER DB
             socket.on('login/register', (data) => {
-                userController.insert(data)
+                const user = new User({
+                    username: data.username,
+                    location: {
+                        type: 'Point',
+                        coordinates: data.coords
+                    }
+                })
+                user.insertUpdate()
                 socket.emit('login status')
             })
         } catch (e) {

@@ -22,9 +22,9 @@ router.get("/sighting/show/:id", sighting_controller.show)
 router.get("/sighting/new", sighting_controller.new)
 router.post("/sighting/new", upload.single('sightingImage'), sighting_controller.create);
 
-const usersController = require('../controllers/user')
+const User = require('../models/user')
 router.post('/api/data/users', async function (req, res) {
-    const userToQuery = await usersController.findUser(req.body.name)
+    const userToQuery = await User.findUser(req.body.name)
     res.json(userToQuery)
 })
 

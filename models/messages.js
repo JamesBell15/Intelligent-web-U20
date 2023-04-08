@@ -13,5 +13,21 @@ const messageSchema = new Schema({
     {timestamps: true}
 )
 
+messageSchema.methods.insert = async function() {
+    try {
+        return await this.save()
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+messageSchema.statics.findMessagesForSighting = async (sighting) => {
+    try {
+        return await Message.find({post: sighting}).populate(['sender', 'post']).exec()
+    } catch (e) {
+        console.error(e)
+    }
+}
+
 const Message = mongoose.model('Message', messageSchema)
 module.exports = Message

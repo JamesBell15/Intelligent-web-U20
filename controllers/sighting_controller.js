@@ -1,9 +1,9 @@
 var bodyParser = require("body-parser");
 var multer = require('multer');
-const Sighting = require('../models/sighting')
 const Helper = require('../helpers/controller_helpers/sighting')
-const messageController = require('../controllers/messages')
-const userController = require('../controllers/user')
+const Sighting = require('../models/sighting')
+const User = require('../models/user')
+const Message = require('../models/messages')
 
 exports.new = (req, res) => {
   res.render('sighting/new');
@@ -11,7 +11,7 @@ exports.new = (req, res) => {
 
 exports.create = async (req, res) => {
   let body = req.body
-  const user = await userController.findUser(body.user)
+  const user = await User.findUser(body.user)
   let sighting = new Sighting({
     identificationId: body.identification,
     userId: user,
@@ -53,7 +53,7 @@ exports.show = (req, res) => {
     if (err) {
       err.type = 'database'
     } else {
-      const messages = await messageController.findMessagesForSighting(sighting)
+      const messages = await Message.findMessagesForSighting(sighting)
       console.log(messages)
       res.render('sighting/show', {
         sighting: sighting, messages: messages
@@ -61,22 +61,5 @@ exports.show = (req, res) => {
     }
 
   });
-}
-
-// prob can delete, dont think this is used
-exports.getSighting = (sightingID, onSuccess) => {
-  Sighting.findById({_id: sightingID}).then(result => {
-    onSuccess(result)
-  }).catch(err => {
-    console.error(err)
-  })
-}
-
-exports.findSighting = async (sightingID) => {
-  try {
-    return await Sighting.findById(sightingID).exec()
-  } catch (e) {
-    console.error(e)
-  }
 }
 

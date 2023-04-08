@@ -15,6 +15,14 @@ sighting.methods.timeAsUTC = function() {
   return this.dateTime.toUTCString();
 };
 
+sighting.statics.findSighting = async (sightingId) => {
+  try {
+    return await Sighting.findById(sightingId).exec()
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 // Method to handel url images and those stored directly in the DB
 function normalisePath(path) {
   let url;
