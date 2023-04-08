@@ -1,0 +1,61 @@
+<nav class="navbar navbar-light bg-light navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/sighting/index">
+            <i class="fa-solid fa-crow"></i>
+        </a>
+        <div>
+            <ul class="navbar-nav">
+                <li>
+                    <button id="loginModalBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal"><i class="fa-solid fa-arrow-right-to-bracket"></i> Login</button>
+                </li>
+                <li>
+                    <button id="logoutBtn" type="button" class="btn btn-outline-primary hidden"><i class="fa-regular fa-arrow-right-from-bracket"></i> Logout</button>
+                </li>
+                <li>
+                    <button id="profileBtn" type="button" class="btn btn-outline-primary hidden"><i class="fa-solid fa-user"></i> <span></span></button>
+                </li>
+            </ul>
+        </div>
+        <!--I made a profileBtn thinking there might be a profile page but this might not be the case so this can be a static element-->
+    </div>
+</nav>
+
+<!--
+    For desktop we want to use modal window
+    BUT for mobile we want to use model sheets - https://uxmovement.medium.com/the-optimal-way-to-display-modals-on-mobile-screens-58567e74ee50
+    Needs adjustment for PWA i.e. mobile
+-->
+
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="loginModalLabel">Login/Register</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="status"></p>
+                <form>
+                    <div class="mb-3">
+                        <label for="recipient-name" class="col-form-label">Username:</label>
+                        <input id="usernameIn" type="text" class="form-control" id="recipient-name" autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <label for="coordinateIn" class="col-form-label">Location</label>
+                        <input class="form-control" id="coordinateIn" type="text">
+                    </div>
+                    <button id="findUserBtn" type="button" class="btn btn-outline-dark">Use current location</button>
+                </form>
+                <p id="formStatus"></p> <!-- https://codepen.io/codysechelski/pen/dYVwjb <- Cool alerts -->
+            </div>
+            <!--
+            Want to create alert when the form is submitted asking the user if they want to make changes to an existing user's location.
+            This will require information from User DB.
+            -->
+            <div class="modal-footer">
+                <button id="closeModalBtn" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button id="loginBtn" type="button" class="btn btn-primary">Log in</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,31 +1,27 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <form id="xForm" method="post" action="new" enctype="multipart/form-data">
-      <label for="identificationLabel">Identification: </label>
-      <input type="text" id="identification" name="identification"> <br>
+<body>
+<form id="xForm" method="post" action="new" enctype="multipart/form-data">
+    <label for="identificationLabel">Identification: </label>
+    <input type="text" id="identification" name="identification"> <br>
 
-      <label for="descriptionLabel">Description: </label>
-      <input type="text" id="description" name="description" required> <br>
+    <label for="descriptionLabel">Description: </label>
+    <input type="text" id="description" name="description" required> <br>
 
-      <label for="dateLabel">Date & Time: </label>
-      <input type="datetime-local" id="dateTime" name="dateTime" required> <br>
+    <label for="dateLabel">Date & Time: </label>
+    <input type="datetime-local" id="dateTime" name="dateTime" required> <br>
 
-      <label for="locationLabel">Location: </label>
-      <input type="text" id="location" name="location"> <br>
+    <label for="locationLabel">Location: </label>
+    <input type="text" id="location" name="location"> <br>
 
-      <label for="imageLabel">Image: </label>
-      <div>
+    <label for="imageLabel">Image: </label>
+    <div>
         <input type="file" id="sightingImage" name="sightingImage" accept="image/*">
         <br>Or paste url:<br>
         <input type="url" id="sightingImage" name="sightingImage">
-      </div> <br>
+    </div>
+    <br>
 
-      <input type="submit">
-    </form>
-    <a href="index"> Cancel </a>
-  </body>
-</html>
+    <input type="submit">
+</form>
+<a href="index"> Cancel </a>
+<script src="../../javascripts/form.js"></script>
+

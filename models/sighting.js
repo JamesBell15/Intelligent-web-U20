@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 const sighting = new Schema({
   active: {type: Boolean, default: true},
-  userId: {type: String, required: true},
+  userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
   description: {type: String, required: true, max:280},
   dateTime: {type: Date, required: true},
   identificationId: {type: String},
@@ -14,6 +14,14 @@ const sighting = new Schema({
 sighting.methods.timeAsUTC = function() {
   return this.dateTime.toUTCString();
 };
+
+sighting.statics.findSighting = async (sightingId) => {
+  try {
+    return await Sighting.findById(sightingId).exec()
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 // Method to handel url images and those stored directly in the DB
 function normalisePath(path) {
