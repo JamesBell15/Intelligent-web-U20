@@ -56,13 +56,23 @@ const rerouting = async (pathname) => {
   return await caches.match('/html' + pathname + '.html')
 }
 
+self.addEventListener('sync', async event => {
+  if (event.tag === 'sighting-data-sync') {
+    fetch('/sighting/refresh').then(
+    (response) => response.json()).then((data) => {
+      // use this to store data from db
+      console.log(data)
+    })
+  }
+})
+
 self.addEventListener("fetch", (event) => {
   let pathname = new URL(event.request.url).pathname
 
   if (pathname == '/sighting/index' || pathname == '/sighting/show' || pathname == '/sighting/new'){
     let responseFromCache = rerouting(pathname)
 
-    event.respondWith(responseFromCache)
+    event.respondWith(cacheFirst(pathname))
   } else {
     event.respondWith(cacheFirst(event.request, "/html/offline.html"))
   }
