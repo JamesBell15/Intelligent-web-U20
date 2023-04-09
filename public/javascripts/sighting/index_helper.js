@@ -11,12 +11,7 @@ const showAllRecords = (records) => {
   let table = document.getElementById("sightingTable")
 
   // Set up headers
-  let output = `<tr>
-    <th>User</th>
-    <th>Identification</th>
-    <th>Time</th>
-    <th></th>
-  </tr>`
+  let output = ``
   // remove old data
   table.innerHTML = output
 
@@ -28,14 +23,15 @@ const showAllRecords = (records) => {
     let indexKey = parseInt(key) + 1
 
     table.innerHTML += `
-      <tr>
-        <td>${record.userId}</td>
-        <td>${record.identificationId}</td>
-        <td>${record.dateTime}</td>
-        <td>
-        <button class="showButton" id="${indexKey}" type="button">More details</button>
-        </td>
-      </tr>`
+    <section sighting-post-id="${indexKey}" id="sightingBody" class="container p-2">
+    <div class="row row-cols-5 border-bottom border-light-dark">
+        <h4 class="col fs-6"> ${record.identificationId} </h4>
+        <div class="col fs-6"> ${record.userId} </div>
+        <div class="col fs-6"> ${record.location} </div>
+        <div class="col fs-6"> ${record.dateTime} </div>
+        <div class="col fs-6"><button class="showButton" id="${indexKey}" type="button"><i class="fa-solid fa-binoculars"></i></button></div>
+    </div>
+    </section>`
   }
 
   let btns = document.getElementsByClassName('showButton')
