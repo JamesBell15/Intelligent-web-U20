@@ -22,20 +22,6 @@ router.get("/sighting/show/:id", sighting_controller.show)
 router.get("/sighting/new", sighting_controller.new)
 router.post("/sighting/new", upload.single('sightingImage'), sighting_controller.create);
 
-router.post('/api/data/sort', async function (req,res) {
-    const queries = req.body
-    if (queries.sort == 'distance') {
-        const longitude = queries.coords[0]
-        const latitude = queries.coords[1]
-        const sightings = await Sighting.sortByDistance([longitude, latitude])
-        res.render('sighting/index', {sightings: sightings})
-    }
-    if (queries.sort == 'recent') {
-        const sightings = await Sighting.sortByRecent()
-        res.render('sighting/index', {sightings: sightings})
-    }
-})
-
 const User = require('../models/user')
 const Sighting = require("../models/sighting");
 router.post('/api/data/users', async function (req, res) {

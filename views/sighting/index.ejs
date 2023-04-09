@@ -1,6 +1,16 @@
 <div id="sightingsCatalogue">
-    <button id="distSort">Sort by distance</button>
-    <button id="timeSort">Sort by most recent</button>
+    <div class="my-3 d-flex justify-content-end">
+        <div class="btn-group">
+            <input type="radio" class="btn-check" name="options" id="distSort" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="distSort">Sort by distance</label>
+
+            <input type="radio" class="btn-check" name="options" id="timeSort" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="timeSort">Sort by most recent</label>
+
+            <input type="radio" class="btn-check" name="options" id="alphabetSort" autocomplete="off">
+            <label class="btn btn-outline-secondary" for="alphabetSort">Sort alphabetically</label>
+        </div>
+    </div>
     <div id="sighting-headers" class="container p-2">
         <div class="row row-cols-5">
             <div class="col fs-6"><span>SPECIES NAME</span></div>

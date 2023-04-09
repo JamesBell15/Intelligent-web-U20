@@ -46,10 +46,36 @@ exports.create = async (req, res) => {
 };
 
 exports.index = async (req, res) => {
-  Sighting.find().populate('userId').exec(function (err, sightings) {
-    if (err) err.type = 'database';
-    res.render('sighting/index', {sightings: sightings});
-  });
+  const {sort, long, lat} = req.query
+  const queryObject = {}
+
+  if (sort == 'distance') {
+    queryObject.location = {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates: [parseInt(long), parseInt(lat)]
+        }
+      }
+    }
+  }
+  let result = Sighting.find(queryObject).populate('userId')
+
+  if (sort == 'recent') {
+    result = result.sort('dateTime')
+  }
+  if (sort == 'alphabetical') {
+    result = result.sort('identificationId')
+  }
+
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 5;
+  const skip = (page - 1) * limit;
+
+  result = result.skip(skip).limit(limit)
+  result = await result.exec()
+
+  res.render('sighting/index', {sightings: result})
 
   /**
    //1 Paris - 2.3291015625000004, 48.864714761802794
