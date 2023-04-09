@@ -18,16 +18,3 @@ const registerServiceWorker = async () => {
 }
 
 registerServiceWorker()
-
-// fetch up todate records and store them in indexedDB
-const updateIDB = async () => {
-  navigator.serviceWorker.ready.then(async (swReg) => {
-    // fetch 10 most recent records for user
-    const bgFetch = await swReg.backgroundFetch.fetch(
-      "my-fetch",
-      "http://localhost:3000/sighting/refresh"
-    )
-
-    console.log(bgFetch)
-  })
-}
