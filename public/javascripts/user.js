@@ -134,11 +134,6 @@
     // https://github.com/mdn/dom-examples/blob/main/to-do-notifications/scripts/todo.js
     const requestIDB = indexedDB.open('db', 4)
 
-    requestIDB.onupgradeneeded = (event) => {
-        const db = requestIDB.result
-        db.createObjectStore('userInfo', {autoIncrement: false})
-        console.log('IDB: Object store created.')
-    }
     requestIDB.onsuccess = (event) => {
         document.querySelector('#loginBtn').addEventListener("click", submitLoginRegister)
         document.querySelector('#logoutBtn').addEventListener("click", logout)
