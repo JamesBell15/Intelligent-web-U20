@@ -1,4 +1,6 @@
 <div id="sightingsCatalogue">
+    <button id="distSort">Sort by distance</button>
+    <button id="timeSort">Sort by most recent</button>
     <div id="sighting-headers" class="container p-2">
         <div class="row row-cols-5">
             <div class="col fs-6"><span>SPECIES NAME</span></div>
@@ -8,22 +10,24 @@
             <div class="col fs-6"></div>
         </div>
     </div>
-    <div>
+    <div id="sightingList">
         <% for(let sighting of sightings){ %>
             <section sighting-post-id="<%= sighting._id %>" id="sightingBody" class="container p-2">
                 <div class="row row-cols-5 border-bottom border-light-dark">
                     <h4 class="col fs-6"><%= sighting.identificationId %></h4>
                     <div class="col fs-6"><%= sighting.userId.username %></div>
-                    <div class="col fs-6"><%= sighting.location %></div>
-                    <div class="col fs-6"><%= sighting.timeAsUTC() %></div>
-                    <div class="col fs-6"><a href="show/<%=sighting.id%>" class="view-more"><i class="fa-solid fa-binoculars"></i></a></div>
+                    <div class="col fs-6"><%= sighting.location.coordinates %></div>
+                    <div class="col fs-6"><%= sighting.dateTime %></div>
+                    <div class="col fs-6"><a href="/sighting/show/<%= sighting._id %>" class="view-more"><i class="fa-solid fa-binoculars"></i></a></div>
                 </div>
             </section>
         <% } %>
     </div>
-    <table>
-
-    </table>
 </div>
 <a href="new"> add new </a>
+<<<<<<< HEAD
 <script src="../javascripts/temp.js"></script>
+=======
+<script src="/../javascripts/temp.js"></script>
+
+>>>>>>> 7a9e4a5 (implement sighting sort by distance and most recent without have to render a new page -> an issue with this is that when you enter a sighting and return to the index, the sort will not be maintained and the timeAsUTC method doesn't work because of the way sort by distance is calculated)
