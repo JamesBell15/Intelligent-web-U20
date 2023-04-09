@@ -8,7 +8,7 @@ const getAllRecords = (requestIDB) => {
 }
 
 const showAllRecords = (records) => {
-  let table = document.getElementById("sightingTable")
+  let table = document.getElementById("sightingsDiv")
 
   // Set up headers
   let output = ``
