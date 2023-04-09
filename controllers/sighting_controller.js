@@ -47,7 +47,6 @@ exports.create = async (req, res) => {
 
 exports.index = async (req, res) => {
   const {sort, long, lat, name} = req.query
-  const queryObject = {}
 
   if (sort == 'distance') {
     queryObject.location = {
@@ -62,6 +61,7 @@ exports.index = async (req, res) => {
   if (name) {
     queryObject.identificationId = {$regex: name, $options: 'i'}
   }
+
   let result = Sighting.find(queryObject).populate('userId')
 
   if (sort == 'recent') {
@@ -79,7 +79,6 @@ exports.index = async (req, res) => {
   result = result.skip(skip).limit(limit)
   */
 
-  result = await result.exec()
 
   res.render('sighting/index', {sightings: result})
 
@@ -106,7 +105,6 @@ exports.show = (req, res) => {
     }
 
   });
->>>>>>> 7a9e4a5 (implement sighting sort by distance and most recent without have to render a new page -> an issue with this is that when you enter a sighting and return to the index, the sort will not be maintained and the timeAsUTC method doesn't work because of the way sort by distance is calculated)
 }
 
 exports.create = async (req, res) => {

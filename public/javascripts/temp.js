@@ -79,7 +79,6 @@ requestIDB.onsuccess = (event) => {
 }
 requestIDB.onerror = (event) => {
     console.error('IDB: ' + requestIDB.error)
-
 }
 
 search.addEventListener('keyup', async (e) => {
