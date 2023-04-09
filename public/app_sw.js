@@ -6,14 +6,21 @@ const addResourcesToCache = async (resources) => {
 self.addEventListener("install", (event) => {
   event.waitUntil(
     addResourcesToCache([
-      "sighting/index",
+      // maifest
       "/manifest.json",
-      "/app_sw.js",
+      // css
+      "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css",
+      "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css",
       "/stylesheets/style.css",
+      // html
       "/html/offline.html",
+      "/partials/navbar.html",
       "/html/sighting/new.html",
       "/html/sighting/index.html",
       "/html/sighting/show.html",
+      // scrtipts
+      "/app_sw.js",
+      "/jquery-3.6.4.js",
       "/javascripts/sighting/new_helper.js",
       "/javascripts/sighting/index_helper.js",
       "/javascripts/sighting/show_helper.js",
@@ -30,12 +37,13 @@ const putInCache = async (request, response) => {
 // PWA Architecture cache first
 const cacheFirst = async (request, fallbackUrl) => {
   const responseFromCache = await caches.match(request)
+
   if (responseFromCache) {
     return responseFromCache
   }
   try {
     const responseFromNetwork = await fetch(request)
-    putInCache(request, responseFromNetwork.clone())
+
     return responseFromNetwork
   } catch (error) {
     const fallbackResponse = await caches.match(fallbackUrl)
@@ -52,28 +60,27 @@ const cacheFirst = async (request, fallbackUrl) => {
   }
 }
 
-const rerouting = async (pathname) => {
-  return await caches.match('/html' + pathname + '.html')
-}
+
 
 self.addEventListener('sync', async event => {
   if (event.tag === 'sighting-data-sync') {
-    fetch('/sighting/refresh').then(
-    (response) => response.json()).then((data) => {
-      // use this to store data from db
-      console.log(data)
-    })
+    event.waitUntil(fetch('/sighting/refresh').then(
+      (response) => response.json()).then((data) => {
+        // use this to store data from db
+        console.log(data)
+      })
+    )
   }
 })
 
 self.addEventListener("fetch", (event) => {
   let pathname = new URL(event.request.url).pathname
 
-  if (pathname == '/sighting/index' || pathname == '/sighting/show' || pathname == '/sighting/new'){
-    let responseFromCache = rerouting(pathname)
-
-    event.respondWith(cacheFirst(pathname))
-  } else {
-    event.respondWith(cacheFirst(event.request, "/html/offline.html"))
+  if (event.request.method == "GET"){
+    if (pathname == '/sighting/index' || pathname == '/sighting/show' || pathname == '/sighting/new'){
+      event.respondWith(cacheFirst('/html' + pathname + '.html', "/html/offline.html"))
+    } else {
+      event.respondWith(cacheFirst(event.request, "/html/offline.html"))
+    }
   }
 })
