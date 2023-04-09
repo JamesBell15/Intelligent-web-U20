@@ -1,51 +1,25 @@
-async function sortDist() {
+function getSorted(sortType) {
     try {
         useUserInfo(async (user) => {
-            const data = {
-                sort: 'distance',
-                coords: user.coords
+            let response
+            switch (sortType) {
+                case "distance":
+                    const coordinates = user.coords
+                    response = await fetch(`/sighting/index?sort=distance&long=${coordinates[0]}&lat=${coordinates[1]}`)
+                    break
+                case "recent":
+                    response = await fetch(`/sighting/index?sort=recent`)
+                    break
+                case "alphabetical":
+                    response = await fetch(`/sighting/index?sort=alphabetical`)
+                    break
+                default:
+                    response = await fetch(`/sighting/index`)
+                    break
             }
-            const options = {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-type': 'application/json'
-                }
-            }
-            try {
-                const response = await fetch('/api/data/sort', options)
-                const text = await response.text()
-
-                updateSightingHtml(text)
-
-            } catch (err) {
-                console.error(err)
-            }
-        })
-    } catch (e) {
-        console.error(e)
-    }
-}
-async function sortRecent() {
-    try {
-        const data = {
-            sort: 'recent'
-        }
-        const options = {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-type': 'application/json'
-            }
-        }
-        try {
-            const response = await fetch('/api/data/sort', options)
             const text = await response.text()
-
             updateSightingHtml(text)
-        } catch (err) {
-            console.error(err)
-        }
+        })
     } catch (e) {
         console.error(e)
     }
@@ -90,10 +64,10 @@ requestIDB.onupgradeneeded = (event) => {
     console.log('IDB: Object store created.')
 }
 requestIDB.onsuccess = (event) => {
-    document.querySelector('#distSort').addEventListener('click', sortDist)
+    document.querySelector('#distSort').addEventListener('click', () => getSorted('distance'))
+    document.querySelector('#timeSort').addEventListener('click', () => getSorted('recent'))
+    document.querySelector('#alphabetSort').addEventListener('click', () => getSorted('alphabetical'))
 }
 requestIDB.onerror = (event) => {
     console.error('IDB: ' + requestIDB.error)
 }
-
-document.querySelector('#timeSort').addEventListener('click', sortRecent)

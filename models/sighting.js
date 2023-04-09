@@ -35,34 +35,6 @@ sighting.statics.findSighting = async (sightingId) => {
     }
 }
 
-sighting.statics.sortByDistance = async (coordinates) => {
-    try {
-        const sightings = await Sighting.aggregate([
-            {
-                $geoNear: {
-                    near: {type: 'Point', coordinates: coordinates},
-                    distanceField: 'dist.calculated',
-                    spherical: true
-                }
-            },
-            {$sort: {distance: 1}}
-        ])
-        await Sighting.populate(sightings, {path: 'userId'})
-        return sightings
-    } catch (e) {
-        console.error(e)
-    }
-}
-
-sighting.statics.sortByRecent = async () => {
-    try {
-        const sightings = await Sighting.find({}).populate('userId').sort({dateTime: 1}).exec()
-        return sightings
-    } catch (e) {
-        console.error(e)
-    }
-}
-
 // Method to handel url images and those stored directly in the DB
 function normalisePath(path) {
     let url;
