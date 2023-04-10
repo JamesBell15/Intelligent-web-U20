@@ -94,16 +94,82 @@ const networkFirst = async (pathname, fallbackUrl) => {
     }
 }
 
+const updateIDB = () => {
+    const requestIDB = indexedDB.open("db", 4)
+
+    requestIDB.onsuccess = (event) => {
+        fetch('/db/get').then(
+            (response) => response.json()
+        ).then((body) => {
+
+            // use this to store data from db
+            const transaction = requestIDB.result.transaction(["sightings", "messages"], "readwrite")
+            const sightingStore = transaction.objectStore("sightings")
+            const messageStore = transaction.objectStore("messages")
+            transaction.onerror = (event) => {
+                console.log("trans wrongs: " + event.target.error)
+            }
+            transaction.oncomplete = (event) => {
+                console.log("trans rights")
+            }
+
+            const clearRequest = sightingStore.clear()
+
+            clearRequest.onsuccess = (event) => {
+                // add all data into db
+                console.log("sighting clear")
+                console.log(body.data)
+
+
+                for (let sighting of body.data['sightings']){
+                    console.log(sighting)
+                    let tempSighting = {
+                        userId: sighting.userId.username,
+                        description: sighting.description,
+                        dateTime: sighting.dateTime,
+                        identificationId: sighting.identificationId,
+                        location: sighting.location,
+                        image: sighting.image
+                    }
+
+                    const sightingAddRequest = sightingStore.add(tempSighting, sighting._id)
+
+                    sightingAddRequest.onsuccess = (event) => {
+                        console.log("sighting added")
+                    }
+                }
+            }
+
+            const messageClearRequest = messageStore.clear()
+
+            messageClearRequest.onsuccess = (event) => {
+                for (let message of body.data['messages']){
+                    console.log(message)
+                    let tempMessage = {
+                        senderId: message.sender.username,
+                        postId: message.post,
+                        msg: message.msg,
+                        createdAt: message.createdAt
+                    }
+
+                    const messageAddRequest = messageStore.add(tempMessage, message._id)
+
+                    messageAddRequest.onsuccess = (event) => {
+                        console.log("sighting added")
+                    }
+                }
+            }
+
+        })
+    }
+}
+
 self.addEventListener('sync', async event => {
     if (event.tag === 'sighting-data-sync') {
-        event.waitUntil(fetch('/sighting/refresh').then(
-            (response) => response.json()).then((data) => {
-                // use this to store data from db
-                console.log(data)
-            })
-        )
+        event.waitUntil(updateIDB())
     }
 })
+
 
 self.addEventListener("fetch", (event) => {
     let pathname = new URL(event.request.url).pathname
