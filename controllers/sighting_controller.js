@@ -46,7 +46,7 @@ exports.create = async (req, res) => {
 };
 
 exports.index = async (req, res) => {
-  const {sort, long, lat} = req.query
+  const {sort, long, lat, name} = req.query
   const queryObject = {}
 
   if (sort == 'distance') {
@@ -59,6 +59,9 @@ exports.index = async (req, res) => {
       }
     }
   }
+  if (name) {
+    queryObject.identificationId = {$regex: name, $options: 'i'}
+  }
   let result = Sighting.find(queryObject).populate('userId')
 
   if (sort == 'recent') {
@@ -68,11 +71,14 @@ exports.index = async (req, res) => {
     result = result.sort('identificationId')
   }
 
+  /*
   const page = Number(req.query.page) || 1;
   const limit = Number(req.query.limit) || 5;
   const skip = (page - 1) * limit;
 
   result = result.skip(skip).limit(limit)
+  */
+
   result = await result.exec()
 
   res.render('sighting/index', {sightings: result})
