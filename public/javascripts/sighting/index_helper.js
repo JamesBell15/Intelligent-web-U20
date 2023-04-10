@@ -34,7 +34,7 @@ const showAllRecords = (requestIDB) => {
             let btns = document.getElementsByClassName('showButton')
 
             for (let btn of btns){
-                btn.addEventListener("click", (event) => {setSightingId(btn.id)})
+                btn.addEventListener("click", (event) => {setCurrentSighting(btn.id)})
             }
 
             console.log("done displaying records")

@@ -32,7 +32,7 @@ const addNewRecord = (requestIDB) => {
 
             request.onsuccess = (event) => {
                 updateIDB()
-                setSightingId(event.target.result)
+                setCurrentSighting(event.target.result)
             }
         } else {
             console.log('user not logged in.')

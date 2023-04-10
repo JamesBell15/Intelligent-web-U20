@@ -52,7 +52,7 @@ requestIDB.onerror = (event) => {
 }
 
 // Make avaliable in other helpers
-const setSightingId = (recordId) => {
+const setCurrentSighting = (recordId) => {
     console.log(recordId)
     const objectStore = requestIDB.result
     .transaction(["currentSighting"], "readwrite")
