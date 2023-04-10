@@ -72,7 +72,7 @@ const setCurrentSighting = (recordId) => {
         }
         requestUpdate.onsuccess = (event) => {
             console.log("keyset")
-            window.location.replace("/sighting/show.html")
+            window.location.replace("/sighting/show")
         }
     }
 }
