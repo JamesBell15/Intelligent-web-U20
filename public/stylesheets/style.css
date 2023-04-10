@@ -16,3 +16,8 @@ a {
   color: inherit;
   text-decoration: inherit;
 }
+
+#sightingSearch {
+  width: 20rem;
+  height: 2rem;
+}
