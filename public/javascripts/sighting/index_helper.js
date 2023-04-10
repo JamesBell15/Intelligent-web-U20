@@ -24,23 +24,23 @@ const showAllRecords = (requestIDB) => {
                 <div class="col fs-6"> ${value.userId} </div>
                 <div class="col fs-6"> ${value.location} </div>
                 <div class="col fs-6"> ${value.dateTime} </div>
-                <div class="col fs-6"><button class="showButton" id="btn-${key}" type="button"><i class="fa-solid fa-binoculars"></i></button></div>
+                <div class="col fs-6"><button class="showButton" id="${key}" type="button"><i class="fa-solid fa-binoculars"></i></button></div>
                 </div>
             </section>`
-
-            let btn = document.getElementById(`btn-${key}`)
-
-            btn.addEventListener("click", (event) => {setSightingId(key)})
 
             cursor.continue()
         }
         else {
+            let btns = document.getElementsByClassName('showButton')
+
+            for (let btn of btns){
+                btn.addEventListener("click", (event) => {setSightingId(btn.id)})
+            }
+
             console.log("done displaying records")
         }
     }
 }
-
-
 
 // when indexedDB opens populate page
 requestIDB.onsuccess = (event) => {
