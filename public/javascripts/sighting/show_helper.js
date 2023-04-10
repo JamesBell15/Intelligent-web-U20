@@ -1,20 +1,29 @@
-const getRecord = () => {
-  return new Promise(function(resolve) {
-      const db = requestIDB.result
-      const currentSightingObjStr = db.transaction(["currentSighting"], "readwrite").objectStore("currentSighting")
+const showRecord = () => {
+    const db = requestIDB.result
+    const currentSightingObjStr = db.transaction(["currentSighting"], "readwrite").objectStore("currentSighting")
 
-      currentSightingObjStr.get('current').onsuccess = (event) => {
+    currentSightingObjStr.get('current').onsuccess = (event) => {
         const sightingObjStr = db.transaction(["sightings"], "readwrite").objectStore("sightings")
 
-        sightingObjStr.get(parseInt(event.target.result.sightingId)).onsuccess = (event) => {
-          return resolve(event.target.result)
+        let sightingId = setSightingId(event.target.result.sightingId)
+
+        console.log(sightingId)
+
+        sightingObjStr.get(sightingId).onsuccess = (event) => {
+            renderHTML(event.target.result)
         }
-      }
     }
-  )
 }
 
-const showRecord = (record) => {
+const setSightingId = (sightingId) => {
+    if (Number(sightingId)) {
+        return Number(sightingId)
+    }
+
+    return sightingId
+}
+
+const renderHTML = (record) => {
   let table = document.getElementById("sightingTable")
 
   // Set up headers
@@ -42,6 +51,5 @@ const showRecord = (record) => {
 }
 
 requestIDB.onsuccess = async (event) => {
-  let record = await getRecord()
-  showRecord(record)
+  showRecord()
 }
