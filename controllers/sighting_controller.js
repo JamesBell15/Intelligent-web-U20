@@ -39,9 +39,8 @@ exports.create = async (req, res) => {
             }
             const sightingDb = await findSightingByIdentification(sighting.identificationId, sighting.userId)
             res.redirect(`/sighting/show/${sightingDb._id}`)
-            }
         }
-    )
+    })
 }
 
 exports.index = (req, res) => {
@@ -67,6 +66,34 @@ exports.show = (req, res) => {
     })
 }
 
-exports.refresh = (req, res) => {
+exports.get_server_data = async (req, res) => {
+    // takes user ID and returns all sightings connected to that user
+    // + messages connected to those sightings
+    // + all the sightings but with bare min data birdID, userID, location & time
+
+    let json = {}
+
+    Sighting.find().populate('userId').exec(function (err, sightings) {
+        if (err) err.type = 'database'
+
+        json['sightings'] = sightings
+
+        Message.find().populate('sender').exec(function (err, messages) {
+            if (err) err.type = 'database'
+
+            json['messages'] = messages
+
+            console.log(json)
+
+            res.status(200).json({data: json})
+        })
+    })
+
+
+}
+
+exports.update_server_data = (req, res) => {
+    // recieves new sighting and updates server with
+
     res.status(200).json({hi: 'hello'})
 }
