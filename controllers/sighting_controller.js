@@ -47,6 +47,7 @@ exports.create = async (req, res) => {
 
 exports.index = async (req, res) => {
   const {sort, long, lat, name} = req.query
+  const queryObject = {}
 
   if (sort == 'distance') {
     queryObject.location = {
@@ -79,6 +80,7 @@ exports.index = async (req, res) => {
   result = result.skip(skip).limit(limit)
   */
 
+  result = await result.exec()
 
   res.render('sighting/index', {sightings: result})
 

@@ -87,3 +87,4 @@ search.addEventListener('keyup', async (e) => {
     let text = await response.text()
     updateSightingHtml(text)
 })
+
