@@ -33,7 +33,7 @@ router.post('/api/data/users', async function (req, res) {
 
 // Routes accociated with syncing server and client db
 router.get("/db/get", sighting_controller.get_server_data)
-router.get("/db/update", sighting_controller.update_server_data)
+router.post("/db/update", sighting_controller.update_server_data)
 module.exports = router;
 
 
