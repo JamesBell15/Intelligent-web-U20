@@ -20,7 +20,7 @@ function getSorted(sortType) {
                     sortParameters = 'sort=alphabetical'
                     break
                 default:
-                    sortByDistance.checked = sortByRecent.checked = sortByAlphabet. checked = false
+                    sortByDistance.checked = sortByRecent.checked = sortByAlphabet.checked = false
                     sortParameters = ''
                     break
             }
