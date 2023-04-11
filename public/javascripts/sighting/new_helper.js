@@ -31,11 +31,24 @@ const addNewRecord = (requestIDB) => {
             const request = sightingStore.add(sighting);
 
             request.onsuccess = (event) => {
-                updateIDB()
-                setCurrentSighting(event.target.result)
+                let newSightingId = event.target.result
+
+                registerNewSightingSync(newSightingId)
+                setCurrentSighting(newSightingId)
             }
         } else {
             console.log('user not logged in.')
         }
+    }
+}
+
+// Registers background sync for new sighting
+const registerNewSightingSync = async (id) => {
+    const registration = await navigator.serviceWorker.ready
+    try {
+        await registration.sync.register("new-sighting-" + String(id))
+        console.log("New sighting Background Sync registered!")
+    } catch {
+        console.log("New sighting Background Sync could not be registered!")
     }
 }

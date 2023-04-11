@@ -17,4 +17,16 @@ const registerServiceWorker = async () => {
   }
 }
 
+// Registers background sync for syncing idb
+const registerDataSync = async () => {
+    const registration = await navigator.serviceWorker.ready
+    try {
+        await registration.sync.register("sighting-data-sync")
+        console.log("Background Sync registered!")
+    } catch {
+        console.log("Background Sync could not be registered!")
+    }
+}
+
 registerServiceWorker()
+registerDataSync()
