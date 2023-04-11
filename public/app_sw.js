@@ -108,10 +108,10 @@ const syncIDB = () => {
             const sightingStore = transaction.objectStore("sightings")
             const messageStore = transaction.objectStore("messages")
             transaction.onerror = (event) => {
-                console.log("transaction error: " + event.target.error)
+                console.log("Sync transaction error: " + event.target.error)
             }
             transaction.oncomplete = (event) => {
-                console.log("transaction success")
+                console.log("Sync transaction success")
             }
 
             const clearRequest = sightingStore.clear()
@@ -128,10 +128,6 @@ const syncIDB = () => {
                     }
 
                     const sightingAddRequest = sightingStore.add(tempSighting, sighting._id)
-
-                    sightingAddRequest.onsuccess = (event) => {
-                        console.log("sighting added")
-                    }
                 }
             }
 
@@ -147,10 +143,6 @@ const syncIDB = () => {
                     }
 
                     const messageAddRequest = messageStore.add(tempMessage, message._id)
-
-                    messageAddRequest.onsuccess = (event) => {
-                        console.log("messages added")
-                    }
                 }
             }
 
