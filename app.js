@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var expressLayouts = require('express-ejs-layouts')
 
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var sightingRouter = require('./routes/sighting')
 
@@ -27,7 +26,7 @@ app.set('layout', 'layouts/main')
 // Place all script blocks at the end
 app.set('layout extractScripts', true)
 
-app.use('/', indexRouter);
+app.use('/', sightingRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler

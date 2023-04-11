@@ -151,12 +151,6 @@
         sendMsgBtn.addEventListener('click', sendChatMsg)
     }
 
-    requestIDB.onupgradeneeded = (event) => {
-        const db = requestIDB.result
-        db.createObjectStore('userInfo', {autoIncrement: false})
-        console.log('IDB: Object store created.')
-    }
-
     requestIDB.onerror = (event) => {
         console.error('IDB: '+requestIDB.error)
     }
