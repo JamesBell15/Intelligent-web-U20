@@ -73,6 +73,8 @@ exports.get_server_data = async (req, res) => {
 
     let json = {}
 
+
+    // split into messages controller and sighting controller
     Sighting.find().populate('userId').exec(function (err, sightings) {
         if (err) err.type = 'database'
 
@@ -83,17 +85,31 @@ exports.get_server_data = async (req, res) => {
 
             json['messages'] = messages
 
-            console.log(json)
-
             res.status(200).json({data: json})
         })
     })
-
-
 }
 
-exports.update_server_data = (req, res) => {
-    // recieves new sighting and updates server with
+exports.update_server_data = async (req, res) => {
+    // recieves and updates server with new sighting
 
-    res.status(200).json({hi: 'hello'})
+    let body = req.body
+
+    const user = await User.findUser(body.userId)
+    let sighting = new Sighting({
+        identificationId: body.identificationId,
+        userId: user,
+        location: body.location,
+        description: body.description,
+        dateTime: new Date(body.dateTime),
+        image: Helper.extractFilePathOrURLFromJSON(body)
+    })
+
+    sighting.save(async function (err, results) {
+        if (err) {
+            res.status(500).send('Invalid data!')
+        } else {
+            res.status(200)
+        }
+    })
 }
