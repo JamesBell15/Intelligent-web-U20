@@ -65,6 +65,7 @@ const cacheFirst = async (request, fallbackUrl) => {
     }
 }
 
+// Checks network first
 const networkFirst = async (pathname, fallbackUrl) => {
     try {
         const responseFromNetwork = await fetch(pathname)
@@ -94,7 +95,7 @@ const networkFirst = async (pathname, fallbackUrl) => {
     }
 }
 
-const updateIDB = () => {
+const syncIDB = () => {
     const requestIDB = indexedDB.open("db", 4)
 
     requestIDB.onsuccess = (event) => {
@@ -107,22 +108,16 @@ const updateIDB = () => {
             const sightingStore = transaction.objectStore("sightings")
             const messageStore = transaction.objectStore("messages")
             transaction.onerror = (event) => {
-                console.log("trans wrongs: " + event.target.error)
+                console.log("transaction error: " + event.target.error)
             }
             transaction.oncomplete = (event) => {
-                console.log("trans rights")
+                console.log("transaction success")
             }
 
             const clearRequest = sightingStore.clear()
 
             clearRequest.onsuccess = (event) => {
-                // add all data into db
-                console.log("sighting clear")
-                console.log(body.data)
-
-
                 for (let sighting of body.data['sightings']){
-                    console.log(sighting)
                     let tempSighting = {
                         userId: sighting.userId.username,
                         description: sighting.description,
@@ -144,7 +139,6 @@ const updateIDB = () => {
 
             messageClearRequest.onsuccess = (event) => {
                 for (let message of body.data['messages']){
-                    console.log(message)
                     let tempMessage = {
                         senderId: message.sender.username,
                         postId: message.post,
@@ -155,7 +149,7 @@ const updateIDB = () => {
                     const messageAddRequest = messageStore.add(tempMessage, message._id)
 
                     messageAddRequest.onsuccess = (event) => {
-                        console.log("sighting added")
+                        console.log("messages added")
                     }
                 }
             }
@@ -164,9 +158,37 @@ const updateIDB = () => {
     }
 }
 
+const newSighting = (id) => {
+    const requestIDB = indexedDB.open("db", 4)
+
+    requestIDB.onsuccess = (event) => {
+        const transaction = requestIDB.result.transaction(["sightings", "messages"], "readwrite")
+        const sightingStore = transaction.objectStore("sightings")
+
+        sightingStore.get(Number(id)).onsuccess = (event) => {
+            let sighting = event.target.result
+
+            fetch("/db/update",
+            {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify(sighting)
+            })
+        }
+    }
+
+}
+
 self.addEventListener('sync', async event => {
     if (event.tag === 'sighting-data-sync') {
-        event.waitUntil(updateIDB())
+        event.waitUntil(syncIDB())
+    }
+
+    if (event.tag.startsWith('new-sighting-')) {
+        console.log('new sighing ' + event.tag)
+        event.waitUntil(newSighting(event.tag.replace("new-sighting-", '')))
     }
 })
 
