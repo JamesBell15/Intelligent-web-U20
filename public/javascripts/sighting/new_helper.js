@@ -10,7 +10,7 @@ const addNewRecord = (requestIDB) => {
     let description = document.getElementById("description").value
     let dateTime = document.getElementById("dateTime").value
     let location = document.getElementById("location").value
-    let sightingImage = document.getElementById("sightingImage").value
+    let sightingImage = getImagePathOrURL()
 
     const userStore = transaction.objectStore("userInfo");
 
@@ -40,6 +40,22 @@ const addNewRecord = (requestIDB) => {
             console.log('user not logged in.')
         }
     }
+}
+
+const getImagePathOrURL = () => {
+    let url = document.getElementById("sightingImageURL").value
+
+    if (url != '') {
+        return url
+    }
+
+    let path = document.getElementById("sightingImage").value
+
+    if (path != '') {
+        return path
+    }
+
+    return ''
 }
 
 // Registers background sync for new sighting

@@ -74,7 +74,7 @@ const renderSightingHTML = (record) => {
         <span>${record.dateTime}</span>
         <span>${record.identificationId}</span>
         <span>${record.location}</span>
-        <span>${record.image}</span>
+        <span><img src="${record.image}" height=200px></span>
     </div>`
 
     table.innerHTML = output
