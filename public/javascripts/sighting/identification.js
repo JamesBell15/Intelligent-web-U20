@@ -1,7 +1,4 @@
-let searchButton = document.getElementById("findIdentifications");
-searchButton.addEventListener("click", searchIdentifications);
-console.log("identification script added");
-searchIdentifications = () =>{
+const searchIdentifications = () =>{
     console.log("searching for birds matching name entered");
     let birdName = document.getElementById("identificationSearch").value;
 
@@ -55,3 +52,7 @@ searchIdentifications = () =>{
             }
         });
 }
+
+let searchButton = document.getElementById("findIdentifications");
+searchButton.addEventListener("click", searchIdentifications);
+console.log("identification script added");
