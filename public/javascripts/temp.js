@@ -5,29 +5,35 @@ const sortByRecent = document.querySelector('#timeSort')
 const sortByAlphabet = document.querySelector('#alphabetSort')
 const removeFilters = document.querySelector('#removeFilters')
 
-function getSorted(sortType) {
+async function getSorted(sortType) {
     try {
-        useUserInfo(async (user) => {
-            switch (sortType) {
-                case "distance":
-                    const coordinates = user.coords
-                    sortParameters = `sort=distance&long=${coordinates[0]}&lat=${coordinates[1]}`
-                    break
-                case "recent":
-                    sortParameters = 'sort=recent'
-                    break
-                case "alphabetical":
-                    sortParameters = 'sort=alphabetical'
-                    break
-                default:
-                    sortByDistance.checked = sortByRecent.checked = sortByAlphabet.checked = false
-                    sortParameters = ''
-                    break
-            }
-            let response = await fetch(`/sighting/index?${sortParameters}`)
-            const text = await response.text()
-            updateSightingHtml(text)
-        })
+        switch (sortType) {
+            case "distance":
+                try {
+                    const user = await getUser()
+                    if (user) {
+                        console.log(user)
+                        const coordinates = user.coords
+                        sortParameters = `sort=distance&long=${coordinates[0]}&lat=${coordinates[1]}`
+                    }
+                } catch (e) {
+                    console.error(e)
+                }
+                break
+            case "recent":
+                sortParameters = 'sort=recent'
+                break
+            case "alphabetical":
+                sortParameters = 'sort=alphabetical'
+                break
+            default:
+                sortByDistance.checked = sortByRecent.checked = sortByAlphabet.checked = false
+                sortParameters = ''
+                break
+        }
+        let response = await fetch(`/sighting/index?${sortParameters}`)
+        const text = await response.text()
+        updateSightingHtml(text)
     } catch (e) {
         console.error(e)
     }
@@ -47,22 +53,27 @@ const updateSightingHtml = (text) => {
     sightingList.appendChild(fragment)
 
 }
-const useUserInfo = (onSuccess) => {
-    const db = requestIDB.result
-    const store = db.transaction('userInfo', 'readonly').objectStore('userInfo')
-    const storeRequest = store.get('user')
-    storeRequest.onsuccess = (event) => {
-        const user = event.target.result
-        if (user) {
-            onSuccess(user)
-        } else {
-            console.log('You are not logged in.')
-        }
-    }
-    storeRequest.onerror = (event) => {
-        console.error(event.target.error)
-    }
 
+const getUser = async () => {
+    return new Promise((resolve, reject)=> {
+        const db = requestIDB.result
+        const store = db.transaction('userInfo', 'readonly').objectStore('userInfo')
+        const storeRequest = store.get('user')
+
+        storeRequest.onsuccess = (event) => {
+            const user = event.target.result
+            if (user) {
+                resolve(user)
+            } else {
+                console.log('You are not logged in.')
+                resolve(null)
+            }
+        }
+        storeRequest.onerror = (event) => {
+            console.error(event.target.error)
+            reject(event.target.error)
+        }
+    })
 }
 
 const requestIDB = indexedDB.open('db', 4)
@@ -71,7 +82,7 @@ requestIDB.onupgradeneeded = (event) => {
     db.createObjectStore('userInfo', {autoIncrement: false})
     console.log('IDB: Object store created.')
 }
-requestIDB.onsuccess = (event) => {
+requestIDB.onsuccess = async (event) => {
     sortByDistance.addEventListener('click', () => getSorted('distance'))
     sortByRecent.addEventListener('click', () => getSorted('recent'))
     sortByAlphabet.addEventListener('click', () => getSorted('alphabetical'))

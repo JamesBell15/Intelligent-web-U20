@@ -32,6 +32,7 @@
         document.getElementById('loginModalBtn').classList.add('hidden')
         document.getElementById('logoutBtn').classList.remove('hidden')
         document.getElementById('profileBtn').classList.remove('hidden')
+        document.getElementById('distSortLbl').classList.remove('hidden')
         db = requestIDB.result
         const store = db.transaction('userInfo', 'readonly').objectStore('userInfo')
         const storeRequest = store.get('user')
@@ -118,6 +119,7 @@
         document.querySelector('#loginModalBtn').classList.remove('hidden')
         document.querySelector('#logoutBtn').classList.add('hidden')
         document.querySelector('#profileBtn').classList.add('hidden')
+        document.getElementById('distSortLbl').classList.add('hidden')
 
         db = requestIDB.result
         const store = db.transaction('userInfo', 'readwrite').objectStore('userInfo')
