@@ -1,6 +1,11 @@
 <form id="xForm" method="post" action="new" enctype="multipart/form-data">
     <label for="identificationLabel">Identification: </label>
-    <input type="text" id="identification" name="identification"> <br>
+    <input type="text" id="identificationSearch" name="identificationSearch"> <br>
+    <button type="button" id="findIdentifications" name="findIdentifications">Find Identifications</button>
+
+
+    <select name="identification" id="identification" hidden></select>
+
 
     <label for="descriptionLabel">Description: </label>
     <input type="text" id="description" name="description" required> <br>
