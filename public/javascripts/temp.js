@@ -95,4 +95,24 @@
         let text = await response.text()
         updateSightingHtml(text)
     })
+
+
+    const requestIDB = indexedDB.open('db', 4)
+
+    requestIDB.onsuccess = async (event) => {
+        sortByDistance.addEventListener('click', () => getSorted('distance'))
+        sortByRecent.addEventListener('click', () => getSorted('recent'))
+        sortByAlphabet.addEventListener('click', () => getSorted('alphabetical'))
+        removeFilters.addEventListener('click', () => getSorted())
+    }
+    requestIDB.onerror = (event) => {
+        console.error('IDB: ' + requestIDB.error)
+    }
+
+    search.addEventListener('keyup', async (e) => {
+        let searchQuery = e.target.value.trim()
+        let response = await fetch(`/sighting/index?${sortParameters}&name=${searchQuery}`)
+        let text = await response.text()
+        updateSightingHtml(text)
+    })
 }
