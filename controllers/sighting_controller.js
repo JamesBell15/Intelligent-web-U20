@@ -29,7 +29,7 @@ exports.create = async (req, res) => {
 
   sighting.save(async function (err, results) {
         if (err) {
-          res.status(500).send('Invalid data!');
+          res.status(500).send(`Invalid data!: ${err}` );
         } else {
           const findSightingByIdentification = async (identificationId, userId) => {
             try {
@@ -109,62 +109,6 @@ exports.show = (req, res) => {
   });
 }
 
-exports.create = async (req, res) => {
-    let body = req.body
-    const user = await User.findUser(body.user)
-    let sighting = new Sighting({
-        identificationId: body.identification,
-        userId: user,
-        location: body.location,
-        description: body.description,
-        dateTime: new Date(body.dateTime),
-        image: Helper.extractFilePathOrURL(req)
-    })
-
-    sighting.save(async function (err, results) {
-        if (err) {
-            res.status(500).send('Invalid data!')
-        } else {
-            const findSightingByIdentification = async (identificationId, userId) => {
-                try {
-                    return await Sighting.findOne(
-                        {
-                            identificationId: identificationId,
-                            userId: userId
-                        }
-                    ).populate('userId').exec()
-                } catch (e) {
-                    console.error(e)
-                }
-            }
-            const sightingDb = await findSightingByIdentification(sighting.identificationId, sighting.userId)
-            res.redirect(`/sighting/show/${sightingDb._id}`)
-        }
-    })
-}
-
-exports.index = (req, res) => {
-    Sighting.find().populate('userId').exec(function (err, sightings) {
-        if (err) err.type = 'database'
-
-        res.render('sighting/index', { sightings: sightings })
-    })
-}
-
-exports.show = (req, res) => {
-    sighting_id = req.params.id
-    Sighting.findById(sighting_id).populate('userId').exec(async function (err, sighting) {
-        if (err) {
-            err.type = 'database'
-        } else {
-            const messages = await Message.findMessagesForSighting(sighting)
-            console.log(messages)
-            res.render('sighting/show', {
-                sighting: sighting, messages: messages
-            })
-        }
-    })
-}
 
 exports.get_server_data = async (req, res) => {
     // takes user ID and returns all sightings connected to that user
