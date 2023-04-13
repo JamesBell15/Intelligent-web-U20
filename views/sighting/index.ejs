@@ -3,8 +3,8 @@
         <input id="sightingSearch" class="form-control ds-input" type="text" placeholder="Search..." autocomplete="off" spellcheck="false">
         <div>
             <div class="btn-group">
-                <input type="radio" class="btn-check" name="options" id="distSort" autocomplete="off"">
-                <label class="btn btn-outline-secondary" for="distSort">Sort by distance</label>
+                <input type="radio" class="btn-check" name="options" id="distSort" autocomplete="off">
+                <label id="distSortLbl" class="btn btn-outline-secondary hidden" for="distSort">Sort by distance</label>
 
                 <input type="radio" class="btn-check" name="options" id="timeSort" autocomplete="off">
                 <label class="btn btn-outline-secondary" for="timeSort">Sort by most recent</label>
@@ -33,7 +33,7 @@
                     <h4 class="col fs-6"><%= sighting.identificationId %></h4>
                     <div class="col fs-6"><%= sighting.userId.username %></div>
                     <div class="col fs-6"><%= sighting.location.coordinates %></div>
-                    <div class="col fs-6"><%= sighting.dateTime %></div>
+                    <div class="col fs-6"><%= sighting.timeAsUTC() %></div>
                     <div class="col fs-6"><a href="/sighting/show/<%= sighting._id %>" class="view-more"><i class="fa-solid fa-binoculars"></i></a></div>
                 </div>
             </section>
