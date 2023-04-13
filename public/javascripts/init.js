@@ -22,7 +22,7 @@
                     document.getElementById('logoutBtn').classList.remove('hidden')
                     document.getElementById('profileBtn').classList.remove('hidden')
                     document.getElementById('profileBtn').querySelector(":nth-child(2)").innerText = user.username
-                    document.getElementById('distSortLbl').classList.add('hidden')
+                    document.getElementById('distSortLbl').classList.remove('hidden')
                 }
             }
         }
