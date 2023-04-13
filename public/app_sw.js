@@ -187,6 +187,7 @@ self.addEventListener('sync', async event => {
 
 self.addEventListener("fetch", (event) => {
     let pathname = new URL(event.request.url).pathname
+    console.log(pathname)
 
     if (event.request.method == "GET"){
         if(

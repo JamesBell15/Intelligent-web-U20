@@ -77,6 +77,7 @@ const getUser = async () => {
 }
 
 const requestIDB = indexedDB.open('db', 4)
+
 requestIDB.onupgradeneeded = (event) => {
     const db = requestIDB.result
     db.createObjectStore('userInfo', {autoIncrement: false})
