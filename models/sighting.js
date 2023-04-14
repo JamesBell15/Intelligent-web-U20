@@ -1,30 +1,40 @@
 let mongoose = require('mongoose')
-var Schema = mongoose.Schema
+let Schema = mongoose.Schema
 
 const sighting = new Schema({
-	active: {type: Boolean, default: true},
-	userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
-	description: {type: String, required: true, max: 280},
-	dateTime: {type: Date, required: true},
-	identificationId: {type: String},
-	location: {
-		type: {
-			type: String,
-			enum: ['Point'],
-			required: true
-		},
-		coordinates: {
-			type: [Number],
-			required: true
-		}
-	}, // shouldn't be a string
-	image: {type: String, set: normalisePath}
+    active: {type: Boolean, default: true},
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+    description: {type: String, required: true, max:280},
+    dateTime: {type: Date, required: true},
+    identificationId: {type: String},
+    location: location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
+    image: {
+        data: Buffer,
+        contentType: String,
+        url: String,
+    },
 })
 
-sighting.index({location: '2dsphere'})
+sighting.methods.timeAsUTC = function() {
+    return this.dateTime.toUTCString()
+}
 
-sighting.methods.timeAsUTC = function () {
-	return this.dateTime.toUTCString()
+sighting.statics.findSighting = async (sightingId) => {
+    try {
+        return await Sighting.findById(sightingId).exec()
+    } catch (e) {
+        console.error(e)
+    }
 }
 
 sighting.statics.findSighting = async (sightingId) => {
