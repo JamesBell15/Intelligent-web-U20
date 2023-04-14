@@ -5,6 +5,12 @@
     <span><%= sighting.timeAsUTC() %></span><br>
     <span><%= sighting.location.coordinates %></span><br>
     <span><img src="<%= sighting.image %>" height=200px></span><br>
+    <% if (sighting.image.contentType != null) {%>
+        <span><img src="data:<%=sighting.image.contentType%>;base64,
+                        <%=sighting.image.data.toString('base64')%>" height=200px></span><br>
+    <%} else if (sighting.image.url != null) { %>
+        <span><img src="<%=sighting.image.url%>%>" height=200px></span><br>
+    <%}%>
 </div>
 
 <div id="chat">
