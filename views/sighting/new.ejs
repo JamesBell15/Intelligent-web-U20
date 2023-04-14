@@ -3,10 +3,12 @@
     <input type="text" id="identificationSearch" name="identificationSearch">
     <button type="button" id="findIdentifications" name="findIdentifications">Find</button><br>
 
-    <label for="identification" id="identificationLabel" style="visibility: hidden">Select Identification</label>
-    <select name="identification" id="identification" style="visibility: hidden"></select>
-    <label for="confirmIdentification" style="visibility: hidden">Confirmed?</label>
-    <input type="checkbox" id="confirmIdentification" name="confirmIdentification" style="visibility: hidden">
+    <div id="identificationInputs" style="visibility: hidden">
+        <label for="identification" id="identificationLabel">Select Identification</label>
+        <select name="identification" id="identification"></select>
+        <label for="confirmIdentification">Confirmed?</label>
+        <input type="checkbox" id="confirmIdentification" name="confirmIdentification">
+    </div>
 
     <br>
     <label for="description">Description: </label>

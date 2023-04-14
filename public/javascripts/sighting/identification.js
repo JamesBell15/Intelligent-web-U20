@@ -1,5 +1,4 @@
 const searchIdentifications = () =>{
-    console.log("searching for birds matching name entered");
     let birdName = document.getElementById("identificationSearch").value;
 
     // The DBpedia SPARQL endpoint URL being queried
@@ -37,7 +36,7 @@ const searchIdentifications = () =>{
 
 
             let dropdown = document.getElementById("identification");
-            let dropdownLabel = document.getElementById("identificationLabel");
+            let identificationWrapper = document.getElementById("identificationInputs");
             for (i in bindings){
                 //create option per result from query
                 let opt = document.createElement("option");
@@ -46,9 +45,8 @@ const searchIdentifications = () =>{
                 opt.innerHTML = bird.label.value;
                 dropdown.appendChild(opt);
             }
-            //make dropdown & label visible
-            dropdown.style.visibility= "visible";
-            dropdownLabel.style.visibility= "visible";
+            //make inputs visible as they are now populated
+            identificationWrapper.style.visibility= "visible";
         });
 }
 
