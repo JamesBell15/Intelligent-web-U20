@@ -1,21 +1,51 @@
 const addNewRecord = (requestIDB) => {
-    // create transaction and setup handlers
-    const transaction = requestIDB.result.transaction(["sightings", 'userInfo'], "readwrite");
-
-    transaction.onerror = (event) => {
-        console.log(`TRANS ERROR: ${event.target.errorCode}`)
-    };
-
     let identification = document.getElementById("identification").value
     let description = document.getElementById("description").value
     let dateTime = document.getElementById("dateTime").value
     let location = document.getElementById("location").value
-    let sightingImage = getImagePathOrURL()
+    let data = null, contentType = null, url = null
 
-    const userStore = transaction.objectStore("userInfo");
+    let file = document.getElementById("sightingImage").files[0]
 
-    userStore.get('user').onsuccess = (event) => {
+    if (typeof file != "undefined"){
+        let contentType = file.type
+        let reader = new FileReader()
+        reader.readAsBinaryString(file)
+
+        reader.onload = async (event) => {
+            data = event.target.result
+
+            let sightingImage = { data: data, contentType: contentType, url: url  }
+
+            insertIntoIDB(description, dateTime, identification, location, sightingImage)
+        }
+
+    }
+}
+
+const getImageFromInputHTML = async () => {
+    let data = null, contentType = null, url = null
+
+    url = document.getElementById("sightingImageURL").value
+
+    if (url != '') {
+        return { data: data, contentType: contentType, url: url  }
+    }
+}
+
+const insertIntoIDB = async (description, dateTime, identification, location, image) => {
+    const transaction = requestIDB.result.transaction(["sightings", 'userInfo'], "readwrite")
+
+    transaction.onerror = (event) => {
+        console.log(`TRANS ERROR: ${event.target.errorCode}`)
+    }
+
+    const userStore = transaction.objectStore("userInfo")
+    let newSightingId
+
+    userStore.get('user').onsuccess = async (event) => {
         const user = event.target.result
+
         if (user) {
             let sighting = {
                 userId: user.username,
@@ -23,39 +53,28 @@ const addNewRecord = (requestIDB) => {
                 dateTime: new Date(dateTime),
                 identificationId: identification,
                 location: location,
-                image: sightingImage
+                image: image
             }
 
-            const sightingStore = transaction.objectStore("sightings");
+            const sightingStore = transaction.objectStore("sightings")
 
-            const request = sightingStore.add(sighting);
+            const request = await sightingStore.add(sighting)
 
-            request.onsuccess = (event) => {
-                let newSightingId = event.target.result
+            request.onsuccess = async (event) => {
+                newSightingId = await event.target.result
 
                 registerNewSightingSync(newSightingId)
-                setCurrentSighting(newSightingId)
             }
         } else {
             console.log('user not logged in.')
         }
     }
-}
 
-const getImagePathOrURL = () => {
-    let url = document.getElementById("sightingImageURL").value
-
-    if (url != '') {
-        return url
+    transaction.oncomplete = () => {
+        if (typeof newSightingId != 'undefined'){
+           setCurrentSighting(newSightingId)
+        }
     }
-
-    let path = document.getElementById("sightingImage").value
-
-    if (path != '') {
-        return path
-    }
-
-    return ''
 }
 
 // Registers background sync for new sighting
