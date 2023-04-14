@@ -25,34 +25,32 @@ const searchIdentifications = () =>{
     const encodedQuery = encodeURIComponent(sparqlQuery);
     // Build the URL for the SPARQL query
     const url = `${endpointUrl}?query=${encodedQuery}&format=json`;
+
     // Use fetch to retrieve the data
     fetch(url)
         .then(response => response.json())
         .then(data => {
             // The results are in the 'data' object
             let bindings = data.results.bindings;
-            console.log(bindings);
             let result = JSON.stringify(bindings);
-            console.log(result);
             //add each returned value to dropdown
 
-            //create option element
-            //value = URI
-            //innerhtml = label
-            //select.appendChild(option)
-            //repeat for each result
-            //complains that the results may have not been initialised, uhhhhh idk why
+
             let dropdown = document.getElementById("identification");
+            let dropdownLabel = document.getElementById("identificationLabel");
             for (i in bindings){
+                //create option per result from query
                 let opt = document.createElement("option");
                 let bird = bindings[i];
-                opt.value = bird.label.value;
-                opt.innerHTML = bird.bird.value;
+                opt.value = bird.bird.value;
+                opt.innerHTML = bird.label.value;
                 dropdown.appendChild(opt);
             }
+            //make dropdown & label visible
+            dropdown.style.visibility= "visible";
+            dropdownLabel.style.visibility= "visible";
         });
 }
 
 let searchButton = document.getElementById("findIdentifications");
 searchButton.addEventListener("click", searchIdentifications);
-console.log("identification script added");

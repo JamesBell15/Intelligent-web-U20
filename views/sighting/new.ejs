@@ -1,12 +1,12 @@
 <form id="xForm" method="post" action="new" enctype="multipart/form-data">
-    <label for="identificationLabel">Identification: </label>
-    <input type="text" id="identificationSearch" name="identificationSearch"> <br>
-    <button type="button" id="findIdentifications" name="findIdentifications">Find Identifications</button>
+    <label for="identificationSearch">Search identification by name: </label>
+    <input type="text" id="identificationSearch" name="identificationSearch">
+    <button type="button" id="findIdentifications" name="findIdentifications">Find</button><br>
 
+    <label for="identification" id="identificationLabel" style="visibility: hidden">Select Identification</label>
+    <select name="identification" id="identification" style="visibility: hidden"></select>
 
-    <select name="identification" id="identification" hidden></select>
-
-
+    <br>
     <label for="descriptionLabel">Description: </label>
     <input type="text" id="description" name="description" required> <br>
 
