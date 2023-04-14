@@ -9,9 +9,11 @@ const showRecord = () => {
     currentSightingObjStr.get('current').onsuccess = (event) => {
         let sightingId = setSightingId(event.target.result.sightingId)
 
-        console.log(sightingId)
+        const getSighting = sightingObjStr.get(sightingId)
 
-        sightingObjStr.get(sightingId).onsuccess = (event) => {
+        getSighting.onsuccess = (event) => {
+            console.log(event.target.result)
+
             renderSightingHTML(event.target.result)
         }
 
@@ -42,8 +44,6 @@ const showRecord = () => {
             }
         }
     }
-
-
 }
 
 const setSightingId = (sightingId) => {
@@ -73,11 +73,16 @@ const renderSightingHTML = (record) => {
         <span>${record.description}</span>
         <span>${record.dateTime}</span>
         <span>${record.identificationId}</span>
-        <span>${record.location}</span>
-        <span><img src="${record.image}" height=200px></span>
-    </div>`
+        <span>${record.location}</span>`
 
-    table.innerHTML = output
+    if (record.image.contentType != null) {
+        output += `<span><img src="data:${record.image.contentType};base64,${btoa(record.image.data)}" height=200px></span><br>`
+    } else if (record.image.url != null) {
+        output += `<span><img src="${record.image.url}" height=200px></span><br>`
+    }
+
+
+    table.innerHTML = output + `</div>`
 }
 
 requestIDB.onsuccess = async (event) => {
