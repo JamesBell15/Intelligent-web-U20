@@ -15,6 +15,7 @@ exports.create = async (req, res) => {
 	const temp = body.location.split(','),
 		longitude = Number(temp[0]), latitude = Number(temp[1])
 	console.log(typeof longitude + " " + longitude)
+    const image = await Helper.getImageFormReq(req)
 	let sighting = new Sighting({
 		identificationId: body.identification,
 		userId: user,
@@ -24,7 +25,7 @@ exports.create = async (req, res) => {
 		}, // -> this needs to be updated to be a numbered coordinate
 		description: body.description,
 		dateTime: new Date(body.dateTime),
-		image: Helper.extractFilePathOrURL(req)
+		image: image
 	})
 
 	sighting.save(async function (err, results) {
