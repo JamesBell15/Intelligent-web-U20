@@ -1,6 +1,11 @@
 <form id="xForm" method="post" action="new" enctype="multipart/form-data">
+    <label for="unknownIdentification">If unknown, please tick:</label>
+    <input type="checkbox" id="unknownIdentification" name="unknownIdentification">
+    <br>
     <label for="identificationSearch">Search identification by name: </label>
     <input type="text" id="identificationSearch" name="identificationSearch">
+
+
     <button type="button" id="findIdentifications" name="findIdentifications">Find</button><br>
 
     <div id="identificationInputs" style="visibility: hidden">
@@ -10,7 +15,6 @@
         <input type="checkbox" id="confirmIdentification" name="confirmIdentification">
     </div>
 
-    <br>
     <label for="description">Description: </label>
     <input type="text" id="description" name="description" required> <br>
 
