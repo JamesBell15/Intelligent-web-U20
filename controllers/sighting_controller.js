@@ -28,24 +28,28 @@ exports.create = async (req, res) => {
 		image: image
 	})
 
-	sighting.save(async function (err, results) {
-		if (err) {
-			res.status(500).send(`Invalid data!: ${err}`)
-		} else {
-			const findSightingByIdentification = async (identificationId, userId) => {
-				try {
-					return await Sighting.findOne({
-						identificationId: identificationId,
-						userId: userId
-					}).populate('userId').exec()
-				} catch (e) {
-					console.error(e)
-				}
-			}
-			const sightingDb = await findSightingByIdentification(sighting.identificationId, sighting.userId)
-			res.redirect(`/sighting/show/${sightingDb._id}`)
-		}
-	})
+    sighting.save(async function (err, results) {
+        if (err) {
+            //console.log(results);
+            //console.log(err);
+            res.status(500).send('Invalid data!')
+        } else {
+            const findSightingByIdentification = async (identificationId, userId) => {
+                try {
+                    return await Sighting.findOne(
+                        {
+                            identificationId: identificationId,
+                            userId: userId
+                        }
+                    ).populate('userId').exec()
+                } catch (e) {
+                    console.error(e)
+                }
+            }
+            const sightingDb = await findSightingByIdentification(sighting.identificationId, sighting.userId)
+            res.redirect(`/sighting/show/${sightingDb._id}`)
+        }
+    })
 }
 
 exports.index = async (req, res) => {

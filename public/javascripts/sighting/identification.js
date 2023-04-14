@@ -24,6 +24,7 @@ const searchIdentifications = () =>{
     const encodedQuery = encodeURIComponent(sparqlQuery);
     // Build the URL for the SPARQL query
     const url = `${endpointUrl}?query=${encodedQuery}&format=json`;
+
     // Use fetch to retrieve the data
     fetch(url)
         .then(response => response.json())
