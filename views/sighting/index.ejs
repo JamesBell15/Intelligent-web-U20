@@ -1,4 +1,22 @@
 <div id="sightingsCatalogue">
+    <div class="my-3 d-flex justify-content-between">
+        <input id="sightingSearch" class="form-control ds-input" type="text" placeholder="Search..." autocomplete="off" spellcheck="false">
+        <div>
+            <div class="btn-group">
+                <input type="radio" class="btn-check" name="options" id="distSort" autocomplete="off">
+                <label id="distSortLbl" class="btn btn-outline-secondary hidden" for="distSort">Sort by distance</label>
+
+                <input type="radio" class="btn-check" name="options" id="timeSort" autocomplete="off">
+                <label class="btn btn-outline-secondary" for="timeSort">Sort by most recent</label>
+
+                <input type="radio" class="btn-check" name="options" id="alphabetSort" autocomplete="off">
+                <label class="btn btn-outline-secondary" for="alphabetSort">Sort alphabetically</label>
+            </div>
+            <div class="d-flex justify-content-center pt-1">
+                <button id="removeFilters">Remove filters</button>
+            </div>
+        </div>
+    </div>
     <div id="sighting-headers" class="container p-2">
         <div class="row row-cols-5">
             <div class="col fs-6"><span>SPECIES NAME</span></div>
@@ -8,22 +26,19 @@
             <div class="col fs-6"></div>
         </div>
     </div>
-    <div>
+    <div id="sightingList">
         <% for(let sighting of sightings){ %>
             <section sighting-post-id="<%= sighting._id %>" id="sightingBody" class="container p-2">
                 <div class="row row-cols-5 border-bottom border-light-dark">
                     <h4 class="col fs-6"><%= sighting.identificationId %></h4>
                     <div class="col fs-6"><%= sighting.userId.username %></div>
-                    <div class="col fs-6"><%= sighting.location %></div>
+                    <div class="col fs-6"><%= sighting.location.coordinates %></div>
                     <div class="col fs-6"><%= sighting.timeAsUTC() %></div>
-                    <div class="col fs-6"><a href="show/<%=sighting.id%>" class="view-more"><i class="fa-solid fa-binoculars"></i></a></div>
+                    <div class="col fs-6"><a href="/sighting/show/<%= sighting._id %>" class="view-more"><i class="fa-solid fa-binoculars"></i></a></div>
                 </div>
             </section>
         <% } %>
     </div>
-    <table>
-
-    </table>
 </div>
 <a href="new"> add new </a>
-<script src="../javascripts/temp.js"></script>
+<script src="/javascripts/temp.js" defer></script>

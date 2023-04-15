@@ -186,19 +186,18 @@ self.addEventListener('sync', async event => {
 
 
 self.addEventListener("fetch", (event) => {
-    let pathname = new URL(event.request.url).pathname
+    let requestURL = new URL(event.request.url)
+    requestURL.pathname = requestURL.pathname.replace('.html','')
+    let pathname = requestURL.pathname
 
     if (event.request.method == "GET"){
         if(
-            pathname == '/sighting/index.html' ||
-            pathname == '/sighting/new.html'   ||
-            pathname == '/sighting/show.html'  ||
             pathname == '/sighting/index'      ||
             pathname == '/sighting/show'       ||
             pathname == '/sighting/new'
         ) {
             // try to get online
-            event.respondWith(networkFirst(pathname.replace('.html',''), "/html/offline.html"))
+            event.respondWith(networkFirst(requestURL, "/html/offline.html"))
         } else {
             event.respondWith(cacheFirst(event.request, "/html/offline.html"))
         }

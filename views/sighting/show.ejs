@@ -3,7 +3,7 @@
     <span><%= sighting.identificationId %></span><br>
     <span><%= sighting.description %></span><br>
     <span><%= sighting.timeAsUTC() %></span><br>
-    <span><%= sighting.location %></span><br>
+    <span><%= sighting.location.coordinates %></span><br>
     <span><img src="<%= sighting.image %>" height=200px></span><br>
 </div>
 
@@ -16,7 +16,7 @@
             <%})%>
         <%}%>
     </section>
-    <form class="chatFormContainer">
+    <form id="chatForm" class="chatFormContainer">
         <input
                 id="msgIn"
                 type="text"
@@ -30,4 +30,4 @@
 </div>
 
 <button id="toIndexBtn" type="button" class="btn btn-outline-primary">Return to index.</button>
-<script src="../../javascripts/tempChat.js" ></script>
+<script src="/javascripts/tempChat.js" ></script>

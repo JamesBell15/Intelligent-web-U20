@@ -4,6 +4,8 @@
     let db
     socket.emit('join sighting', sightingID)
 
+    document.querySelector('#chatForm').addEventListener('submit', function(event) {event.preventDefault()})
+
     const requestIDB = indexedDB.open('db', 4)
 
     requestIDB.onerror = (event) => {
@@ -12,11 +14,14 @@
 
     requestIDB.onsuccess = (event) => {
         document.querySelector('#sendMsgBtn').addEventListener('click', sendMsg)
+        document.querySelector('#msgIn').addEventListener('keyup', ({key}) => {
+            if (key === 'Enter') sendMsg()
+        })
     }
 
     const sendMsg = (e) => {
         const msg = document.querySelector('#msgIn').value
-        if (msg) {
+        if (msg.trim()) {
             useUserInfo((user) => {
                 socket.emit('send msg', sightingID, user.username, msg)
             })

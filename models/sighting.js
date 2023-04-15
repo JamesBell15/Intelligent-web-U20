@@ -1,40 +1,52 @@
-let mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+let mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
 const sighting = new Schema({
-  active: {type: Boolean, default: true},
-  userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
-  description: {type: String, required: true, max:280},
-  dateTime: {type: Date, required: true},
-  identificationId: {type: String},
-  location: {type: String},
-  image: {type: String, set: normalisePath}
-});
+	active: {type: Boolean, default: true},
+	userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+	description: {type: String, required: true, max: 280},
+	dateTime: {type: Date, required: true},
+	identificationId: {type: String},
+	location: {
+		type: {
+			type: String,
+			enum: ['Point'],
+			required: true
+		},
+		coordinates: {
+			type: [Number],
+			required: true
+		}
+	}, // shouldn't be a string
+	image: {type: String, set: normalisePath}
+})
 
-sighting.methods.timeAsUTC = function() {
-  return this.dateTime.toUTCString();
-};
+sighting.index({location: '2dsphere'})
 
-sighting.statics.findSighting = async (sightingId) => {
-  try {
-    return await Sighting.findById(sightingId).exec()
-  } catch (e) {
-    console.error(e)
-  }
+sighting.methods.timeAsUTC = function () {
+	return this.dateTime.toUTCString()
 }
 
-// Method to handel url images and those stored directly in the DB
+sighting.statics.findSighting = async (sightingId) => {
+	try {
+		return await Sighting.findById(sightingId).exec()
+	} catch (e) {
+		console.error(e)
+	}
+}
+
+// Method to handle url images and those stored directly in the DB
 function normalisePath(path) {
-  let url;
+	let url
 
-  try {
-    url = new URL(path);
-  } catch (_) {
-    return String(path).replace('\\', '/').replace('public/', '/');
-  }
+	try {
+		url = new URL(path)
+	} catch (_) {
+		return String(path).replace('\\', '/').replace('public/', '/')
+	}
 
-  return url
-};
+	return url
+}
 
-var Sighting = mongoose.model('Sighting', sighting);
-module.exports = Sighting;
+var Sighting = mongoose.model('Sighting', sighting)
+module.exports = Sighting

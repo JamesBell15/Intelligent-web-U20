@@ -1,6 +1,12 @@
 {
     const requestIDB = indexedDB.open('db', 4)
 
+    requestIDB.onupgradeneeded = (event) => {
+        const db = requestIDB.result
+        db.createObjectStore('userInfo', {autoIncrement: false})
+        console.log('IDB: Object store created.')
+    }
+
     requestIDB.onerror = (event) => {
         console.error('IDB: '+requestIDB.error)
     }
@@ -16,6 +22,7 @@
                     document.getElementById('logoutBtn').classList.remove('hidden')
                     document.getElementById('profileBtn').classList.remove('hidden')
                     document.getElementById('profileBtn').querySelector(":nth-child(2)").innerText = user.username
+                    document.getElementById('distSortLbl').classList.remove('hidden')
                 }
             }
         }
