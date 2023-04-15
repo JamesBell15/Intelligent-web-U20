@@ -97,19 +97,18 @@ exports.index = async (req, res) => {
 }
 
 exports.show = (req, res) => {
-	sighting_id = req.params.id
-	Sighting.findById(sighting_id).populate('userId').exec(async function (err, sighting) {
-		if (err) {
-			err.type = 'database'
-		} else {
-			const messages = await Message.findMessagesForSighting(sighting)
-			console.log(messages)
-			res.render('sighting/show', {
-				sighting: sighting, messages: messages
-			})
-		}
+    sighting_id = req.params.id
+    Sighting.findById(sighting_id).populate('userId').exec(async function (err, sighting) {
+        if (err) {
+            err.type = 'database'
+        } else {
+            const messages = await Message.findMessagesForSighting(sighting)
 
-	})
+            res.render('sighting/show', {
+                sighting: sighting, messages: messages
+            })
+        }
+    })
 }
 
 
@@ -119,11 +118,9 @@ exports.get_server_data = async (req, res) => {
 	// + all the sightings but with bare min data birdID, userID, location & time
 
 	let json = {}
-
-
-	// split into messages controller and sighting controller
-	Sighting.find().populate('userId').exec(function (err, sightings) {
-		if (err) err.type = 'database'
+    // split into messages controller and sighting controller
+    Sighting.find().populate('userId').exec(function (err, sightings) {
+        if (err) err.type = 'database'
 
 		json['sightings'] = sightings
 
