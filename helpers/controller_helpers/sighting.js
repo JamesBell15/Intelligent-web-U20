@@ -6,7 +6,7 @@ exports.getImageFormReq = async (req) => {
         url = new URL(req.body.sightingImage)
     } catch (_) {
         data = req.file.buffer
-        contentType = req.file.mimeType
+        contentType = req.file.mimetype
     }
 
     return { data: data, contentType: contentType, url: url }
