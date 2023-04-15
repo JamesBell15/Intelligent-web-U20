@@ -69,11 +69,11 @@ const renderSightingHTML = (record) => {
     // Set up headers
     let output = `
     <div>
-        <span>${record.userId}</span>
-        <span>${record.description}</span>
-        <span>${record.dateTime}</span>
-        <span>${record.identificationId}</span>
-        <span>${record.location}</span>`
+        <span>${record.userId}</span><br>
+        <span>${record.description}</span><br>
+        <span>${record.dateTime}</span><br>
+        <span>${record.identificationId}</span><br>
+        <span>${record.location}</span><br>`
 
     if (record.image.contentType != null) {
         output += `<span><img src="data:${record.image.contentType};base64,${record.image.data}" height=200px></span><br>`
