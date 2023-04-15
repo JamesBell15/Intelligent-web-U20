@@ -38,6 +38,7 @@ sighting.statics.findSighting = async (sightingId) => {
 }
 
 function binaryString(data) {
+    if (data != null)
     return data.toString('base64')
 }
 
