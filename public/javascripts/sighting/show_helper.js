@@ -12,8 +12,6 @@ const showRecord = () => {
         const getSighting = sightingObjStr.get(sightingId)
 
         getSighting.onsuccess = (event) => {
-            console.log(event.target.result)
-
             renderSightingHTML(event.target.result)
         }
 

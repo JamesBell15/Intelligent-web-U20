@@ -7,7 +7,7 @@ const sighting = new Schema({
     description: {type: String, required: true, max:280},
     dateTime: {type: Date, required: true},
     identificationId: {type: String},
-    location: location: {
+    location: {
         type: {
             type: String,
             enum: ['Point'],
