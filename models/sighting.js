@@ -19,9 +19,9 @@ const sighting = new Schema({
         }
     },
     image: {
-        data: Buffer,
-        contentType: String,
-        url: String,
+        data: { type: String, set: binaryString },
+        contentType: { type: String },
+        url: { type: String },
     },
 })
 
@@ -37,25 +37,8 @@ sighting.statics.findSighting = async (sightingId) => {
     }
 }
 
-sighting.statics.findSighting = async (sightingId) => {
-	try {
-		return await Sighting.findById(sightingId).exec()
-	} catch (e) {
-		console.error(e)
-	}
-}
-
-// Method to handle url images and those stored directly in the DB
-function normalisePath(path) {
-	let url
-
-	try {
-		url = new URL(path)
-	} catch (_) {
-		return String(path).replace('\\', '/').replace('public/', '/')
-	}
-
-	return url
+function binaryString(data) {
+    return data.toString('base64')
 }
 
 var Sighting = mongoose.model('Sighting', sighting)
