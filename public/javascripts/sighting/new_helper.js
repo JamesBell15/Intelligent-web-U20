@@ -15,7 +15,7 @@ const addNewRecord = (requestIDB) => {
         reader.onload = async (event) => {
             data = event.target.result
 
-            let sightingImage = { data: data, contentType: contentType, url: url  }
+            let sightingImage = { data: btoa(data), contentType: contentType, url: url  }
 
             insertIntoIDB(description, dateTime, identification, location, sightingImage)
         }
