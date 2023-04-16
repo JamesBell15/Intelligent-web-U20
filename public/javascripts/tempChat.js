@@ -59,5 +59,18 @@
 
     socket.on('msg', (data) => {
         outputMsg(data)
+        Notification.requestPermission().then(permission => {
+            console.log(permission)
+            if (permission === 'granted') {
+                var title = data.sender.username + " replied to your post"
+                var notification = new Notification(title, {
+                    body: data.msg,
+                    })
+                notification.addEventListener("error", e => {
+                    console.log("error")
+                })
+            }
+        })
+
     })
 }
