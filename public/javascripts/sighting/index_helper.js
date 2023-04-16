@@ -22,7 +22,7 @@ const showAllRecords = (requestIDB) => {
                 <div class="row row-cols-5 border-bottom border-light-dark">
                 <h4 class="col fs-6"> ${value.identificationId} </h4>
                 <div class="col fs-6"> ${value.userId} </div>
-                <div class="col fs-6"> ${value.location} </div>
+                <div class="col fs-6"> ${value.location.coordinates} </div>
                 <div class="col fs-6"> ${value.dateTime} </div>
                 <div class="col fs-6"><button class="showButton" id="${key}" type="button"><i class="fa-solid fa-binoculars"></i></button></div>
                 </div>

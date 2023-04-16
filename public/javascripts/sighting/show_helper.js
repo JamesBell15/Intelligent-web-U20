@@ -71,7 +71,7 @@ const renderSightingHTML = (record) => {
         <span>${record.description}</span><br>
         <span>${record.dateTime}</span><br>
         <span>${record.identificationId}</span><br>
-        <span>${record.location}</span><br>`
+        <span>${record.location.coordinates}</span><br>`
 
     if (record.image.contentType != null) {
         output += `<span><img src="data:${record.image.contentType};base64,${record.image.data}" height=200px></span><br>`
