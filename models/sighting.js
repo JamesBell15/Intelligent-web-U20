@@ -1,51 +1,45 @@
 let mongoose = require('mongoose')
-var Schema = mongoose.Schema
+let Schema = mongoose.Schema
 
 const sighting = new Schema({
-	active: {type: Boolean, default: true},
-	userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
-	description: {type: String, required: true, max: 280},
-	dateTime: {type: Date, required: true},
-	identificationId: {type: String},
-	location: {
-		type: {
-			type: String,
-			enum: ['Point'],
-			required: true
-		},
-		coordinates: {
-			type: [Number],
-			required: true
-		}
-	}, // shouldn't be a string
-	image: {type: String, set: normalisePath}
+    active: {type: Boolean, default: true},
+    userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+    description: {type: String, required: true, max:280},
+    dateTime: {type: Date, required: true},
+    identificationId: {type: String},
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            required: true
+        }
+    },
+    image: {
+        data: { type: String, set: binaryString },
+        contentType: { type: String },
+        url: { type: String },
+    },
 })
 
-sighting.index({location: '2dsphere'})
-
-sighting.methods.timeAsUTC = function () {
-	return this.dateTime.toUTCString()
+sighting.methods.timeAsUTC = function() {
+    return this.dateTime.toUTCString()
 }
 
 sighting.statics.findSighting = async (sightingId) => {
-	try {
-		return await Sighting.findById(sightingId).exec()
-	} catch (e) {
-		console.error(e)
-	}
+    try {
+        return await Sighting.findById(sightingId).exec()
+    } catch (e) {
+        console.error(e)
+    }
 }
 
-// Method to handle url images and those stored directly in the DB
-function normalisePath(path) {
-	let url
-
-	try {
-		url = new URL(path)
-	} catch (_) {
-		return String(path).replace('\\', '/').replace('public/', '/')
-	}
-
-	return url
+function binaryString(data) {
+    if (data != null)
+    return data.toString('base64')
 }
 
 var Sighting = mongoose.model('Sighting', sighting)

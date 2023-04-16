@@ -13,7 +13,9 @@ const upgradeStores = (event) => {
     sightingStore.createIndex("dateTime", "dateTime", { unique: false })
     sightingStore.createIndex("identificationId", "identificationId", { unique: false })
     sightingStore.createIndex("location", "location", { unique: false })
+    // JSON object { data, contentType, url }
     sightingStore.createIndex("image", "image", { unique: false })
+
 
     const currentSightingStore = db.createObjectStore("currentSighting", { keyPath: "key" })
 
@@ -53,20 +55,21 @@ requestIDB.onerror = (event) => {
 
 // Make avaliable in other helpers
 const setCurrentSighting = (recordId) => {
-    console.log(recordId)
-    const objectStore = requestIDB.result
+    const currentSightingStore = requestIDB.result
     .transaction(["currentSighting"], "readwrite")
     .objectStore("currentSighting")
 
-    objectStore.get('current').onsuccess = (event) => {
+    currentSightingStore.get('current').onsuccess = (event) => {
         const data = event.target.result
 
         data.sightingId = recordId
 
-        const requestUpdate = objectStore.put(data)
+        const requestUpdate = currentSightingStore.put(data)
+
         requestUpdate.onerror = (event) => {
             console.log("failed")
         }
+
         requestUpdate.onsuccess = (event) => {
             console.log("keyset")
             window.location.replace("/sighting/show")
