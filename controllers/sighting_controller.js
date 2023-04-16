@@ -146,7 +146,7 @@ exports.update_server_data = async (req, res) => {
 		location: body.location,
 		description: body.description,
 		dateTime: new Date(body.dateTime),
-		image: Helper.extractFilePathOrURLFromJSON(body)
+		image: body.image
 	})
 
 	sighting.save(async function (err, results) {

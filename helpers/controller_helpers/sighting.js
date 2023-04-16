@@ -11,13 +11,3 @@ exports.getImageFormReq = async (req) => {
 
     return { data: data, contentType: contentType, url: url }
 }
-
-exports.extractFilePathOrURLFromJSON = (body) => {
-    try {
-        let url = new URL(body.image)
-        return url
-    } catch (_) {
-        return body.image
-    }
-    return body.image
-}
