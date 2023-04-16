@@ -2,7 +2,14 @@ const addNewRecord = (requestIDB) => {
     let identification = document.getElementById("identification").value
     let description = document.getElementById("description").value
     let dateTime = document.getElementById("dateTime").value
-    let location = document.getElementById("location").value
+
+    const temp = document.getElementById("location").value.split(','),
+        longitude = Number(temp[0]), latitude = Number(temp[1])
+    let location = {
+        type: 'Point',
+        coordinates: [longitude, latitude]
+    }
+
     let data = null, contentType = null, url = null
 
     let file = document.getElementById("sightingImage").files[0]
