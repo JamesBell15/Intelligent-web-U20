@@ -10,7 +10,8 @@ const addNewRecord = (requestIDB) => {
         coordinates: [longitude, latitude]
     }
 
-    let data = null, contentType = null, url = null
+    let data = null, contentType = null, url = document.getElementById("sightingImageURL").value
+
 
     let file = document.getElementById("sightingImage").files[0]
 
@@ -26,17 +27,10 @@ const addNewRecord = (requestIDB) => {
 
             insertIntoIDB(description, dateTime, identification, location, sightingImage)
         }
+    } else if (url != '') {
+        let sightingImage = { data: null, contentType: null, url: url  }
 
-    }
-}
-
-const getImageFromInputHTML = async () => {
-    let data = null, contentType = null, url = null
-
-    url = document.getElementById("sightingImageURL").value
-
-    if (url != '') {
-        return { data: data, contentType: contentType, url: url  }
+        insertIntoIDB(description, dateTime, identification, location, sightingImage)
     }
 }
 
