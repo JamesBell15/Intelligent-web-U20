@@ -17,7 +17,9 @@ exports.create = async (req, res) => {
 	console.log(typeof longitude + " " + longitude)
     const image = await Helper.getImageFormReq(req)
 	let sighting = new Sighting({
-		identificationId: body.identification,
+		identificationURI: body.identificationURI,
+		identificationName: body.identificationName,
+		confirmation: body.confirmation,
 		userId: user,
 		location: {
 			type: 'Point',
@@ -34,6 +36,9 @@ exports.create = async (req, res) => {
             //console.log(err);
             res.status(500).send('Invalid data!')
         } else {
+			//not sure what to replace this with
+			//identificationId no longer exists but there's no unique field other than sighting id
+
             const findSightingByIdentification = async (identificationId, userId) => {
                 try {
                     return await Sighting.findOne(
