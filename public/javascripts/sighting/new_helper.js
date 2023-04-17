@@ -1,5 +1,10 @@
 const addNewRecord = (requestIDB) => {
-    let identification = document.getElementById("identification").value
+
+    let confirmation = getConfirmation();
+    let identificationData = getIdentificationDetails();
+    let identificationURI = identificationData[0];
+    let identificationName = identificationData[1];
+
     let description = document.getElementById("description").value
     let dateTime = document.getElementById("dateTime").value
 
@@ -25,16 +30,16 @@ const addNewRecord = (requestIDB) => {
 
             let sightingImage = { data: btoa(data), contentType: contentType, url: url  }
 
-            insertIntoIDB(description, dateTime, identification, location, sightingImage)
+            insertIntoIDB(description, dateTime, identificationURI, identificationName, confirmation, location, sightingImage)
         }
     } else if (url != '') {
         let sightingImage = { data: null, contentType: null, url: url  }
 
-        insertIntoIDB(description, dateTime, identification, location, sightingImage)
+        insertIntoIDB(description, dateTime, identificationURI, identificationName, confirmation, location, sightingImage)
     }
 }
 
-const insertIntoIDB = async (description, dateTime, identification, location, image) => {
+const insertIntoIDB = async (description, dateTime, identificationURI, identificationName, confirmation, location, image) => {
     const transaction = requestIDB.result.transaction(["sightings", 'userInfo'], "readwrite")
 
     transaction.onerror = (event) => {
@@ -52,7 +57,9 @@ const insertIntoIDB = async (description, dateTime, identification, location, im
                 userId: user.username,
                 description: description,
                 dateTime: new Date(dateTime),
-                identificationId: identification,
+                identificationURI: identificationURI,
+                identificationName: identificationName,
+                confirmation: confirmation,
                 location: location,
                 image: image
             }
