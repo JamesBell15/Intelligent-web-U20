@@ -1,5 +1,6 @@
 let express = require('express')
 let multer = require('multer')
+let webPush = require('web-push')
 let storage = multer.memoryStorage()
 let upload = multer({storage: storage})
 let router = express.Router()
@@ -7,6 +8,13 @@ let router = express.Router()
 
 const sighting_controller = require("../controllers/sighting_controller")
 const db_controller = require("../controllers/db_controller")
+const publicVapidKey = "BLbjzsibeJ_ETEMWPGY6gS5Mvu-tDYwurLa0GIk05Q5-0MEZMRG2swTsI-mW_UgXOaCBuAph_BFKNVOZiM85X_0"
+const privateVapidKey = "Am9PJ-cUOEEbo4Xa69RTP7p_ftGvNImAtv_L9OEGkVg"
+
+
+webPush.setVapidDetails("mailto: chrishowkins10@gmail.com", publicVapidKey, privateVapidKey)
+
+
 
 // Routes accociated with online sightings
 router.get("/sighting/index", sighting_controller.index)
@@ -21,6 +29,14 @@ const User = require('../models/user')
 router.post('/api/data/users', async function (req, res) {
     const userToQuery = await User.findUser(req.body.name)
     res.json(userToQuery)
+})
+
+router.post('/subscribe', (req, res) => {
+    const subscription = req.body
+    res.status(201).json({})
+    const payload = JSON.stringify({title: "Hello", body: "New notification"})
+
+    webPush.sendNotification(subscription, payload).catch(console.log)
 })
 
 // Routes accociated with syncing server and client db

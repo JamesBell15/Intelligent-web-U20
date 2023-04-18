@@ -2,9 +2,52 @@ const registerServiceWorker = async () => {
     if ("serviceWorker" in navigator) {
         try {
             const registration = await navigator.serviceWorker.register("/app_sw.js", {
-                    scope: "/"
+                scope: "/",
+            })
+
+            const subscription = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: "BLbjzsibeJ_ETEMWPGY6gS5Mvu-tDYwurLa0GIk05Q5-0MEZMRG2swTsI-mW_UgXOaCBuAph_BFKNVOZiM85X_0"
+            })
+            console.log(subscription)
+
+            const requestIDB = indexedDB.open('db', 4)
+
+
+
+            requestIDB.onsuccess = (event) => {
+                console.log('success IDB')
+                const db = requestIDB.result
+
+                const userStore = db.transaction('userInfo', 'readonly').objectStore('userInfo')
+                const userStoreRequest = userStore.get('user')
+
+                userStoreRequest.onsuccess = (event) => {
+                    const username = userStoreRequest.result.username
+                    console.log(username)
+                    const store = db.transaction('subscriptions', 'readwrite').objectStore('subscriptions')
+                    const storeRequest = store.add({subscription: JSON.stringify(subscription)}, username)
+                    storeRequest.onsuccess = (event) => {
+                        console.log('IDB: Request to add subscription successful.')
+                    }
                 }
-            )
+
+
+
+
+            }
+            /*
+            await fetch("/subscribe", {
+                method: "POST",
+                body: JSON.stringify(subscription),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+             */
+
+
+
             if (registration.installing) {
                 console.log("Service worker installing")
             } else if (registration.waiting) {
