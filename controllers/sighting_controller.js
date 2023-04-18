@@ -150,7 +150,9 @@ exports.update_sighting_data = async (req, res) => {
 
 	const user = await User.findUser(body.userId)
 	let sighting = new Sighting({
-		identificationId: body.identificationId,
+		identificationURI: body.identificationURI,
+		identificationName: body.identificationName,
+		confirmation: body.confirmation,
 		userId: user,
 		location: body.location,
 		description: body.description,

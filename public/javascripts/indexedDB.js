@@ -11,7 +11,9 @@ const upgradeStores = (event) => {
     sightingStore.createIndex("userId", "userId", { unique: false })
     sightingStore.createIndex("description", "description", { unique: false })
     sightingStore.createIndex("dateTime", "dateTime", { unique: false })
-    sightingStore.createIndex("identificationId", "identificationId", { unique: false })
+    sightingStore.createIndex("identificationURI", "identificationURI", { unique: false })
+    sightingStore.createIndex("identificationName", "identificationURI", { unique: false })
+    sightingStore.createIndex("confirmation","confirmation", {unique: false })
     sightingStore.createIndex("location", "location", { unique: false })
     // JSON object { data, contentType, url }
     sightingStore.createIndex("image", "image", { unique: false })
