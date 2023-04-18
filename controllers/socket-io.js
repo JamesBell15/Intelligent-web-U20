@@ -16,7 +16,6 @@ exports.init = function(io) {
             socket.on('send msg', async (room, userIDB, msg) => {
                 const user = await User.findUser(userIDB.username)
                 const sighting = await Sighting.findSighting(room)
-
                 let author = await Sighting.findById(room).populate('userId').exec()
                 author = author.userId
 
@@ -26,8 +25,9 @@ exports.init = function(io) {
                     msg: msg
                 })
 
+
                 await message.insert()
-                io.to(room).emit('msg', message, subscription)
+                io.to(room).emit('msg', message)
 
 
             })

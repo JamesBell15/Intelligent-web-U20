@@ -104,7 +104,6 @@ import {subscribe} from "./subscription_helper.mjs"
         document.getElementById('msgIn').value = ''
     }
 
-
     socket.on('msg', async (data, author) => {
         outputMsg(data)
         console.log(author)
@@ -126,7 +125,5 @@ import {subscribe} from "./subscription_helper.mjs"
         } catch (err) {
             console.error(err)
         }
-
-
     })
 }
