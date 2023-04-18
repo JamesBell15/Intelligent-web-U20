@@ -57,20 +57,28 @@
         document.getElementById('msgIn').value = ''
     }
 
-    socket.on('msg', (data) => {
+    socket.on('msg', async (data, author) => {
         outputMsg(data)
-        Notification.requestPermission().then(permission => {
-            console.log(permission)
-            if (permission === 'granted') {
-                var title = data.sender.username + " replied to your post"
-                var notification = new Notification(title, {
-                    body: data.msg,
-                    })
-                notification.addEventListener("error", e => {
-                    console.log("error")
-                })
-            }
-        })
+        console.log(author)
+        db = requestIDB.result
+        const store = db.transaction('subscriptions', 'readonly').objectStore('subscriptions')
+        const storeRequest = store.get(author)
+        storeRequest.onsuccess = async (event) => {
+            console.log(typeof storeRequest.result.subscription)
+            await fetch("/subscribe", {
+                method: "POST",
+                body: storeRequest.result.subscription,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+        }
+
+
+
+
+
+
 
     })
 }
