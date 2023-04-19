@@ -56,7 +56,7 @@ const renderChatHTML = (record) => {
     let table = document.getElementById("chatHistory")
 
     const div = document.createElement('div')
-    div.innerHTML = `<p><strong>${record.sender}:</strong>${record.msg}</p>`
+    div.innerHTML = `<p><strong>${record.senderId}:</strong>${record.msg}</p>`
 
     table.appendChild(div);
 }
