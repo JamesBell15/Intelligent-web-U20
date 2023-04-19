@@ -6,8 +6,8 @@ const sighting = new Schema({
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
     description: {type: String, required: true, max:280},
     dateTime: {type: Date, required: true},
-    identificationName: {type: String, required:true},
-    identificationURI: {type: String, required: true, default: null},
+    identificationName: {type: String, required:true, default: "unknown"},
+    identificationURI: {type: String, required: true, default: "unknown"},
     confirmation: {type:String, default: "unknown"},
     location: {
         type: {

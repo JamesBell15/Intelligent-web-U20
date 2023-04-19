@@ -1,12 +1,17 @@
 /*data relating to identification
+
     birdName - name of the identified bird (eg: "Mockingbird") - should be dbpedia page label (unless offline)
+        "unknown" if none provided (unknown checkbox is ticked)
+
     birdURI - URI of the bird's DBPedia knowledge graph resource page
-        null if sighting made offline, since DBPedia won't be accessible (also default)
+        "unknown" if sighting made offline, since DBPedia won't be accessible (also default)
         must be set when user is online, either during creation or editing
+
     confirmation - confidence/status of the particular sighting - unknown, unconfirmed, confirmed
         unknown = bird identification is unknown, no supplementary URI
         unconfirmed = identification is not confirmed, may have supplementary URI if the sighting was created online
         confirmed = identification has been confirmed (either set when creating sighting when online, or editing later)
+
 */
 
 //get selection of bird species from DBPedia similar to search term
@@ -99,8 +104,8 @@ function optionsPopulated(){
 //get identifications (DBPedia URI and label) from frontend
 //handles different input selections
 function getIdentificationDetails(){
-    let details = ["",""];
     console.log(getConfirmation());
+    let details = ["unknown","unknown"];
     //if user has selected "unknown", ignore other inputs
     if (getConfirmation() === "unknown"){
         return details;
