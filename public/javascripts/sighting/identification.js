@@ -73,7 +73,6 @@ searchButton.addEventListener("click", searchIdentifications);
 //get confirmation status of sighting
 //returns "unknown", "unconfirmed" and "confirmed" (lowercase)
 function getConfirmation() {
-    console.log("getting confirmation");
     //if user has checked the "unknown" checkbox
     if(document.getElementById("unknownIdentification").checked){
         return "unknown";
@@ -95,8 +94,6 @@ function getConfirmation() {
 //check if identification options section is populated
 //returns true if there are options in the dropdown
 function optionsPopulated(){
-    console.log("checking if options populated");
-    console.log(document.getElementById("identification").options.length)
     if (document.getElementById("identification").options.length < 1){return false}
     else{return true}
 }
@@ -104,7 +101,6 @@ function optionsPopulated(){
 //get identifications (DBPedia URI and label) from frontend
 //handles different input selections
 function getIdentificationDetails(){
-    console.log(getConfirmation());
     let details = ["unknown","unknown"];
     //if user has selected "unknown", ignore other inputs
     if (getConfirmation() === "unknown"){
@@ -124,7 +120,6 @@ function getIdentificationDetails(){
         //get name of bird (label attribute of DBPedia resource)
         details[1] = identification.options[identification.selectedIndex].text;
     }
-    console.log(details);
     return details;
 }
 
@@ -132,7 +127,6 @@ function getIdentificationDetails(){
 //occurs whenever fields are edited
 function setHiddenFields(){
     let identificationDetails = getIdentificationDetails();
-    console.log(identificationDetails);
     document.getElementById("identificationURI").value = identificationDetails[0];
     document.getElementById("identificationName").value = identificationDetails[1];
     document.getElementById("confirmation").value = getConfirmation();
