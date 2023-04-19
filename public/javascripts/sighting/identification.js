@@ -128,8 +128,16 @@ function getIdentificationDetails(){
 //occurs whenever fields are edited
 function setHiddenFields(){
     let identificationDetails = getIdentificationDetails();
-    document.getElementById("identificationURI").value = identificationDetails[0];
-    document.getElementById("identificationName").value = identificationDetails[1];
+
+    //don't overwrite identificationName with empty string
+    console.log("setting hidden fields")
+    console.log(identificationDetails);
+    if(identificationDetails[1] !== ''){
+        console.log("overriding field");
+        document.getElementById("identificationURI").value = identificationDetails[0];
+        document.getElementById("identificationName").value = identificationDetails[1];
+    }
+
     document.getElementById("confirmation").value = getConfirmation();
 }
 
@@ -143,10 +151,7 @@ $("#xForm").on("submit", (function() {
     let unknownCheckbox = document.getElementById("unknownIdentification");
     //check if user hasn't entered a search term, not selected an identification, nor selected "unknown"
     //(if user hasn't provided any input in the identification section at all
-    if(searchInput.value.length<1 && !optionsPopulated() && (getConfirmation() !== "unknown")){
-        unknownCheckbox.checked = true;
-        setHiddenFields();
-    }
+
 
     //return true = allow submission, as fields are sanitised
     return true;
