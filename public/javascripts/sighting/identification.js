@@ -51,14 +51,15 @@ const searchIdentifications = () =>{
         });
 }
 
-let searchButton = document.getElementById("findIdentifications");
+const searchButton = document.getElementById("findIdentifications");
 searchButton.addEventListener("click", searchIdentifications);
 
 //get confirmation status of sighting
 //returns "unknown", "unconfirmed" and "confirmed" (lowercase)
 function getConfirmation() {
+    console.log("getting confirmation");
     //if user has checked the "unknown" checkbox
-    if(document.getElementById("unknownIdentification").value){
+    if(document.getElementById("unknownIdentification").checked){
         return "unknown";
     }
     //if no options are present, but user has not checked the "unknown" checkbox (user is offline)
@@ -78,6 +79,8 @@ function getConfirmation() {
 //check if identification options section is populated
 //returns true if there are options in the dropdown
 function optionsPopulated(){
+    console.log("checking if options populated");
+    console.log(document.getElementById("identification").options.length)
     if (document.getElementById("identification").options.length < 1){return false}
     else{return true}
 }
@@ -85,7 +88,8 @@ function optionsPopulated(){
 //get identifications (DBPedia URI and label) from frontend
 //handles different input selections
 function getIdentificationDetails(){
-    let details = [null,""];
+    let details = ["",""];
+    console.log(getConfirmation());
     //if user has selected "unknown", ignore other inputs
     if (getConfirmation() === "unknown"){
         return details;
@@ -104,5 +108,19 @@ function getIdentificationDetails(){
         //get name of bird (label attribute of DBPedia resource)
         details[1] = identification.options[identification.selectedIndex].text;
     }
+    console.log(details);
     return details;
 }
+
+//set values of hidden fields to be sent in form
+//occurs whenever fields are edited
+function setHiddenFields(){
+    let identificationDetails = getIdentificationDetails();
+    console.log(identificationDetails);
+    document.getElementById("identificationURI").value = identificationDetails[0];
+    document.getElementById("identificationName").value = identificationDetails[1];
+    document.getElementById("confirmation").value = getConfirmation();
+}
+
+const form = document.getElementById("xForm");
+form.addEventListener("change", setHiddenFields);

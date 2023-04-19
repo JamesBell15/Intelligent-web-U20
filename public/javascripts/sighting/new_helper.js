@@ -1,5 +1,6 @@
 const addNewRecord = (requestIDB) => {
 
+    console.log("getting identification data");
     let confirmation = getConfirmation();
     let identificationData = getIdentificationDetails();
     let identificationURI = identificationData[0];
