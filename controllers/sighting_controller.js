@@ -134,7 +134,7 @@ exports.get_server_data = async (req, res) => {
 	})
 }
 
-exports.update_server_data = async (req, res) => {
+exports.update_sighting_data = async (req, res) => {
 	// recieves and updates server with new sighting
 
 	let body = req.body
@@ -157,3 +157,24 @@ exports.update_server_data = async (req, res) => {
 		}
 	})
 }
+
+exports.update_message_data = async (req, res) => {
+	let body = req.body
+
+	const user = await User.findUser(body.senderId)
+	let message = new Message({
+		sender: user.id,
+		post: body.postId,
+		msg: body.msg,
+		createdAt: body.createdAt
+	})
+
+	message.save(async function (err, results) {
+		if (err) {
+			res.status(500).send('Invalid data!')
+		} else {
+			res.status(200)
+		}
+	})
+}
+
