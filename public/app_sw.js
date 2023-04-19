@@ -35,6 +35,11 @@ self.addEventListener('sync', async event => {
         console.log('new sighing ' + event.tag)
         event.waitUntil(newSighting(event.tag.replace("new-sighting-", '')))
     }
+
+    if (event.tag.startsWith('new-message-')) {
+        console.log('new message ' + event.tag)
+        event.waitUntil(newMessage(event.tag.replace("new-message-", '')))
+    }
 })
 
 
