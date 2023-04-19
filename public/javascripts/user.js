@@ -82,7 +82,6 @@
                     alert(`You have made changes to an existing user: ${returnUser.username}`)
                     const currentUrl = window.location.href
                     window.location.href = currentUrl
-
                     socket.emit('login/register', data)
                 } else {
                     alert('You have created a brand new user!')
