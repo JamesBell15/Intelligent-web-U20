@@ -82,7 +82,7 @@ function getConfirmation() {
         return "unconfirmed";
     }
     //if user has selected the "identification confirmed" checkbox
-    else if(document.getElementById("confirmIdentification").value){
+    else if(document.getElementById("confirmIdentification").checked){
         return "confirmed"
     }
     //otherwise, identification is unconfirmed
@@ -103,6 +103,7 @@ function optionsPopulated(){
 function getIdentificationDetails(){
     let details = ["unknown","unknown"];
     //if user has selected "unknown", ignore other inputs
+    //or if user hasn't entered anything in the search field
     if (getConfirmation() === "unknown"){
         return details;
     }
@@ -134,3 +135,19 @@ function setHiddenFields(){
 
 const form = document.getElementById("xForm");
 form.addEventListener("change", setHiddenFields);
+//add custom validation preceding form submission
+$("#xForm").on("submit", (function() {
+    //return false = block form submission
+    console.log("pre-submit function run");
+    let searchInput = document.getElementById("identificationSearch");
+    let unknownCheckbox = document.getElementById("unknownIdentification");
+    //check if user hasn't entered a search term, not selected an identification, nor selected "unknown"
+    //(if user hasn't provided any input in the identification section at all
+    if(searchInput.value.length<1 && !optionsPopulated() && (getConfirmation() !== "unknown")){
+        unknownCheckbox.checked = true;
+        setHiddenFields();
+    }
+
+    //return true = allow submission, as fields are sanitised
+    return true;
+}));
