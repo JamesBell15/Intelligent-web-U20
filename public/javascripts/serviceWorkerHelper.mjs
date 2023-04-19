@@ -57,19 +57,41 @@ const newSighting = (id) => {
     const requestIDB = indexedDB.open("db", 4)
 
     requestIDB.onsuccess = (event) => {
-        const transaction = requestIDB.result.transaction(["sightings", "messages"], "readwrite")
+        const transaction = requestIDB.result.transaction(["sightings"], "readwrite")
         const sightingStore = transaction.objectStore("sightings")
 
         sightingStore.get(Number(id)).onsuccess = (event) => {
             let sighting = event.target.result
 
-            fetch("/db/update",
+            fetch("/db/sighting/update",
             {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json"
                 },
                 body: JSON.stringify(sighting)
+            })
+        }
+    }
+}
+
+const newMessage = (id) => {
+    const requestIDB = indexedDB.open("db", 4)
+
+    requestIDB.onsuccess = (event) => {
+        const transaction = requestIDB.result.transaction(["messages"], "readwrite")
+        const messagesStore = transaction.objectStore("messages")
+
+        messagesStore.get(Number(id)).onsuccess = (event) => {
+            let message = event.target.result
+
+            fetch("/db/message/update",
+            {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify(message)
             })
         }
     }
