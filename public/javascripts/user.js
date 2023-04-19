@@ -80,6 +80,8 @@
                     // i.e. alert to say if you want to make changes to a user's location -> alert might include the user's most current location in DB for reference.
                     // Might not be necessary and just overkill.
                     alert(`You have made changes to an existing user: ${returnUser.username}`)
+                    const currentUrl = window.location.href
+                    window.location.href = currentUrl
                     socket.emit('login/register', data)
                 } else {
                     alert('You have created a brand new user!')
@@ -119,7 +121,8 @@
         document.querySelector('#loginModalBtn').classList.remove('hidden')
         document.querySelector('#logoutBtn').classList.add('hidden')
         document.querySelector('#profileBtn').classList.add('hidden')
-        document.getElementById('distSortLbl').classList.add('hidden')
+        const distSort = document.getElementById('distSortLbl')
+        if (distSort) distSort.classList.add('hidden')
 
         db = requestIDB.result
         const store = db.transaction('userInfo', 'readwrite').objectStore('userInfo')
