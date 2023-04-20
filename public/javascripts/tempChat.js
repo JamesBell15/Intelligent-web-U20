@@ -104,10 +104,8 @@ import {subscribe} from "./subscription_helper.mjs"
         document.getElementById('msgIn').value = ''
     }
 
-    socket.on('msg', async (data, author) => {
-        outputMsg(data)
-        console.log(author)
-        db = requestIDB.result
+    socket.on('msg', async (message, subscription) => {
+        outputMsg(message)
 
         const options = {
             method: 'POST',
