@@ -70,7 +70,7 @@ exports.index = async (req, res) => {
 		}
 	}
 	if (name) {
-		queryObject.identificationId = {$regex: name, $options: 'i'}
+		queryObject.identificationName = {$regex: name, $options: 'i'}
 	}
 
 	let result = Sighting.find(queryObject).populate('userId')
@@ -79,7 +79,7 @@ exports.index = async (req, res) => {
 		result = result.sort('dateTime')
 	}
 	if (sort == 'alphabetical') {
-		result = result.sort('identificationId')
+		result = result.sort('identificationName')
 	}
 
 	/*
