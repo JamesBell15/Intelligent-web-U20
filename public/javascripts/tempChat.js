@@ -109,7 +109,6 @@ import {subscribe} from "./subscription_helper.mjs"
         console.log(author)
         db = requestIDB.result
 
-
         const options = {
             method: 'POST',
             body: JSON.stringify(subscription),

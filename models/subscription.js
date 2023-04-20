@@ -42,7 +42,6 @@ subscriptionSchema.methods.insertUpdate = async function(user, sub) {
 }
 
 
-
 var Subscription = mongoose.model('Subscription', subscriptionSchema)
 module.exports = Subscription
 
