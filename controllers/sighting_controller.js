@@ -153,7 +153,7 @@ exports.update_sighting_data = async (req, res) => {
 		if (err) {
 			res.status(500).send('Invalid data!')
 		} else {
-			res.status(200)
+			res.status(200).json({postId: results._id})
 		}
 	})
 }
