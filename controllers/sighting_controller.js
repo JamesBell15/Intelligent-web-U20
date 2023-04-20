@@ -36,14 +36,12 @@ exports.create = async (req, res) => {
             //console.log(err);
             res.status(500).send('Invalid data!')
         } else {
-			//not sure what to replace this with
-			//identificationId no longer exists but there's no unique field other than sighting id
-
-            const findSightingByIdentification = async (identificationId, userId) => {
+			//find sighting by timestamp and user that created it
+            const findSighting = async (dateTime, userId) => {
                 try {
                     return await Sighting.findOne(
                         {
-                            identificationId: identificationId,
+                            dateTime: dateTime,
                             userId: userId
                         }
                     ).populate('userId').exec()
@@ -51,7 +49,7 @@ exports.create = async (req, res) => {
                     console.error(e)
                 }
             }
-            const sightingDb = await findSightingByIdentification(sighting.identificationId, sighting.userId)
+            const sightingDb = await findSighting(sighting.dateTime, sighting.userId)
             res.redirect(`/sighting/show/${sightingDb._id}`)
         }
     })
