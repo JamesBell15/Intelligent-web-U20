@@ -15,6 +15,25 @@ subscriptionSchema.statics.findSubscription = async (user) => {
     }
 }
 
+subscriptionSchema.methods.insert = async function() {
+    try {
+        return await this.save()
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+subscriptionSchema.methods.insertUpdate = async function(user) {
+    try {
+        const subscription = await Subscription.findOne({userId: user})
+        if (!subscription) {
+            return await this.save()
+        }
+    } catch (e) {
+        console.error(e)
+    }
+}
+
 
 
 var Subscription = mongoose.model('Subscription', subscriptionSchema)

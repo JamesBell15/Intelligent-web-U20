@@ -8,6 +8,7 @@ let router = express.Router()
 
 const sighting_controller = require("../controllers/sighting_controller")
 const db_controller = require("../controllers/db_controller")
+const subscription_controller = require("../controllers/subscription_controller")
 const publicVapidKey = "BLbjzsibeJ_ETEMWPGY6gS5Mvu-tDYwurLa0GIk05Q5-0MEZMRG2swTsI-mW_UgXOaCBuAph_BFKNVOZiM85X_0"
 const privateVapidKey = "Am9PJ-cUOEEbo4Xa69RTP7p_ftGvNImAtv_L9OEGkVg"
 
@@ -38,6 +39,9 @@ router.post('/subscribe', (req, res) => {
 
     webPush.sendNotification(subscription, payload).catch(console.log)
 })
+
+router.post('/notify', subscription_controller.create)
+
 
 // Routes accociated with syncing server and client db
 router.get("/db/get/:username", db_controller.get_server_data)
