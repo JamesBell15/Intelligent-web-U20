@@ -1,5 +1,6 @@
 import {subscribe} from "./subscription_helper.mjs";
 
+const Subscription = require("../../models/subscription");
 const registerServiceWorker = async () => {
     if ("serviceWorker" in navigator) {
         try {
@@ -31,14 +32,16 @@ const registerServiceWorker = async () => {
                 const userStoreRequest = userStore.get('user')
 
                 userStoreRequest.onsuccess = (event) => {
-                    const username = userStoreRequest.result.username
-                    console.log(username)
-                    const store = db.transaction('subscriptions', 'readwrite').objectStore('subscriptions')
-                    const storeRequest = store.add({subscription: JSON.stringify(subscription)}, username)
-                    storeRequest.onsuccess = (event) => {
-                        console.log('IDB: Request to add subscription successful.')
-                    }
+                    const user = userStoreRequest.result
+                    console.log(user)
+                    let subscriptionEntry = new Subscription({
+                        userId: user,
+                        subscriptionObject: JSON.stringify(subscription)
+                    })
+
+                    subscriptionEntry.save()
                 }
+
 
 
 

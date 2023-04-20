@@ -1,4 +1,5 @@
 import {subscribe} from "./subscription_helper.mjs"
+const Subscription = require('../../models/subscription')
 
 {
     const sightingID = window.location.pathname.split('/').pop().replace(/\s/g, '')
@@ -48,29 +49,8 @@ import {subscribe} from "./subscription_helper.mjs"
     const sendMsg = (e) => {
         const msg = document.querySelector('#msgIn').value
         if (msg.trim()) {
-            useUserInfo(async (user) => {
+            useUserInfo((user) => {
                 socket.emit('send msg', sightingID, user, msg)
-                // Send a post request to /notify with all the data necessary to display the notification
-                const data = ({
-                    sighting: sightingID,
-                    user: user,
-                    msg: msg,
-                    url: window.location.href
-                })
-                const options = {
-                    method: 'POST',
-                    body: JSON.stringify(data),
-                    headers: {
-                        'Content-type': 'application/json'
-                    }
-                }
-                try {
-                    const response = await fetch('/notify', options)
-                    const json = await response.json()
-
-                } catch (err) {
-                    console.error(err)
-                }
             })
         }
     }
@@ -109,17 +89,16 @@ import {subscribe} from "./subscription_helper.mjs"
         outputMsg(data)
         console.log(author)
         db = requestIDB.result
-        const store = db.transaction('subscriptions', 'readonly').objectStore('subscriptions')
-        const storeRequest = store.get(author)
-        storeRequest.onsuccess = async (event) => {
-            console.log(typeof storeRequest.result.subscription)
-            await fetch("/subscribe", {
-                method: "POST",
-                body: storeRequest.result.subscription,
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-        }
+
+        let sub = Subscription.findSubscription(author)
+        console.log(sub)
+
+        await fetch("/subscribe", {
+            method: "POST",
+            body: sub.subscriptionObject,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
     })
 }
