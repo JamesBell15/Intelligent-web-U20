@@ -25,6 +25,8 @@ const sighting = new Schema({
     },
 })
 
+sighting.index({ "location": "2dsphere" })
+
 sighting.methods.timeAsUTC = function() {
     return this.dateTime.toUTCString()
 }

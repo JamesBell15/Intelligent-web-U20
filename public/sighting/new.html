@@ -6,6 +6,7 @@
     <script src="/javascripts/indexedDB.js" defer></script>
     <script src="/javascripts/sighting/new_helper.js" defer></script>
     <script src="/javascripts/header_helper.js" defer></script>
+    <script src="/javascripts/form.js" defer></script>
 </head>
 
 <body>
@@ -24,6 +25,8 @@
         <input type="datetime-local" id="dateTime" name="dateTime" required> <br>
 
         <label for="locationLabel">Location: </label>
+        <input type="button" id="locationButton" value="Get current location">
+        <div id="loader" class="loader hidden"></div>
         <input type="text" id="location" name="location"> <br>
 
         <label for="imageLabel">Image: </label>

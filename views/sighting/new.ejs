@@ -9,6 +9,8 @@
     <input type="datetime-local" id="dateTime" name="dateTime" required> <br>
 
     <label for="locationLabel">Location: </label>
+    <input type="button" id="locationButton" value="Get current location">
+    <div id="loader" class="loader hidden"></div>
     <input type="text" id="location" name="location"> <br>
 
     <label for="imageLabel">Image: </label>
@@ -22,4 +24,4 @@
     <input type="submit">
 </form>
 <a href="index"> Cancel </a>
-<script src="/javascripts/form.js"></script>
+<script src="/javascripts/form.js" defer></script>
