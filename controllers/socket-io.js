@@ -17,8 +17,8 @@ exports.init = function(io) {
                 const user = await User.findUser(userIDB.username)
                 const sighting = await Sighting.findSighting(room)
 
-                let author = await Sighting.findById(room).populate('userId').select('username').exec()
-                author = author.userId.username
+                let author = await Sighting.findById(room).populate('userId').exec()
+                author = author.userId
 
                 const message = new Message({
                     sender: user,

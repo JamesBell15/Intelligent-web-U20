@@ -36,8 +36,6 @@ const upgradeStores = (event) => {
     messagesStore.createIndex("msg", "msg", { unique: false })
     messagesStore.createIndex("createdAt", "createdAt", { unique: false })
 
-    const subscriptionsStore = db.createObjectStore("subscriptions", { autoIncrement: false })
-
     console.log("Upgraded!")
 }
 
