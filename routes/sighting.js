@@ -37,6 +37,9 @@ router.post('/subscribe', subscription_controller.create)
 
 
 
+router.post('/notify', subscription_controller.create)
+
+
 // Routes accociated with syncing server and client db
 router.get("/db/get", sighting_controller.get_server_data)
 router.post("/db/update", sighting_controller.update_server_data)
