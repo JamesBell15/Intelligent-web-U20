@@ -115,7 +115,9 @@ const addChatMessage = () => {
                 messageObjStr.add(message).onsuccess = async(event) => {
                     newMessageId = await event.target.result
 
-                    registerNewMessageSync(newMessageId)
+                    if (isNaN(+message.postId)) {
+                        registerNewMessageSync(newMessageId)
+                    }
                 }
             }
         }
