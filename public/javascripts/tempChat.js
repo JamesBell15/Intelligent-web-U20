@@ -66,6 +66,7 @@ import {subscribe} from "./subscription_helper.mjs"
                 }
                 try {
                     const response = await fetch('/notify', options)
+
                     const json = await response.json()
 
                 } catch (err) {
@@ -104,7 +105,7 @@ import {subscribe} from "./subscription_helper.mjs"
         document.getElementById('msgIn').value = ''
     }
 
-    socket.on('msg', async (message, subscription) => {
+    socket.on('msg', async (message) => {
         outputMsg(message)
 
         const options = {

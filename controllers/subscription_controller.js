@@ -7,8 +7,6 @@ const webPush = require("web-push");
 
 exports.create = async (req, res) => {
     let body = req.body
-    console.log(body.user.username)
-
     const user = await User.findUser(body.user.username)
     console.log(await user)
     const subscription = body.subscription
