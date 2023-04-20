@@ -1,3 +1,5 @@
+const Subscription = require('../../models/subscription')
+
 {
     const sightingID = window.location.pathname.split('/').pop().replace(/\s/g, '')
     let socket = io()
@@ -23,7 +25,7 @@
         const msg = document.querySelector('#msgIn').value
         if (msg.trim()) {
             useUserInfo((user) => {
-                socket.emit('send msg', sightingID, user.username, msg)
+                socket.emit('send msg', sightingID, user, msg)
             })
         }
     }
@@ -61,18 +63,18 @@
         outputMsg(data)
         console.log(author)
         db = requestIDB.result
-        const store = db.transaction('subscriptions', 'readonly').objectStore('subscriptions')
-        const storeRequest = store.get(author)
-        storeRequest.onsuccess = async (event) => {
-            console.log(typeof storeRequest.result.subscription)
-            await fetch("/subscribe", {
-                method: "POST",
-                body: storeRequest.result.subscription,
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-        }
+
+        let sub = Subscription.findSubscription(author)
+        console.log(sub)
+
+        await fetch("/subscribe", {
+            method: "POST",
+            body: sub.subscriptionObject,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
 
 
 
