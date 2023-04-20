@@ -32,8 +32,9 @@ exports.create = async (req, res) => {
 
     sighting.save(async function (err, results) {
         if (err) {
-            //console.log(results);
-            //console.log(err);
+			console.log(req.body);
+            console.log(results);
+            console.log(err);
             res.status(500).send('Invalid data!')
         } else {
 			//find sighting by timestamp and user that created it
