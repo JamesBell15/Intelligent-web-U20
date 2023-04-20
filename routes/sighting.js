@@ -35,7 +35,6 @@ router.post('/notify', subscription_controller.sendNotification)
 router.post('/subscribe', subscription_controller.create)
 
 
-router.post('/notify', subscription_controller.create)
 
 
 // Routes accociated with syncing server and client db
