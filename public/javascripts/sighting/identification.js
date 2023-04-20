@@ -67,9 +67,6 @@ const searchIdentifications = () =>{
         });
 }
 
-const searchButton = document.getElementById("findIdentifications");
-searchButton.addEventListener("click", searchIdentifications);
-
 //get confirmation status of sighting
 //returns "unknown", "unconfirmed" and "confirmed" (lowercase)
 function getConfirmation() {
@@ -138,8 +135,16 @@ function setHiddenFields(){
     document.getElementById("confirmation").value = getConfirmation();
 }
 
+
+const searchButton = document.getElementById("findIdentifications");
+searchButton.addEventListener("click", searchIdentifications);
+
 const form = document.getElementById("xForm");
 form.addEventListener("change", setHiddenFields);
+
+/*
+currently inactive, JQuery not working as intended, so hidden inputs are verified/kept valid as they update
+
 //add custom validation preceding form submission
 $("#xForm").on("submit", (function() {
     //return false = block form submission
@@ -152,3 +157,4 @@ $("#xForm").on("submit", (function() {
     //return true = allow submission, as fields are sanitised
     return true;
 }));
+*/
