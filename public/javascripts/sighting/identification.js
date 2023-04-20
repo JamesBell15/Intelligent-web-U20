@@ -130,10 +130,7 @@ function setHiddenFields(){
     let identificationDetails = getIdentificationDetails();
 
     //don't overwrite identificationName with empty string
-    console.log("setting hidden fields")
-    console.log(identificationDetails);
     if(identificationDetails[1] !== ''){
-        console.log("overriding field");
         document.getElementById("identificationURI").value = identificationDetails[0];
         document.getElementById("identificationName").value = identificationDetails[1];
     }
@@ -146,7 +143,6 @@ form.addEventListener("change", setHiddenFields);
 //add custom validation preceding form submission
 $("#xForm").on("submit", (function() {
     //return false = block form submission
-    console.log("pre-submit function run");
     let searchInput = document.getElementById("identificationSearch");
     let unknownCheckbox = document.getElementById("unknownIdentification");
     //check if user hasn't entered a search term, not selected an identification, nor selected "unknown"
