@@ -35,7 +35,9 @@ router.post('/subscribe', (req, res) => {
     res.status(201).json({})
     const payload = JSON.stringify({title: "Hello", body: "New notification"})
 
-    webPush.sendNotification(subscription, payload).catch(console.log)
+    console.log(subscription.subscriptionObject)
+
+    webPush.sendNotification(JSON.parse(subscription.subscriptionObject), payload).catch(console.log)
 })
 
 router.post('/notify', subscription_controller.create)
