@@ -1,6 +1,7 @@
 const User = require('../models/user.js')
 const Sighting = require('../models/sighting.js')
 const Message = require('../models/messages.js')
+const Subscription = require('../models/subscription.js')
 
 exports.init = function(io) {
     io.sockets.on('connection', function (socket) {
@@ -12,12 +13,11 @@ exports.init = function(io) {
             socket.on('leave sighting', (room) => {
                 socket.leave(room)
             })
-            socket.on('send msg', async (room, name, msg) => {
-                const user = await User.findUser(name)
+            socket.on('send msg', async (room, userIDB, msg) => {
+                const user = await User.findUser(userIDB.username)
                 const sighting = await Sighting.findSighting(room)
                 let author = await Sighting.findById(room).populate('userId').exec()
                 author = author.userId
-
 
                 const message = new Message({
                     sender: user,
@@ -25,8 +25,10 @@ exports.init = function(io) {
                     msg: msg
                 })
 
+                const subscription = await Subscription.findSubscription(author)
+
                 await message.insert()
-                io.to(room).emit('msg', message, author)
+                io.to(room).emit('msg', message, subscription)
 
 
             })
