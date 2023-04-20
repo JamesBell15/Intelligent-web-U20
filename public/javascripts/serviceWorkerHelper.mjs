@@ -74,7 +74,6 @@ const newSighting = async (id) => {
                 (response) => response.json()
             ).then(
                 (body) => {
-                    console.log(body.postId)
                     const messagesTransaction = requestIDB.result.transaction(["messages"], "readwrite")
                     const messageStore = messagesTransaction.objectStore("messages")
 
