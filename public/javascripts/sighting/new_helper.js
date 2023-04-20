@@ -1,10 +1,25 @@
 const addNewRecord = (requestIDB) => {
 
-    console.log("getting identification data");
-    let confirmation = getConfirmation();
-    let identificationData = getIdentificationDetails();
-    let identificationURI = identificationData[0];
-    let identificationName = identificationData[1];
+
+    //no identification URI can be provided, set to default of "unknown"
+    let identificationURI = "unknown";
+    //offline sighting = unconfirmed sighting (since knowledge graph cannot be reached)
+    let confirmation = "unconfirmed";
+
+    //get identification name from text box
+    let identificationName = document.getElementById("identificationSearch").value;
+
+    //if nothing entered in text box, identification is unknown
+    if (identificationName === ""){
+        identificationName = "unknown";
+        confirmation = "unknown";
+    }
+
+    //if user clicked unknown identification button
+    if(document.getElementById("unknownIdentification").checked){
+        confirmation = "unknown";
+    }
+
 
     let description = document.getElementById("description").value
     let dateTime = document.getElementById("dateTime").value
