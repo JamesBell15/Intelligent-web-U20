@@ -58,7 +58,7 @@ const renderChatHTML = (record) => {
     const div = document.createElement('div')
     div.innerHTML = `<p><strong>${record.senderId}:</strong>${record.msg}</p>`
 
-    table.appendChild(div);
+    table.appendChild(div)
 }
 
 const renderSightingHTML = (record) => {
@@ -74,7 +74,7 @@ const renderSightingHTML = (record) => {
         <span>${record.location.coordinates}</span><br>`
 
     if (record.image.contentType != null) {
-        output += `<span><img src="data:${record.image.contentType};base64,${record.image.data}" height=200px></span><br>`
+        output += `<span><img src="data:${record.image.contentType}base64,${record.image.data}" height=200px></span><br>`
     } else if (record.image.url != null) {
         output += `<span><img src="${record.image.url}" height=200px></span><br>`
     }
@@ -86,7 +86,7 @@ const renderSightingHTML = (record) => {
 const addChatMessage = () => {
     let msg = document.getElementById("msgIn")
 
-    if (msg != '') {
+    if (msg) {
         const db = requestIDB.result
         const transaction = db.transaction(["currentSighting", "userInfo", "messages"], "readwrite")
         const messageObjStr = transaction.objectStore("messages")
@@ -96,10 +96,6 @@ const addChatMessage = () => {
         let message = {
             msg: msg.value,
             createdAt: new Date()
-        }
-
-        transaction.oncomplete = (event) => {
-            renderChatHTML(message)
         }
 
         transaction.onerror = (event) => {
@@ -114,6 +110,8 @@ const addChatMessage = () => {
 
                 messageObjStr.add(message).onsuccess = async(event) => {
                     newMessageId = await event.target.result
+
+                    renderChatHTML(message)
 
                     if (isNaN(+message.postId)) {
                         registerNewMessageSync(newMessageId)
@@ -140,4 +138,14 @@ requestIDB.onsuccess = async (event) => {
     let btn = document.getElementById('sendMsgBtn')
 
     btn.addEventListener('click', (event) => {addChatMessage()})
+
+    document.getElementById("chatForm").onkeypress = function(e) {
+        var key = e.charCode || e.keyCode || 0
+
+        if (key == 13) {
+            addChatMessage()
+            e.preventDefault()
+        }
+    }
+
 }

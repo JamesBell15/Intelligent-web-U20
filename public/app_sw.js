@@ -21,6 +21,7 @@ self.addEventListener("install", (event) => {
         "/javascripts/sighting/new_helper.js",
         "/javascripts/sighting/index_helper.js",
         "/javascripts/sighting/show_helper.js",
+        "/javascripts/header_helper.js",
         "/javascripts/indexedDB.js"
         ])
     )
