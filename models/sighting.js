@@ -8,7 +8,7 @@ const sighting = new Schema({
     dateTime: {type: Date, required: true},
     identificationName: {type: String, required:true, default: "unknown"},
     identificationURI: {type: String, required: true, default: "unknown"},
-    confirmation: {type:String, default: "unknown"},
+    confirmation: {type: String, default: "unknown"},
     location: {
         type: {
             type: String,
