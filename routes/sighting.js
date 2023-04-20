@@ -27,15 +27,20 @@ router.post("/sighting/update",sighting_controller.update)
 
 // Routes accociated with online chat messages
 const User = require('../models/user')
+const Sighting = require("../models/sighting");
+const Subscription = require("../models/subscription");
 router.post('/api/data/users', async function (req, res) {
     const userToQuery = await User.findUser(req.body.name)
     res.json(userToQuery)
 })
 
-router.post('/subscribe', (req, res) => {
-    const subscription = req.body
+router.post('/subscribe', async (req, res) => {
+    const sighting = req.body.sighting
+    const sightingDB = await Sighting.findById(sighting).populate('userId').exec()
+    let author = sightingDB.userId
+    const subscription = await Subscription.findSubscription(author)
     res.status(201).json({})
-    const payload = JSON.stringify({title: "Hello", body: "New notification"})
+    const payload = JSON.stringify({title: sightingDB.identificationId, body: `${req.body.user.username}: ${req.body.msg}: ${req.body.url}`})
 
     console.log(subscription.subscriptionObject)
 

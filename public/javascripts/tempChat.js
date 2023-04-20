@@ -22,8 +22,29 @@
     const sendMsg = (e) => {
         const msg = document.querySelector('#msgIn').value
         if (msg.trim()) {
-            useUserInfo((user) => {
+            useUserInfo(async (user) => {
                 socket.emit('send msg', sightingID, user, msg)
+                const data = ({
+                    sighting: sightingID,
+                    user: user,
+                    msg: msg,
+                    url: window.location.href
+                })
+                console.log(window.location.href)
+                const options = {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                }
+                try {
+                    const response = await fetch('/subscribe', options)
+                    const json = await response.json()
+
+                } catch (err) {
+                    console.error(err)
+                }
             })
         }
     }
@@ -57,23 +78,7 @@
         document.getElementById('msgIn').value = ''
     }
 
-    socket.on('msg', async (message, subscription) => {
+    socket.on('msg', async (message) => {
         outputMsg(message)
-
-        const options = {
-            method: 'POST',
-            body: JSON.stringify(subscription),
-            headers: {
-                'Content-type': 'application/json'
-            }
-        }
-        try {
-            const response = await fetch('/subscribe', options)
-            const json = await response.json()
-
-        } catch (err) {
-            console.error(err)
-        }
-
     })
 }

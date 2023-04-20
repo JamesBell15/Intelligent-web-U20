@@ -75,3 +75,4 @@ self.addEventListener("push", (event) => {
         data.title, { body: data.body}
     )
 })
+
