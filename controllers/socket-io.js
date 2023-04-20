@@ -25,10 +25,10 @@ exports.init = function(io) {
                     post: sighting,
                     msg: msg
                 })
-
+                const subscription = await Subscription.findSubscription(author)
 
                 await message.insert()
-                io.to(room).emit('msg', message, author)
+                io.to(room).emit('msg', message, subscription)
 
 
             })

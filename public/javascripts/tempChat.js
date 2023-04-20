@@ -1,6 +1,7 @@
 import {subscribe} from "./subscription_helper.mjs"
 const Subscription = require('../../models/subscription')
 
+
 {
     const sightingID = window.location.pathname.split('/').pop().replace(/\s/g, '')
     let socket = io()
@@ -90,15 +91,22 @@ const Subscription = require('../../models/subscription')
         console.log(author)
         db = requestIDB.result
 
-        let sub = Subscription.findSubscription(author)
-        console.log(sub)
 
-        await fetch("/subscribe", {
-            method: "POST",
-            body: sub.subscriptionObject,
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(subscription),
             headers: {
-                "Content-Type": "application/json"
+                'Content-type': 'application/json'
             }
-        })
+
+        }
+        try {
+            const response = await fetch('/subscribe', options)
+            const json = await response.json()
+
+        } catch (err) {
+            console.error(err)
+        }
+
     })
 }
