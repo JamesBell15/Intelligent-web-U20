@@ -77,22 +77,5 @@
     }
     let btn = document.getElementById('locationButton')
 
-    const getUserInfo = (onSuccess) => {
-        const db = requestIDB.result
-        const store = db.transaction('userInfo', 'readonly').objectStore('userInfo')
-        const storeRequest = store.get('user')
-        storeRequest.onsuccess = async (event) => {
-            const user = await event.target.result
-            if (user) {
-                onSuccess(user)
-            } else {
-                console.log('You are not logged in.')
-            }
-        }
-        storeRequest.onerror = (event) => {
-            console.error(event.target.error)
-        }
-    }
-
     btn.addEventListener("click", (event) => {getCurrentPosition(btn)})
 }
