@@ -1,6 +1,7 @@
 import {subscribe} from "./subscription_helper.mjs";
 
 const Subscription = require("../../models/subscription");
+
 const registerServiceWorker = async () => {
     if ("serviceWorker" in navigator) {
         try {
@@ -31,15 +32,31 @@ const registerServiceWorker = async () => {
                 const userStore = db.transaction('userInfo', 'readonly').objectStore('userInfo')
                 const userStoreRequest = userStore.get('user')
 
-                userStoreRequest.onsuccess = (event) => {
+                userStoreRequest.onsuccess = async (event) => {
                     const user = userStoreRequest.result
                     console.log(user)
-                    let subscriptionEntry = new Subscription({
-                        userId: user,
-                        subscriptionObject: JSON.stringify(subscription)
-                    })
 
-                    subscriptionEntry.save()
+                    const data = {
+                        user: user,
+                        subscription: subscription
+                    }
+                    const options = {
+                        method: 'POST',
+                        body: JSON.stringify(data),
+                        headers: {
+                            'Content-type': 'application/json'
+                        }
+                    }
+                    try {
+                        const response = await fetch('/notify', options)
+                        const json = await response.json()
+
+                    } catch (err) {
+                        console.error(err)
+                    }
+
+
+
                 }
 
 
