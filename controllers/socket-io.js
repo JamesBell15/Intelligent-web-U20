@@ -15,8 +15,8 @@ exports.init = function(io) {
             socket.on('send msg', async (room, name, msg) => {
                 const user = await User.findUser(name)
                 const sighting = await Sighting.findSighting(room)
-                let author = await Sighting.findById(room).populate('userId').select('username').exec()
-                author = author.userId.username
+                let author = await Sighting.findById(room).populate('userId').exec()
+                author = author.userId
 
 
                 const message = new Message({
