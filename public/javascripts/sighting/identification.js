@@ -16,7 +16,7 @@
 
 //get selection of bird species from DBPedia similar to search term
 const searchIdentifications = () =>{
-    let birdName = document.getElementById("identificationSearch").value;
+    let birdName = document.getElementById("identificationSearch").value.toLowerCase();
 
     // The DBpedia SPARQL endpoint URL being queried
     const endpointUrl = "https://dbpedia.org/sparql";
