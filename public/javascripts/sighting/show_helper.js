@@ -56,9 +56,9 @@ const renderChatHTML = (record) => {
     let table = document.getElementById("chatHistory")
 
     const div = document.createElement('div')
-    div.innerHTML = `<p><strong>${record.sender}:</strong>${record.msg}</p>`
+    div.innerHTML = `<p><strong>${record.senderId}:</strong>${record.msg}</p>`
 
-    table.appendChild(div);
+    table.appendChild(div)
 }
 
 const renderSightingHTML = (record) => {
@@ -74,7 +74,7 @@ const renderSightingHTML = (record) => {
         <span>${record.location.coordinates}</span><br>`
 
     if (record.image.contentType != null) {
-        output += `<span><img src="data:${record.image.contentType};base64,${record.image.data}" height=200px></span><br>`
+        output += `<span><img src="data:${record.image.contentType}base64,${record.image.data}" height=200px></span><br>`
     } else if (record.image.url != null) {
         output += `<span><img src="${record.image.url}" height=200px></span><br>`
     }
@@ -83,6 +83,69 @@ const renderSightingHTML = (record) => {
     table.innerHTML = output + `</div>`
 }
 
+const addChatMessage = () => {
+    let msg = document.getElementById("msgIn")
+
+    if (msg) {
+        const db = requestIDB.result
+        const transaction = db.transaction(["currentSighting", "userInfo", "messages"], "readwrite")
+        const messageObjStr = transaction.objectStore("messages")
+        const userInfoObjStr = transaction.objectStore("userInfo")
+        const currentSightingObjStr = transaction.objectStore("currentSighting")
+
+        let message = {
+            msg: msg.value,
+            createdAt: new Date()
+        }
+
+        transaction.onerror = (event) => {
+            console.log(`trans wrong: ${event.target.error}`)
+        }
+
+        userInfoObjStr.get('user').onsuccess = (event) => {
+            message["senderId"] = event.target.result.username
+
+            currentSightingObjStr.get('current').onsuccess = (event) => {
+                message["postId"] = event.target.result.sightingId
+
+                messageObjStr.add(message).onsuccess = async(event) => {
+                    newMessageId = await event.target.result
+
+                    renderChatHTML(message)
+
+                    if (isNaN(+message.postId)) {
+                        registerNewMessageSync(newMessageId)
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Registers background sync for new message
+const registerNewMessageSync = async (id) => {
+    const registration = await navigator.serviceWorker.ready
+    try {
+        await registration.sync.register("new-message-" + String(id))
+        console.log("New message Background Sync registered!")
+    } catch {
+        console.log("New message Background Sync could not be registered!")
+    }
+}
+
 requestIDB.onsuccess = async (event) => {
     showRecord()
+    let btn = document.getElementById('sendMsgBtn')
+
+    btn.addEventListener('click', (event) => {addChatMessage()})
+
+    document.getElementById("chatForm").onkeypress = function(e) {
+        var key = e.charCode || e.keyCode || 0
+
+        if (key == 13) {
+            addChatMessage()
+            e.preventDefault()
+        }
+    }
+
 }

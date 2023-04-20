@@ -41,5 +41,4 @@
             console.error(event.target.error)
         }
     }
-
 }

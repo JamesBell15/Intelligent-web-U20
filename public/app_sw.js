@@ -21,6 +21,7 @@ self.addEventListener("install", (event) => {
         "/javascripts/sighting/new_helper.js",
         "/javascripts/sighting/index_helper.js",
         "/javascripts/sighting/show_helper.js",
+        "/javascripts/header_helper.js",
         "/javascripts/indexedDB.js"
         ])
     )
@@ -34,6 +35,11 @@ self.addEventListener('sync', async event => {
     if (event.tag.startsWith('new-sighting-')) {
         console.log('new sighing ' + event.tag)
         event.waitUntil(newSighting(event.tag.replace("new-sighting-", '')))
+    }
+
+    if (event.tag.startsWith('new-message-')) {
+        console.log('new message ' + event.tag)
+        event.waitUntil(newMessage(event.tag.replace("new-message-", '')))
     }
 })
 

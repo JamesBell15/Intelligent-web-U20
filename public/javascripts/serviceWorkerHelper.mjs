@@ -53,23 +53,87 @@ const syncIDB = () => {
     }
 }
 
-const newSighting = (id) => {
+const newSighting = async (id) => {
     const requestIDB = indexedDB.open("db", 4)
 
-    requestIDB.onsuccess = (event) => {
-        const transaction = requestIDB.result.transaction(["sightings", "messages"], "readwrite")
+    requestIDB.onsuccess = async (event) => {
+        const transaction = requestIDB.result.transaction(["sightings"], "readwrite")
         const sightingStore = transaction.objectStore("sightings")
 
-        sightingStore.get(Number(id)).onsuccess = (event) => {
+        sightingStore.get(Number(id)).onsuccess = async (event) => {
             let sighting = event.target.result
 
-            fetch("/db/update",
+            fetch("/db/sighting/update",
             {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json"
                 },
                 body: JSON.stringify(sighting)
+            }).then(
+                (response) => response.json()
+            ).then(
+                (body) => {
+                    const messagesTransaction = requestIDB.result.transaction(["messages"], "readwrite")
+                    const messageStore = messagesTransaction.objectStore("messages")
+
+                    let request = messageStore.openCursor()
+
+                    request.onerror = function(event) {
+                       console.err("error fetching data")
+                    }
+
+                    request.onsuccess = function(event) {
+                        let cursor = event.target.result
+
+                        if (cursor) {
+                            let key = cursor.primaryKey
+                            let value = cursor.value
+
+                            if(value.postId == Number(id)) {
+                                let message = value
+
+                                message.postId = body.postId
+
+                                fetch("/db/message/update",
+                                {
+                                    method: "POST",
+                                    headers: {
+                                      "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify(message)
+                                })
+                            }
+
+                            cursor.continue()
+                        } else {
+                            console.log('done')
+                        }
+                    }
+                }
+            )
+
+        }
+    }
+}
+
+const newMessage = (id) => {
+    const requestIDB = indexedDB.open("db", 4)
+
+    requestIDB.onsuccess = (event) => {
+        const transaction = requestIDB.result.transaction(["messages"], "readwrite")
+        const messagesStore = transaction.objectStore("messages")
+
+        messagesStore.get(Number(id)).onsuccess = (event) => {
+            let message = event.target.result
+
+            fetch("/db/message/update",
+            {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify(message)
             })
         }
     }
