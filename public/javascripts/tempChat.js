@@ -30,7 +30,6 @@
                     msg: msg,
                     url: window.location.href
                 })
-                console.log(window.location.href)
                 const options = {
                     method: 'POST',
                     body: JSON.stringify(data),

@@ -6,9 +6,7 @@ const User = require("../models/user")
 exports.create = async (req, res) => {
     let body = req.body
     const user = await User.findUser(body.user.username)
-    console.log(await user)
     const subscription = body.subscription
-    console.log(subscription)
 
 
 
@@ -17,6 +15,6 @@ exports.create = async (req, res) => {
         subscriptionObject: JSON.stringify(subscription)
     })
 
-    await subscriptionEntry.insertUpdate(user)
+    await subscriptionEntry.insertUpdate(user, JSON.stringify(subscription))
 
 }
