@@ -66,7 +66,6 @@ import {subscribe} from "./subscription_helper.mjs"
                 }
                 try {
                     const response = await fetch('/notify', options)
-
                     const json = await response.json()
 
                 } catch (err) {
