@@ -40,9 +40,8 @@ router.post('/subscribe', async (req, res) => {
     let author = sightingDB.userId
     const subscription = await Subscription.findSubscription(author)
     res.status(201).json({})
-    const payload = JSON.stringify({title: sightingDB.identificationId, body: `${req.body.user.username}: ${req.body.msg}: ${req.body.url}`})
+    const payload = JSON.stringify({title: sightingDB.identificationId, body: `${req.body.user.username}: ${req.body.msg}`, url: req.body.url})
 
-    console.log(subscription.subscriptionObject)
 
     webPush.sendNotification(JSON.parse(subscription.subscriptionObject), payload).catch(console.log)
 })

@@ -23,10 +23,17 @@ subscriptionSchema.methods.insert = async function() {
     }
 }
 
-subscriptionSchema.methods.insertUpdate = async function(user) {
+subscriptionSchema.methods.insertUpdate = async function(user, sub) {
     try {
         const subscription = await Subscription.findOne({userId: user})
-        if (!subscription) {
+        if (subscription) {
+            const query = {userId: user}
+            const update = {subscriptionObject: sub}
+
+            return await Subscription.findOneAndUpdate(query, update)
+
+        }
+        else {
             return await this.save()
         }
     } catch (e) {

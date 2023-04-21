@@ -72,7 +72,18 @@ self.addEventListener("fetch", (event) => {
 self.addEventListener("push", (event) => {
     const data = event.data.json()
     self.registration.showNotification(
-        data.title, { body: data.body}
+        data.title, { body: data.body,
+            data: { url: data.url } },
     )
 })
+
+self.addEventListener("notificationclick", function (event) {
+    const data = event.notification.data
+    console.log(data)
+    event.notification.close()
+    clients.openWindow(data.url)
+})
+
+
+
 
