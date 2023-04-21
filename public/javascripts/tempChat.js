@@ -4,6 +4,73 @@
     let db
     socket.emit('join sighting', sightingID)
 
+    const author = document.querySelector('#author').innerHTML
+    console.log(author)
+
+    const checkUserIsAuthor = () => {
+        useUserInfo(async (user) => {
+            if (user.username === author) {
+                let subscription
+
+                let registration
+
+                try {
+                    registration = await navigator.serviceWorker.ready
+                    //console.log(registration)
+                    subscription = await registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: "BLbjzsibeJ_ETEMWPGY6gS5Mvu-tDYwurLa0GIk05Q5-0MEZMRG2swTsI-mW_UgXOaCBuAph_BFKNVOZiM85X_0"
+                    })
+                    //console.log(subscription)
+                }catch (e) {
+                    console.log('does not work')
+                    console.log(e)
+                }
+
+
+
+
+
+                //registration = navigator.serviceWorker.getRegistration("../app_sw.js").then(r => console.log(r))
+
+                const db = requestIDB.result
+
+                const userStore = db.transaction('userInfo', 'readonly').objectStore('userInfo')
+                const userStoreRequest = userStore.get('user')
+
+                userStoreRequest.onsuccess = async (event) => {
+                    const user = userStoreRequest.result
+                    console.log(user)
+                    if (user !== undefined) {
+                        console.log(subscription)
+
+                        const data = {
+                            user: user,
+                            subscription: subscription
+                        }
+                        const options = {
+                            method: 'POST',
+                            body: JSON.stringify(data),
+                            headers: {
+                                'Content-type': 'application/json'
+                            }
+                        }
+                        try {
+                            const response = await fetch('/subscribe', options)
+                            const json = await response.json()
+
+                        } catch (err) {
+                            console.error(err)
+                        }
+                    }
+
+                }
+
+            }
+        })
+    }
+
+
     document.querySelector('#chatForm').addEventListener('submit', function(event) {event.preventDefault()})
 
     const requestIDB = indexedDB.open('db', 4)
@@ -13,11 +80,17 @@
     }
 
     requestIDB.onsuccess = (event) => {
+        checkUserIsAuthor()
         document.querySelector('#sendMsgBtn').addEventListener('click', sendMsg)
         document.querySelector('#msgIn').addEventListener('keyup', ({key}) => {
             if (key === 'Enter') sendMsg()
         })
+
+
+
     }
+
+
 
     const sendMsg = (e) => {
         const msg = document.querySelector('#msgIn').value
