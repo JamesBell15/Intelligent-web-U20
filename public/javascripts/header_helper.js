@@ -14,6 +14,7 @@ const registerServiceWorker = async () => {
                 await subscribe()
             }
 
+
             if (registration.installing) {
                 console.log("Service worker installing")
             } else if (registration.waiting) {

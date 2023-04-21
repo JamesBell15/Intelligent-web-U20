@@ -38,12 +38,15 @@ import {subscribe} from "./subscription_helper.mjs"
     }
 
     requestIDB.onsuccess = (event) => {
+        checkUserIsAuthor()
         document.querySelector('#sendMsgBtn').addEventListener('click', sendMsg)
         document.querySelector('#msgIn').addEventListener('keyup', ({key}) => {
             if (key === 'Enter') sendMsg()
         })
         checkUserIsAuthor()
     }
+
+
 
     const sendMsg = (e) => {
         const msg = document.querySelector('#msgIn').value
