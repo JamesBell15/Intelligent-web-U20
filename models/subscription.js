@@ -26,7 +26,9 @@ subscriptionSchema.methods.insert = async function() {
 subscriptionSchema.methods.insertUpdate = async function(user, sub) {
     try {
         const subscription = await Subscription.findOne({userId: user})
+        console.log(subscription)
         if (subscription) {
+            console.log('update existing subscription')
             const query = {userId: user}
             const update = {subscriptionObject: sub}
 
@@ -34,6 +36,7 @@ subscriptionSchema.methods.insertUpdate = async function(user, sub) {
 
         }
         else {
+            console.log('new subscription')
             return await this.save()
         }
     } catch (e) {
