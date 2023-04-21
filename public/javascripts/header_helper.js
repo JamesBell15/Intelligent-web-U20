@@ -9,14 +9,12 @@ const registerServiceWorker = async () => {
                 userVisibleOnly: true,
                 applicationServerKey: "BLbjzsibeJ_ETEMWPGY6gS5Mvu-tDYwurLa0GIk05Q5-0MEZMRG2swTsI-mW_UgXOaCBuAph_BFKNVOZiM85X_0"
             })
-            console.log(subscription)
 
             const requestIDB = indexedDB.open('db', 4)
 
 
 
             requestIDB.onsuccess = (event) => {
-                console.log('success IDB')
                 const db = requestIDB.result
 
                 const userStore = db.transaction('userInfo', 'readonly').objectStore('userInfo')
@@ -24,25 +22,26 @@ const registerServiceWorker = async () => {
 
                 userStoreRequest.onsuccess = async (event) => {
                     const user = userStoreRequest.result
-                    console.log(user)
+                    if (user !== undefined) {
 
-                    const data = {
-                        user: user,
-                        subscription: subscription
-                    }
-                    const options = {
-                        method: 'POST',
-                        body: JSON.stringify(data),
-                        headers: {
-                            'Content-type': 'application/json'
+                        const data = {
+                            user: user,
+                            subscription: subscription
                         }
-                    }
-                    try {
-                        const response = await fetch('/subscribe', options)
-                        const json = await response.json()
+                        const options = {
+                            method: 'POST',
+                            body: JSON.stringify(data),
+                            headers: {
+                                'Content-type': 'application/json'
+                            }
+                        }
+                        try {
+                            const response = await fetch('/subscribe', options)
+                            const json = await response.json()
 
-                    } catch (err) {
-                        console.error(err)
+                        } catch (err) {
+                            console.error(err)
+                        }
                     }
 
                 }
