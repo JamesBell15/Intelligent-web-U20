@@ -16,7 +16,7 @@ self.addEventListener("install", (event) => {
         "/sighting/index.html",
         "/sighting/show.html",
         // scrtipts
-        //"/app_sw.js",
+        "/app_sw.js",
         "/jquery-3.6.4.js",
         "/javascripts/sighting/new_helper.js",
         "/javascripts/sighting/index_helper.js",

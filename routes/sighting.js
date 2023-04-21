@@ -36,12 +36,18 @@ router.post('/notify', async (req, res) => {
     const sighting = req.body.sighting
     const sightingDB = await Sighting.findById(sighting).populate('userId').exec()
     let author = sightingDB.userId
-    const subscription = await Subscription.findSubscription(author)
-    res.status(201).json({})
-    const payload = JSON.stringify({title: sightingDB.identificationId, body: `${req.body.user.username}: ${req.body.msg}`, url: req.body.url})
+    if (author.username !== req.body.user.username) {
+        const subscription = await Subscription.findSubscription(author)
+        res.status(201).json({})
+        const payload = JSON.stringify({
+            title: sightingDB.identificationId,
+            body: `${req.body.user.username}: ${req.body.msg}`,
+            url: req.body.url
+        })
 
 
-    webPush.sendNotification(JSON.parse(subscription.subscriptionObject), payload).catch(console.log)
+        webPush.sendNotification(JSON.parse(subscription.subscriptionObject), payload).catch(console.log)
+    }
 })
 
 router.post('/subscribe', subscription_controller.create)
