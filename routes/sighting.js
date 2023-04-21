@@ -34,7 +34,7 @@ router.post('/api/data/users', async function (req, res) {
     res.json(userToQuery)
 })
 
-router.post('/subscribe', async (req, res) => {
+router.post('/notify', async (req, res) => {
     const sighting = req.body.sighting
     const sightingDB = await Sighting.findById(sighting).populate('userId').exec()
     let author = sightingDB.userId
@@ -46,7 +46,7 @@ router.post('/subscribe', async (req, res) => {
     webPush.sendNotification(JSON.parse(subscription.subscriptionObject), payload).catch(console.log)
 })
 
-router.post('/notify', subscription_controller.create)
+router.post('/subscribe', subscription_controller.create)
 
 
 // Routes accociated with syncing server and client db

@@ -38,31 +38,15 @@ const registerServiceWorker = async () => {
                         }
                     }
                     try {
-                        const response = await fetch('/notify', options)
+                        const response = await fetch('/subscribe', options)
                         const json = await response.json()
 
                     } catch (err) {
                         console.error(err)
                     }
 
-
-
                 }
-
-
-
-
-
             }
-            /*
-            await fetch("/subscribe", {
-                method: "POST",
-                body: JSON.stringify(subscription),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-             */
 
 
 
