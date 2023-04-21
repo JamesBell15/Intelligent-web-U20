@@ -38,7 +38,7 @@
                     }
                 }
                 try {
-                    const response = await fetch('/subscribe', options)
+                    const response = await fetch('/notify', options)
                     const json = await response.json()
 
                 } catch (err) {
