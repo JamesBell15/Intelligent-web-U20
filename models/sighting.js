@@ -37,11 +37,11 @@ sighting.methods.timeAsUTC = function() {
 sighting.methods.getConfirmationStyle = function() {
     switch(this.confirmation){
         case "confirmed":
-            return ' class="fa-sharp fa-solid fa-circle-check" style="color: #80ff80;"';
+            return ' class="fa-sharp fa-solid fa-circle-check fa-xl" style="color: #80ff80;"';
         case "unconfirmed":
-            return ' class="fa-solid fa-circle-question" style="color: #ff9f00;"';
+            return ' class="fa-solid fa-circle-question fa-xl" style="color: #ff9f00;"';
         case "unknown":
-            return ' class="fa-sharp fa-solid fa-circle-xmark" style="color: #ff5959;"';
+            return ' class="fa-sharp fa-solid fa-circle-xmark fa-xl" style="color: #ff5959;"';
     }
 }
 
