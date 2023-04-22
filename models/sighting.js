@@ -33,6 +33,17 @@ sighting.methods.timeAsUTC = function() {
     return this.dateTime.toUTCString()
 }
 
+sighting.methods.getConfirmationSymbol = function() {
+    switch(this.confirmation){
+        case "confirmed":
+            return "✅";
+        case "unconfirmed":
+            return "❓";
+        case "unknown":
+            return "❌";
+    }
+}
+
 sighting.statics.findSighting = async (sightingId) => {
     try {
         return await Sighting.findById(sightingId).exec()
