@@ -3,7 +3,7 @@ self.importScripts("/javascripts/serviceWorkerHelper.mjs")
 self.addEventListener("install", (event) => {
     event.waitUntil(
         addResourcesToCache([
-        // maifest
+        // manifest
         "/manifest.json",
         // css
         "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css",
@@ -15,12 +15,13 @@ self.addEventListener("install", (event) => {
         "/sighting/new.html",
         "/sighting/index.html",
         "/sighting/show.html",
-        // scrtipts
+        // scripts
         "/app_sw.js",
         "/jquery-3.6.4.js",
         "/javascripts/sighting/new_helper.js",
         "/javascripts/sighting/index_helper.js",
         "/javascripts/sighting/show_helper.js",
+        "/javascripts/sighting/identification.js",
         "/javascripts/indexedDB.js",
         "/javascripts/header_helper.js",
         "/javascripts/form.js"
@@ -34,7 +35,7 @@ self.addEventListener('sync', async event => {
     }
 
     if (event.tag.startsWith('new-sighting-')) {
-        console.log('new sighing ' + event.tag)
+        console.log('new sighting ' + event.tag)
         event.waitUntil(newSighting(event.tag.replace("new-sighting-", '')))
     }
 

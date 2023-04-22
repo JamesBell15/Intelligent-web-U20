@@ -15,21 +15,27 @@
     </h1>
 
     <form id="xForm" enctype="multipart/form-data">
-        <label for="identificationLabel">Identification: </label>
-        <input type="text" id="identification" name="identification"> <br>
+        <h4>Sighting Identification</h4>
 
-        <label for="descriptionLabel">Description: </label>
+        <label for="unknownIdentification">If unknown, please tick:</label>
+        <input type="checkbox" id="unknownIdentification" name="unknownIdentification">
+        <br>
+        <label for="identificationSearch">Name of bird: </label>
+        <input type="text" id="identificationSearch" name="identificationSearch">
+        <br>
+
+        <label for="description">Description: </label>
         <input type="text" id="description" name="description" required> <br>
 
-        <label for="dateLabel">Date & Time: </label>
+        <label for="dateTime">Date & Time: </label>
         <input type="datetime-local" id="dateTime" name="dateTime" required> <br>
 
-        <label for="locationLabel">Location: </label>
+        <label for="location">Location: </label>
         <input type="button" id="locationButton" value="Get current location">
         <div id="loader" class="loader hidden"></div>
         <input type="text" id="location" name="location"> <br>
 
-        <label for="imageLabel">Image: </label>
+        <label for="sightingImage">Image: </label>
         <div>
             <input type="file" id="sightingImage" name="sightingImage" accept="image/*" capture>
             <br>Or paste url:<br>

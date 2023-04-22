@@ -70,7 +70,8 @@ const renderSightingHTML = (record) => {
         <span>${record.userId}</span><br>
         <span>${record.description}</span><br>
         <span>${record.dateTime}</span><br>
-        <span>${record.identificationId}</span><br>
+        <span>${record.identificationName}</span><br>
+        <span>${record.confirmation}</span><br>
         <span>${record.location.coordinates}</span><br>`
 
     if (record.image.contentType != null) {

@@ -1,19 +1,42 @@
 <form id="xForm" method="post" action="new" enctype="multipart/form-data">
-    <label for="identificationLabel">Identification: </label>
-    <input type="text" id="identification" name="identification"> <br>
 
-    <label for="descriptionLabel">Description: </label>
+    <h4>Sighting Identification</h4>
+
+    <label for="unknownIdentification">If unknown, please tick:</label>
+    <input type="checkbox" id="unknownIdentification" name="unknownIdentification">
+    <br>
+    <label for="identificationSearch">Search identification by name: </label>
+    <input type="text" id="identificationSearch" name="identificationSearch">
+
+
+    <button type="button" id="findIdentifications" name="findIdentifications">Find</button><br>
+
+    <div id="identificationInputs" style="visibility: hidden">
+        <label for="identification" id="identificationLabel">Select Identification</label>
+        <select name="identification" id="identification"></select>
+        <label for="confirmIdentification">Confirmed?</label>
+        <input type="checkbox" id="confirmIdentification" name="confirmIdentification">
+
+        <div id="identificationHiddenFields" style="display:none">
+            <input type="hidden" name="identificationURI" id="identificationURI" value="unknown">
+            <input type="hidden" name="identificationName" id="identificationName" value="unknown">
+            <input type="hidden" name="confirmation" id="confirmation" value="unknown">
+        </div>
+    </div>
+
+    <h4>Sighting Information</h4>
+    <label for="description">Description: </label>
     <input type="text" id="description" name="description" required> <br>
 
-    <label for="dateLabel">Date & Time: </label>
+    <label for="dateTime">Date & Time: </label>
     <input type="datetime-local" id="dateTime" name="dateTime" required> <br>
 
-    <label for="locationLabel">Location: </label>
+    <label for="location">Location: </label>
     <input type="button" id="locationButton" value="Get current location">
     <div id="loader" class="loader hidden"></div>
     <input type="text" id="location" name="location"> <br>
 
-    <label for="imageLabel">Image: </label>
+    <label for="sightingImage">Image: </label>
     <div>
         <input type="file" id="sightingImage" name="sightingImage" accept="image/*">
         <br>Or paste url:<br>
@@ -21,7 +44,9 @@
     </div>
     <br>
 
+
     <input type="submit">
 </form>
 <a href="index"> Cancel </a>
-<script src="/javascripts/form.js" defer></script>
+<script src="/javascripts/form.js"></script>
+<script src="/javascripts/sighting/identification.js" defer></script>

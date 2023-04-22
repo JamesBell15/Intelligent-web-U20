@@ -20,7 +20,7 @@ const showAllRecords = (requestIDB) => {
             table.innerHTML += `
             <section sighting-post-id="${key}" id="sightingBody" class="container p-2">
                 <div class="row row-cols-5 border-bottom border-light-dark">
-                <h4 class="col fs-6"> ${value.identificationId} </h4>
+                <h4 class="col fs-6"> ${value.identificationName} (${value.confirmation})</h4>
                 <div class="col fs-6"> ${value.userId} </div>
                 <div class="col fs-6"> ${value.location.coordinates} </div>
                 <div class="col fs-6"> ${value.dateTime} </div>

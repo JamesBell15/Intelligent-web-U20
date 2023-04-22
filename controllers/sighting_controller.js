@@ -17,7 +17,9 @@ exports.create = async (req, res) => {
 	console.log(typeof longitude + " " + longitude)
     const image = await Helper.getImageFormReq(req)
 	let sighting = new Sighting({
-		identificationId: body.identification,
+		identificationURI: body.identificationURI,
+		identificationName: body.identificationName,
+		confirmation: body.confirmation,
 		userId: user,
 		location: {
 			type: 'Point',
@@ -28,24 +30,30 @@ exports.create = async (req, res) => {
 		image: image
 	})
 
-	sighting.save(async function (err, results) {
-		if (err) {
-			res.status(500).send(`Invalid data!: ${err}`)
-		} else {
-			const findSightingByIdentification = async (identificationId, userId) => {
-				try {
-					return await Sighting.findOne({
-						identificationId: identificationId,
-						userId: userId
-					}).populate('userId').exec()
-				} catch (e) {
-					console.error(e)
-				}
-			}
-			const sightingDb = await findSightingByIdentification(sighting.identificationId, sighting.userId)
-			res.redirect(`/sighting/show/${sightingDb._id}`)
-		}
-	})
+    sighting.save(async function (err, results) {
+        if (err) {
+			console.log(req.body);
+            console.log(results);
+            console.log(err);
+            res.status(500).send('Invalid data!')
+        } else {
+			//find sighting by timestamp and user that created it
+            const findSighting = async (dateTime, userId) => {
+                try {
+                    return await Sighting.findOne(
+                        {
+                            dateTime: dateTime,
+                            userId: userId
+                        }
+                    ).populate('userId').exec()
+                } catch (e) {
+                    console.error(e)
+                }
+            }
+            const sightingDb = await findSighting(sighting.dateTime, sighting.userId)
+            res.redirect(`/sighting/show/${sightingDb._id}`)
+        }
+    })
 }
 
 exports.index = async (req, res) => {
@@ -63,7 +71,7 @@ exports.index = async (req, res) => {
 		}
 	}
 	if (name) {
-		queryObject.identificationId = {$regex: name, $options: 'i'}
+		queryObject.identificationName = {$regex: name, $options: 'i'}
 	}
 
 	let result = Sighting.find(queryObject).populate('userId')
@@ -72,7 +80,7 @@ exports.index = async (req, res) => {
 		result = result.sort('dateTime')
 	}
 	if (sort == 'alphabetical') {
-		result = result.sort('identificationId')
+		result = result.sort('identificationName')
 	}
 
 	/*
@@ -141,7 +149,9 @@ exports.update_sighting_data = async (req, res) => {
 
 	const user = await User.findUser(body.userId)
 	let sighting = new Sighting({
-		identificationId: body.identificationId,
+		identificationURI: body.identificationURI,
+		identificationName: body.identificationName,
+		confirmation: body.confirmation,
 		userId: user,
 		location: body.location,
 		description: body.description,

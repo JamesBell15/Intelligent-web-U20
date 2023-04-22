@@ -25,7 +25,9 @@ const syncIDB = () => {
                         userId: sighting.userId.username,
                         description: sighting.description,
                         dateTime: sighting.dateTime,
-                        identificationId: sighting.identificationId,
+                        identificationURI: sighting.identificationURI,
+                        identificationName: sighting.identificationName,
+                        confirmation: sighting.confirmation,
                         location: sighting.location,
                         image: sighting.image
                     }
