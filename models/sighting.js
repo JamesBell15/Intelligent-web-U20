@@ -33,14 +33,15 @@ sighting.methods.timeAsUTC = function() {
     return this.dateTime.toUTCString()
 }
 
-sighting.methods.getConfirmationSymbol = function() {
+//get styling for the confirmation column entry (creates a FontAwesome symbol with relevant symbol)
+sighting.methods.getConfirmationStyle = function() {
     switch(this.confirmation){
         case "confirmed":
-            return "✅";
+            return ' class="fa-sharp fa-solid fa-circle-check" style="color: #80ff80;"';
         case "unconfirmed":
-            return "❓";
+            return ' class="fa-solid fa-circle-question" style="color: #ff9f00;"';
         case "unknown":
-            return "❌";
+            return ' class="fa-sharp fa-solid fa-circle-xmark" style="color: #ff5959;"';
     }
 }
 
