@@ -118,3 +118,17 @@ exports.show = (req, res) => {
         }
     })
 }
+
+//render edit page for a given sighting
+exports.edit = (req, res) => {
+	sighting_id = req.params.id;
+	Sighting.findById(sighting_id).populate('userId').exec(async function (err, sighting) {
+		if (err) {
+			err.type = 'database'
+		} else {
+			res.render('sighting/edit', {
+				sighting: sighting
+			})
+		}
+	})
+}
