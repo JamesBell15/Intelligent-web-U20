@@ -1,6 +1,4 @@
 import {subscribe} from "./subscription_helper.mjs"
-const Subscription = require('../../models/subscription')
-
 
 {
     const sightingID = window.location.pathname.split('/').pop().replace(/\s/g, '')
@@ -50,8 +48,29 @@ const Subscription = require('../../models/subscription')
     const sendMsg = (e) => {
         const msg = document.querySelector('#msgIn').value
         if (msg.trim()) {
-            useUserInfo((user) => {
+            useUserInfo(async (user) => {
                 socket.emit('send msg', sightingID, user, msg)
+                // Send a post request to /notify with all the data necessary to display the notification
+                const data = ({
+                    sighting: sightingID,
+                    user: user,
+                    msg: msg,
+                    url: window.location.href
+                })
+                const options = {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                }
+                try {
+                    const response = await fetch('/notify', options)
+                    const json = await response.json()
+
+                } catch (err) {
+                    console.error(err)
+                }
             })
         }
     }

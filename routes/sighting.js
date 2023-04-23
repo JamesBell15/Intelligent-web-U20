@@ -32,7 +32,7 @@ router.post('/api/data/users', async function (req, res) {
     res.json(userToQuery)
 })
 
-
+// Routes associated with notifications
 router.post('/notify', subscription_controller.sendNotification)
 router.post('/subscribe', subscription_controller.create)
 

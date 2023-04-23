@@ -34,7 +34,6 @@ subscriptionSchema.methods.insertUpdate = async function(user, sub) {
             return await Subscription.findOneAndUpdate(query, update)
         }
         else {
-
             return await this.save()
         }
     } catch (e) {
