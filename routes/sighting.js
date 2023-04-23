@@ -25,8 +25,6 @@ router.post("/sighting/new", upload.single('sightingImage'), sighting_controller
 
 // Routes accociated with online chat messages
 const User = require('../models/user')
-const Sighting = require("../models/sighting");
-const Subscription = require("../models/subscription");
 router.post('/api/data/users', async function (req, res) {
     const userToQuery = await User.findUser(req.body.name)
     res.json(userToQuery)

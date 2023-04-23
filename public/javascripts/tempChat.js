@@ -45,8 +45,6 @@ import {subscribe} from "./subscription_helper.mjs"
         checkUserIsAuthor()
     }
 
-
-
     const sendMsg = (e) => {
         const msg = document.querySelector('#msgIn').value
         if (msg.trim()) {
