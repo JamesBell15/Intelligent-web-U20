@@ -1,7 +1,5 @@
 import {subscribe} from "./subscription_helper.mjs";
 
-const Subscription = require("../../models/subscription");
-
 const registerServiceWorker = async () => {
     if ("serviceWorker" in navigator) {
         try {
@@ -15,64 +13,6 @@ const registerServiceWorker = async () => {
             if (Notification.permission === 'granted') {
                 await subscribe()
             }
-            const subscription = await registration.pushManager.subscribe({
-                userVisibleOnly: true,
-                applicationServerKey: "BLbjzsibeJ_ETEMWPGY6gS5Mvu-tDYwurLa0GIk05Q5-0MEZMRG2swTsI-mW_UgXOaCBuAph_BFKNVOZiM85X_0"
-            })
-            console.log(subscription)
-
-            const requestIDB = indexedDB.open('db', 4)
-
-
-
-            requestIDB.onsuccess = (event) => {
-                console.log('success IDB')
-                const db = requestIDB.result
-
-                const userStore = db.transaction('userInfo', 'readonly').objectStore('userInfo')
-                const userStoreRequest = userStore.get('user')
-
-                userStoreRequest.onsuccess = async (event) => {
-                    const user = userStoreRequest.result
-                    console.log(user)
-
-                    const data = {
-                        user: user,
-                        subscription: subscription
-                    }
-                    const options = {
-                        method: 'POST',
-                        body: JSON.stringify(data),
-                        headers: {
-                            'Content-type': 'application/json'
-                        }
-                    }
-                    try {
-                        const response = await fetch('/notify', options)
-                        const json = await response.json()
-
-                    } catch (err) {
-                        console.error(err)
-                    }
-
-
-
-                }
-
-
-
-
-
-            }
-            /*
-            await fetch("/subscribe", {
-                method: "POST",
-                body: JSON.stringify(subscription),
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-             */
 
             if (registration.installing) {
                 console.log("Service worker installing")
