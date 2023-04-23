@@ -5,7 +5,6 @@
     socket.emit('join sighting', sightingID)
 
     const author = document.querySelector('#author').innerHTML
-    console.log(author)
 
     const checkUserIsAuthor = () => {
         useUserInfo(async (user) => {
@@ -14,24 +13,27 @@
 
                 let registration
 
+
+
                 try {
                     registration = await navigator.serviceWorker.ready
-                    //console.log(registration)
                     subscription = await registration.pushManager.subscribe({
                         userVisibleOnly: true,
                         applicationServerKey: "BLbjzsibeJ_ETEMWPGY6gS5Mvu-tDYwurLa0GIk05Q5-0MEZMRG2swTsI-mW_UgXOaCBuAph_BFKNVOZiM85X_0"
                     })
-                    //console.log(subscription)
+
+
                 }catch (e) {
-                    console.log('does not work')
-                    console.log(e)
+                    if (navigator.userAgent.indexOf("Firefox") > -1) {
+                        setInterval(function() {
+                            if (Notification.permission === 'granted') {
+                                location.reload()
+                            }
+                        }, 500)
+                    }
                 }
 
 
-
-
-
-                //registration = navigator.serviceWorker.getRegistration("../app_sw.js").then(r => console.log(r))
 
                 const db = requestIDB.result
 
@@ -40,9 +42,7 @@
 
                 userStoreRequest.onsuccess = async (event) => {
                     const user = userStoreRequest.result
-                    console.log(user)
                     if (user !== undefined) {
-                        console.log(subscription)
 
                         const data = {
                             user: user,
@@ -80,11 +80,11 @@
     }
 
     requestIDB.onsuccess = (event) => {
-        checkUserIsAuthor()
         document.querySelector('#sendMsgBtn').addEventListener('click', sendMsg)
         document.querySelector('#msgIn').addEventListener('keyup', ({key}) => {
             if (key === 'Enter') sendMsg()
         })
+        checkUserIsAuthor()
 
 
 
