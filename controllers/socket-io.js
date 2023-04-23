@@ -25,7 +25,6 @@ exports.init = function(io) {
                     msg: msg
                 })
 
-                const subscription = await Subscription.findSubscription(author)
 
                 await message.insert()
                 io.to(room).emit('msg', message)
