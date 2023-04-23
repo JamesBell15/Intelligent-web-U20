@@ -1,0 +1,45 @@
+<div>
+
+    <span>Author: <%= sighting.userId.username %></span><br>
+
+    <h4>Sighting Identification</h4>
+
+    <label for="unknownIdentification">If unknown, please tick:</label>
+    <input type="checkbox" id="unknownIdentification" name="unknownIdentification">
+    <br>
+    <label for="identificationSearch">Search identification by name: </label>
+    <input type="text" id="identificationSearch" name="identificationSearch">
+
+
+    <button type="button" id="findIdentifications" name="findIdentifications">Find</button><br>
+
+    <div id="identificationInputs" style="visibility: hidden">
+        <label for="identification" id="identificationLabel">Select Identification</label>
+        <select name="identification" id="identification"></select>
+        <label for="confirmIdentification">Confirmed?</label>
+        <input type="checkbox" id="confirmIdentification" name="confirmIdentification">
+
+        <div id="identificationHiddenFields" style="display:none">
+            <input type="hidden" name="identificationURI" id="identificationURI" value="<%= sighting.identificationURI%>>">
+            <input type="hidden" name="identificationName" id="identificationName" value="<%= sighting.identificationName%>">
+            <input type="hidden" name="confirmation" id="confirmation" value="<%= sighting.confirmation%>">
+        </div>
+    </div>
+
+
+    <span><%= sighting.description %></span><br>
+    <span><%= sighting.timeAsUTC() %></span><br>
+    <span><%= sighting.location.coordinates %></span><br>
+    <% if (sighting.image.contentType != null) {%>
+    <span><img src="data:<%=sighting.image.contentType%>;base64,
+                        <%=sighting.image.data.toString('base64')%>" height=200px></span><br>
+    <%} else if (sighting.image.url != null) { %>
+    <span><img src="<%=sighting.image.url%>%>" height=200px></span><br>
+    <%}%>
+</div>
+
+
+<button id="toIndexBtn" type="button" class="btn btn-outline-primary">Return to index.</button>
+
+<script src="/javascripts/sighting/identification.js" defer></script>
+<script src="/javascripts/sighting/edit.js" defer></script>
