@@ -1,3 +1,5 @@
+import {subscribe} from "./subscription_helper.mjs"
+
 {
     const sightingID = window.location.pathname.split('/').pop().replace(/\s/g, '')
     let socket = io()
@@ -9,63 +11,19 @@
     const checkUserIsAuthor = () => {
         useUserInfo(async (user) => {
             if (user.username === author) {
-                let subscription
-
-                let registration
-
-
-
                 try {
-                    registration = await navigator.serviceWorker.ready
-                    subscription = await registration.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: "BLbjzsibeJ_ETEMWPGY6gS5Mvu-tDYwurLa0GIk05Q5-0MEZMRG2swTsI-mW_UgXOaCBuAph_BFKNVOZiM85X_0"
-                    })
-
-
-                }catch (e) {
+                    await subscribe()
+                } catch (e) {
+                    // Strange quirk on Firefox where the permissions don't update
+                    // in real time, so have to force a refresh
+                    // Probably a better way of doing this
                     if (navigator.userAgent.indexOf("Firefox") > -1) {
-                        setInterval(function() {
+                        setInterval(function () {
                             if (Notification.permission === 'granted') {
                                 location.reload()
-                            }
-                        }, 500)
+                            }}, 500)
                     }
                 }
-
-
-
-                const db = requestIDB.result
-
-                const userStore = db.transaction('userInfo', 'readonly').objectStore('userInfo')
-                const userStoreRequest = userStore.get('user')
-
-                userStoreRequest.onsuccess = async (event) => {
-                    const user = userStoreRequest.result
-                    if (user !== undefined) {
-
-                        const data = {
-                            user: user,
-                            subscription: subscription
-                        }
-                        const options = {
-                            method: 'POST',
-                            body: JSON.stringify(data),
-                            headers: {
-                                'Content-type': 'application/json'
-                            }
-                        }
-                        try {
-                            const response = await fetch('/subscribe', options)
-                            const json = await response.json()
-
-                        } catch (err) {
-                            console.error(err)
-                        }
-                    }
-
-                }
-
             }
         })
     }
@@ -85,18 +43,14 @@
             if (key === 'Enter') sendMsg()
         })
         checkUserIsAuthor()
-
-
-
     }
-
-
 
     const sendMsg = (e) => {
         const msg = document.querySelector('#msgIn').value
         if (msg.trim()) {
             useUserInfo(async (user) => {
                 socket.emit('send msg', sightingID, user, msg)
+                // Send a post request to /notify with all the data necessary to display the notification
                 const data = ({
                     sighting: sightingID,
                     user: user,

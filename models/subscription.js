@@ -26,17 +26,14 @@ subscriptionSchema.methods.insert = async function() {
 subscriptionSchema.methods.insertUpdate = async function(user, sub) {
     try {
         const subscription = await Subscription.findOne({userId: user})
-        console.log(subscription)
+        // Check if the subscription entry already exists. If so, update the current record with the new subscription.
+        // If not, create a new one
         if (subscription) {
-            console.log('update existing subscription')
             const query = {userId: user}
             const update = {subscriptionObject: sub}
-
             return await Subscription.findOneAndUpdate(query, update)
-
         }
         else {
-            console.log('new subscription')
             return await this.save()
         }
     } catch (e) {

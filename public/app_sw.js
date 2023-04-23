@@ -68,7 +68,6 @@ self.addEventListener("push", (event) => {
 
 self.addEventListener("notificationclick", function (event) {
     const data = event.notification.data
-    console.log(data)
     event.notification.close()
     clients.openWindow(data.url)
 })
