@@ -53,8 +53,8 @@ const searchIdentifications = () =>{
 
 
             let dropdown = document.getElementById("identification");
-            for (opt in dropdown.options) {dropdown.options.remove(0);}
-            dropdown.selection
+            while (dropdown.options.length >0){dropdown.options.remove(0);}
+
             let identificationWrapper = document.getElementById("identificationInputs");
             for (i in bindings){
                 //create option per result from query
