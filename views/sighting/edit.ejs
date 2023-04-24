@@ -1,6 +1,6 @@
 <div>
 
-    <span>Author: <%= sighting.userId.username %></span><br>
+    <h3>Author: <%= sighting.userId.username %></h3><br>
 
     <h4>Sighting Identification</h4>
 
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-
+    <h4>Sighting Information</h4>
     <span><%= sighting.description %></span><br>
     <span><%= sighting.timeAsUTC() %></span><br>
     <span><%= sighting.location.coordinates %></span><br>

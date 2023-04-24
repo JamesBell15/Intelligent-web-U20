@@ -13,7 +13,6 @@
                     try {
                         const user = await getUser()
                         if (user) {
-                            console.log(user)
                             const coordinates = user.coords
                             sortParameters = `sort=distance&long=${coordinates[0]}&lat=${coordinates[1]}`
                         }
