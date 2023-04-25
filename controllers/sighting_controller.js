@@ -147,7 +147,22 @@ exports.update_sighting_data = async (req, res) => {
 
 	let body = req.body
 
-	const user = await User.findUser(body.userId)
+	let user = await User.findUser(body.userId)
+
+	if (typeof user != "User") {
+		user = await new User({
+			username: body.userId,
+			location: body.location
+		})
+
+		user.save(async function (err) {
+			if (err) {
+				console.log(err)
+				res.status(500).send('Failed to create user')
+			}
+		})
+	}
+
 	let sighting = new Sighting({
 		identificationURI: body.identificationURI,
 		identificationName: body.identificationName,
@@ -161,7 +176,8 @@ exports.update_sighting_data = async (req, res) => {
 
 	sighting.save(async function (err, results) {
 		if (err) {
-			res.status(500).send('Invalid data!')
+			console.log(err)
+			res.status(500).send('Invalid data for sighting!')
 		} else {
 			res.status(200).json({postId: results._id})
 		}
@@ -181,7 +197,8 @@ exports.update_message_data = async (req, res) => {
 
 	message.save(async function (err, results) {
 		if (err) {
-			res.status(500).send('Invalid data!')
+			console.log(err)
+			res.status(500).send('Invalid data for message!')
 		} else {
 			res.status(200)
 		}
