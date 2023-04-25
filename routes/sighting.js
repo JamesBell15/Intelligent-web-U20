@@ -6,6 +6,7 @@ let router = express.Router()
 
 
 const sighting_controller = require("../controllers/sighting_controller")
+const db_controller = require("../controllers/db_controller")
 
 // Routes accociated with online sightings
 router.get("/sighting/index", sighting_controller.index)
@@ -22,8 +23,8 @@ router.post('/api/data/users', async function (req, res) {
 })
 
 // Routes accociated with syncing server and client db
-router.get("/db/get", sighting_controller.get_server_data)
-router.post("/db/sighting/update", sighting_controller.update_sighting_data)
-router.post("/db/message/update", sighting_controller.update_message_data)
+router.get("/db/get", db_controller.get_server_data)
+router.post("/db/sighting/update", db_controller.update_sighting_data)
+router.post("/db/message/update", db_controller.update_message_data)
 
 module.exports = router
