@@ -10,6 +10,7 @@ const syncIDB = () => {
             const transaction = requestIDB.result.transaction(["sightings", "messages"], "readwrite")
             const sightingStore = transaction.objectStore("sightings")
             const messageStore = transaction.objectStore("messages")
+
             transaction.onerror = (event) => {
                 console.log("Sync transaction error: " + event.target.error)
             }
