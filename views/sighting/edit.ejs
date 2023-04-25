@@ -2,7 +2,7 @@
 
     <h3>Author: <%= sighting.userId.username %></h3><br>
 
-    <h4>Sighting Identification</h4>
+    <h3>Sighting Identification</h3>
 
     <label for="unknownIdentification">If unknown, please tick:</label>
     <input type="checkbox" id="unknownIdentification" name="unknownIdentification">
@@ -26,10 +26,14 @@
         </div>
     </div>
 
-    <h4>Sighting Information</h4>
+    <h3>Sighting Information</h3>
+    <span class="fieldTitle">Description</span><br>
     <span><%= sighting.description %></span><br>
+    <span class="fieldTitle">Time sighted</span><br>
     <span><%= sighting.timeAsUTC() %></span><br>
+    <span class="fieldTitle">Location</span><br>
     <span><%= sighting.location.coordinates %></span><br>
+    <span class="fieldTitle">Image</span><br>
     <% if (sighting.image.contentType != null) {%>
     <span><img src="data:<%=sighting.image.contentType%>;base64,
                         <%=sighting.image.data.toString('base64')%>" height=200px></span><br>
