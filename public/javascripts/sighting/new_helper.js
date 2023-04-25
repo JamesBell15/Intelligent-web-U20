@@ -56,7 +56,7 @@ const addNewRecord = (requestIDB) => {
 }
 
 const insertIntoIDB = async (username, description, dateTime, identificationURI, identificationName, confirmation, location, image) => {
-    const transaction = requestIDB.result.transaction(["sightings"], "readwrite")
+    const transaction = requestIDB.result.transaction(["sightings", "userInfo"], "readwrite")
 
     transaction.onerror = (event) => {
         console.log(`TRANS ERROR: ${event.target.errorCode}`)
@@ -74,6 +74,7 @@ const insertIntoIDB = async (username, description, dateTime, identificationURI,
     }
 
     const sightingStore = transaction.objectStore("sightings")
+    const userInfoStore = transaction.objectStore("userInfo")
 
     const request = await sightingStore.add(sighting)
 
@@ -81,6 +82,15 @@ const insertIntoIDB = async (username, description, dateTime, identificationURI,
         newSightingId = await event.target.result
 
         registerNewSightingSync(newSightingId)
+        userInfoStore.get('user').onsuccess = (event) => {
+            if(typeof event.target.result === "undefined") {
+                user = {
+                    username: username,
+                    location: location
+                }
+                userInfoStore.add(user, 'user')
+            }
+        }
     }
 
     transaction.oncomplete = () => {
