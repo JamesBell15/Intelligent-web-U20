@@ -1,49 +1,34 @@
-<div>
+<div class="modal-body">
 
-    <h3>Author: <%= sighting.userId.username %></h3><br>
+    <h3>Edit Sighting Identification</h3>
 
-    <h3>Sighting Identification</h3>
+    <form id="xForm" method="post" action="update">
+        <label for="unknownIdentification">If unknown, please tick:</label>
+        <input type="checkbox" id="unknownIdentification" name="unknownIdentification">
+        <br>
+        <label for="identificationSearch">Search identification by name: </label>
+        <input type="text" id="identificationSearch" name="identificationSearch">
 
-    <label for="unknownIdentification">If unknown, please tick:</label>
-    <input type="checkbox" id="unknownIdentification" name="unknownIdentification">
-    <br>
-    <label for="identificationSearch">Search identification by name: </label>
-    <input type="text" id="identificationSearch" name="identificationSearch">
 
+        <button type="button" id="findIdentifications" name="findIdentifications">Find</button><br>
 
-    <button type="button" id="findIdentifications" name="findIdentifications">Find</button><br>
+        <div id="identificationInputs" style="visibility: hidden">
+            <label for="identification" id="identificationLabel">Select Identification</label>
+            <select name="identification" id="identification"></select>
+            <label for="confirmIdentification">Confirmed?</label>
+            <input type="checkbox" id="confirmIdentification" name="confirmIdentification">
 
-    <div id="identificationInputs" style="visibility: hidden">
-        <label for="identification" id="identificationLabel">Select Identification</label>
-        <select name="identification" id="identification"></select>
-        <label for="confirmIdentification">Confirmed?</label>
-        <input type="checkbox" id="confirmIdentification" name="confirmIdentification">
-
-        <div id="identificationHiddenFields" style="display:none">
-            <input type="hidden" name="identificationURI" id="identificationURI" value="<%= sighting.identificationURI%>>">
-            <input type="hidden" name="identificationName" id="identificationName" value="<%= sighting.identificationName%>">
-            <input type="hidden" name="confirmation" id="confirmation" value="<%= sighting.confirmation%>">
+            <div id="identificationHiddenFields" style="display:none">
+                <input type="hidden" name="identificationURI" id="identificationURI" value="<%= sighting.identificationURI%>>">
+                <input type="hidden" name="identificationName" id="identificationName" value="<%= sighting.identificationName%>">
+                <input type="hidden" name="confirmation" id="confirmation" value="<%= sighting.confirmation%>">
+            </div>
         </div>
-    </div>
-
-    <h3>Sighting Information</h3>
-    <span class="fieldTitle">Description</span><br>
-    <span><%= sighting.description %></span><br>
-    <span class="fieldTitle">Time sighted</span><br>
-    <span><%= sighting.timeAsUTC() %></span><br>
-    <span class="fieldTitle">Location</span><br>
-    <span><%= sighting.location.coordinates %></span><br>
-    <span class="fieldTitle">Image</span><br>
-    <% if (sighting.image.contentType != null) {%>
-    <span><img src="data:<%=sighting.image.contentType%>;base64,
-                        <%=sighting.image.data.toString('base64')%>" height=200px></span><br>
-    <%} else if (sighting.image.url != null) { %>
-    <span><img src="<%=sighting.image.url%>%>" height=200px></span><br>
-    <%}%>
+        <br>
+        <input type="submit">
+    </form>
+    <script src="/javascripts/sighting/identification.js" defer></script>
+    <script src="/javascripts/sighting/edit_helper.js" defer></script>
 </div>
 
 
-<button id="toIndexBtn" type="button" class="btn btn-outline-primary" onclick = "location.href = '/sighting/index';">Return to index.</button>
-
-<script src="/javascripts/sighting/identification.js" defer></script>
-<script src="/javascripts/sighting/edit_helper.js" defer></script>
