@@ -10,8 +10,10 @@
         storeRequest.onsuccess = async (event) => {
             const user = await event.target.result
             if (user) {
+                document.getElementById('submitBtn').disabled = false
                 onSuccess(user)
             } else {
+                document.getElementById('submitBtn').disabled = true
                 console.log('You are not logged in.')
             }
         }
