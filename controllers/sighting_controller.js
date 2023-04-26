@@ -132,3 +132,17 @@ exports.edit = (req, res) => {
 		}
 	})
 }
+
+//update sighting object with new identification details
+exports.update = (req,res) => {
+	sighting_id = req.params.id;
+	let body = req.body
+
+	Sighting.findOneAndUpdate(
+		{id: body.id},
+		{identificationURI: body.identificationURI,
+			identificationName: body.identificationName,
+			confirmation: body.confirmation}
+	)
+	res.redirect(`/sighting/show/${body.id}`);
+}
