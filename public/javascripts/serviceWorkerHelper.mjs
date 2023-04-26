@@ -2,60 +2,67 @@ const syncIDB = () => {
     const requestIDB = indexedDB.open("db", 4)
 
     requestIDB.onsuccess = (event) => {
-        fetch('/db/get').then(
-            (response) => response.json()
-        ).then((body) => {
+        const userTransaction = requestIDB.result.transaction(["userInfo"], "readwrite")
+        const userStore = userTransaction.objectStore("userInfo")
 
-            // use this to store data from db
-            const transaction = requestIDB.result.transaction(["sightings", "messages"], "readwrite")
-            const sightingStore = transaction.objectStore("sightings")
-            const messageStore = transaction.objectStore("messages")
-
-            transaction.onerror = (event) => {
-                console.log("Sync transaction error: " + event.target.error)
-            }
-            transaction.oncomplete = (event) => {
-                console.log("Sync transaction success")
-            }
-
-            const clearRequest = sightingStore.clear()
-
-            clearRequest.onsuccess = (event) => {
-                for (let sighting of body.data['sightings']){
-                    let tempSighting = {
-                        userId: sighting.userId.username,
-                        description: sighting.description,
-                        dateTime: sighting.dateTime,
-                        identificationURI: sighting.identificationURI,
-                        identificationName: sighting.identificationName,
-                        confirmation: sighting.confirmation,
-                        location: sighting.location,
-                        image: sighting.image
-                    }
-
-                    const sightingAddRequest = sightingStore.add(tempSighting, sighting._id)
+        userStore.get('user').onsuccess = (event) => {
+            // Send username to server
+            fetch(`/db/get/${event.target.result.username}`).then(
+                (response) => response.json()
+            ).then((body) => {
+                // use this to store data from db
+                const syncTransaction = requestIDB.result.transaction(["sightings", "messages"], "readwrite")
+                syncTransaction.onerror = (event) => {
+                    console.log("Sync transaction error: " + event.target.error)
                 }
-            }
-
-            const messageClearRequest = messageStore.clear()
-
-            messageClearRequest.onsuccess = (event) => {
-                for (let message of body.data['messages']){
-                    let tempMessage = {
-                        senderId: message.sender.username,
-                        postId: message.post,
-                        msg: message.msg,
-                        createdAt: message.createdAt
-                    }
-
-                    const messageAddRequest = messageStore.add(tempMessage, message._id)
+                syncTransaction.oncomplete = (event) => {
+                    console.log("Sync transaction success")
                 }
-            }
 
-        })
+                const sightingStore = syncTransaction.objectStore("sightings")
+                const messageStore = syncTransaction.objectStore("messages")
+
+                const clearRequest = sightingStore.clear()
+
+                clearRequest.onsuccess = (event) => {
+                    for (let key in body.data['sightings']){
+                        sighting = body.data['sightings'][key]
+
+                        let tempSighting = {
+                            userId: sighting.userId.username,
+                            description: sighting.description,
+                            dateTime: sighting.dateTime,
+                            identificationURI: sighting.identificationURI,
+                            identificationName: sighting.identificationName,
+                            confirmation: sighting.confirmation,
+                            location: sighting.location,
+                            image: sighting.image
+                        }
+
+                        const sightingAddRequest = sightingStore.add(tempSighting, key)
+                    }
+                }
+
+                const messageClearRequest = messageStore.clear()
+
+                messageClearRequest.onsuccess = (event) => {
+                    for (let message of body.data['messages']){
+                        let tempMessage = {
+                            senderId: message.sender.username,
+                            postId: message.post,
+                            msg: message.msg,
+                            createdAt: message.createdAt
+                        }
+
+                        const messageAddRequest = messageStore.add(tempMessage, message._id)
+                    }
+                }
+            })
+        }
     }
 }
 
+// Add new sighting with new messages made during offline period
 const newSighting = async (id) => {
     const requestIDB = indexedDB.open("db", 4)
 
@@ -120,6 +127,7 @@ const newSighting = async (id) => {
     }
 }
 
+// For messages on existing sightings
 const newMessage = (id) => {
     const requestIDB = indexedDB.open("db", 4)
 
@@ -210,5 +218,25 @@ const networkFirst = async (pathname, fallbackUrl) => {
                 }
             )
         }
+    }
+}
+
+// Redirects server requests to server not cache
+const syncNetwork = async (pathname) => {
+    try {
+        const responseFromNetwork = await fetch(pathname)
+
+        return responseFromNetwork
+    } catch (error) {
+        // when even the fallback response is not available,
+        // there is nothing we can do, but we must always
+        // return a Response object
+        return new Response(
+            "Network error happened",
+            {
+            status: 408,
+            headers: { "Content-Type": "text/plain" },
+            }
+        )
     }
 }
