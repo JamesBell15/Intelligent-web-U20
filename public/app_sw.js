@@ -57,10 +57,13 @@ self.addEventListener("fetch", (event) => {
             pathname == '/sighting/show'       ||
             pathname == '/sighting/new'
         ) {
-            // try to get online
-            event.respondWith(networkFirst(requestURL, "/html/offline.html"))
+            // Try online routes first
+            event.respondWith(networkFirst(requestURL, "/sighting/index.html"))
+        // for syncing related taskes
+        } else if (pathname.startsWith("/db/")) {
+            event.respondWith(syncNetwork(requestURL))
         } else {
-            event.respondWith(cacheFirst(event.request, "/html/offline.html"))
+            event.respondWith(cacheFirst(event.request, "/sighting/index.html"))
         }
     }
 })
