@@ -55,7 +55,6 @@ self.addEventListener("fetch", (event) => {
         if(
             pathname == '/sighting/index'      ||
             pathname == '/sighting/show'       ||
-            pathname == '/sighting/edit'       ||
             pathname == '/sighting/new'
         ) {
             // Try online routes first
