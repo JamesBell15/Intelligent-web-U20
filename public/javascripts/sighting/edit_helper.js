@@ -37,3 +37,4 @@ else{
         confirmedCheckbox.checked = true;
     }
 }
+disableFields()

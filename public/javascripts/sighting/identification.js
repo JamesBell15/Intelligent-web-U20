@@ -168,5 +168,4 @@ form.addEventListener("change", setHiddenFields)
 
 const unknownIdentification = document.getElementById("unknownIdentification")
 unknownIdentification.addEventListener("change", disableFields)
-disableFields()
 
