@@ -32,9 +32,9 @@ exports.create = async (req, res) => {
 
     sighting.save(async function (err, results) {
         if (err) {
-			console.log(req.body);
-            console.log(results);
-            console.log(err);
+			console.log(req.body)
+            console.log(results)
+            console.log(err)
             res.status(500).send('Invalid data!')
         } else {
 			//find sighting by timestamp and user that created it
@@ -121,7 +121,7 @@ exports.show = (req, res) => {
 
 //render edit page for a given sighting
 exports.edit = (req, res) => {
-	sighting_id = req.params.id;
+	sighting_id = req.params.id
 	Sighting.findById(sighting_id).populate('userId').exec(async function (err, sighting) {
 		if (err) {
 			err.type = 'database'
@@ -134,22 +134,22 @@ exports.edit = (req, res) => {
 }
 
 //update sighting object with new identification details
-exports.update = (req,res) => {
+exports.update = async (req,res) => {
 	let body = req.body
-	console.log(req.body);
-
-	//find and update function being called, but gets stuck trying to update
-	//either it's not able to find a record, or it doesn't update properly, or i've got this whole thing wrong lol
-	Sighting.findOneAndUpdate(
-		{_id: body.id},
-		{identificationURI: body.identificationURI,
-			identificationName: body.identificationName,
-			confirmation: body.confirmation},
-		async function (err, sighting) {
-			console.log("tried to update");
-			if (err) {err.type = "database";}
-			else {res.redirect(`/sighting/show/${body.id}`);}
+	let id = body.id
+	let sighting = await Sighting.findOne({_id: id})
+	sighting.identificationURI = body.identificationURI
+	sighting.identificationName = body.identificationName
+	sighting.confirmation = body.confirmation
+	sighting.save(async (err, results) => {
+		if (err) {
+			console.log(req.body)
+			console.log(results)
+			console.log(err)
+			res.status(500).send('Invalid data!')
+		} else {
+			res.redirect(`/sighting/show/${id}`)
 		}
-	)
+	})
 
 }
