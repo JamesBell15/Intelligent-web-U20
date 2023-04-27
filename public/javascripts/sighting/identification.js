@@ -62,7 +62,6 @@ const searchIdentifications = () =>{
                 let opt = document.createElement("option")
                 let bird = bindings[i]
                 opt.value = bird.bird.value
-                console.log(bird)
                 opt.innerHTML = bird.label.value
                 dropdown.appendChild(opt)
             }
@@ -93,7 +92,6 @@ function getConfirmation() {
 
 //disables/enables identification inputs when unknown checkbox is checked/unchecked
 function disableFields(){
-    console.log("disable fields called");
 
     let inputs = [
         document.getElementById("identificationSearch"),
@@ -103,11 +101,9 @@ function disableFields(){
     ]
     if (document.getElementById("unknownIdentification").checked){
         for (let input of inputs){input.setAttribute("disabled","disabled")}
-        console.log("disabled")
     }
     else{
         for (let input of inputs){input.removeAttribute("disabled")}
-        console.log("enabled")
     }
 }
 
