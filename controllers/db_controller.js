@@ -10,8 +10,6 @@ exports.get_server_data = async (req, res) => {
 
     username = req.params.username
 
-    // const user = await User.findUser(username)
-
     let json = {sightings: {}, messages: {}}
     // split into messages controller and sighting controller
     Sighting.find().populate('userId').exec(function (err, sightings) {

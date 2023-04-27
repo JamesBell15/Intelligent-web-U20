@@ -6,8 +6,14 @@ const syncIDB = () => {
         const userStore = userTransaction.objectStore("userInfo")
 
         userStore.get('user').onsuccess = (event) => {
-            // Send username to server
-            fetch(`/db/get/${event.target.result.username}`).then(
+            // Use epoc to uniquely identify sync when not logged in
+            let requestId = Date.now()
+
+            if (typeof event.target.result !== 'undefined') {
+                requestId = event.target.result.username
+            }
+
+            fetch(`/db/get/${requestId}`).then(
                 (response) => response.json()
             ).then((body) => {
                 // use this to store data from db
