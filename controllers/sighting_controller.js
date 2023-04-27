@@ -77,7 +77,7 @@ exports.index = async (req, res) => {
 	let result = Sighting.find(queryObject).populate('userId')
 
 	if (sort == 'recent') {
-		result = result.sort('dateTime')
+		result = result.sort('-dateTime')
 	}
 	if (sort == 'alphabetical') {
 		result = result.sort('identificationName')
