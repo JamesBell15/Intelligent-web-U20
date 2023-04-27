@@ -1,4 +1,7 @@
 <div>
+    <button id="editModalBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+        <i class="fa-solid fa-pen"></i> Edit Sighting
+    </button>
     <span><%= sighting.userId.username %></span><br>
     <span><%= sighting.identificationName %></span><br>
     <span><%= sighting.confirmation %></span><br>
@@ -33,6 +36,12 @@
         />
         <input id="sendMsgBtn" type="button" value="Send"/>
     </form>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <%- include edit.ejs%>
+    </div>
 </div>
 
 <button id="toIndexBtn" type="button" class="btn btn-outline-primary">Return to index.</button>
