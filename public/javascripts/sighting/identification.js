@@ -29,16 +29,11 @@ const searchIdentifications = () =>{
         PREFIX dbprop: <http://dbpedia.org/property/>
         PREFIX dbr: <http://dbpedia.org/resource>
         
-        select distinct ?bird ?label ?species ?genus ?abstract
+        select distinct ?bird ?label
         where {
             ?bird a dbo:Bird;
-                rdfs:label ?label;
-                dbo:abstract ?abstract;
-                dbp:genus ?genus;
-                dbp:species ?species;
-                dbprop:species ?species.
+                rdfs:label ?label.
             FILTER(langMatches(lang(?label), "en" ))
-            FILTER(langMatches(lang(?abstract), "en" ))
             FILTER(contains(lcase(?label), "`+ birdName +`"))
         } LIMIT 15`;
 
