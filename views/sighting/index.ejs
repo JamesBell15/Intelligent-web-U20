@@ -18,19 +18,21 @@
         </div>
     </div>
     <div id="sighting-headers" class="container p-2">
-        <div class="row row-cols-5">
+        <div class="row row-cols-6">
             <div class="col fs-6"><span>SPECIES NAME</span></div>
+            <div class="col fs-6"><span>STATUS</span></div>
             <div class="col fs-6"><span>OBSERVER</span></div>
             <div class="col fs-6"><span>LOCATION</span></div>
             <div class="col fs-6"><span>TIME</span></div>
-            <div class="col fs-6"></div>
+            <div class="col fs-6"><span>SHOW</span></div>
         </div>
     </div>
     <div id="sightingList">
         <% for(let sighting of sightings){ %>
             <section sighting-post-id="<%= sighting._id %>" id="sightingBody" class="container p-2">
-                <div class="row row-cols-5 border-bottom border-light-dark">
+                <div class="row row-cols-6 border-bottom border-light-dark">
                     <h4 class="col fs-6"><%= sighting.identificationName %></h4>
+                    <div class="col fs-6" title="<%=sighting.confirmation%>"><i <%- sighting.getConfirmationStyle()%> ></i></div>
                     <div class="col fs-6"><%= sighting.userId.username %></div>
                     <div class="col fs-6"><%= sighting.location.coordinates %></div>
                     <div class="col fs-6"><%= sighting.timeAsUTC() %></div>

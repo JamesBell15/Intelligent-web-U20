@@ -32,9 +32,9 @@ exports.create = async (req, res) => {
 
     sighting.save(async function (err, results) {
         if (err) {
-			console.log(req.body);
-            console.log(results);
-            console.log(err);
+			console.log(req.body)
+            console.log(results)
+            console.log(err)
             res.status(500).send('Invalid data!')
         } else {
 			//find sighting by timestamp and user that created it
@@ -117,4 +117,25 @@ exports.show = (req, res) => {
             })
         }
     })
+}
+
+//update sighting object with new identification details
+exports.update = async (req,res) => {
+	let body = req.body
+	let id = body.id
+	let sighting = await Sighting.findOne({_id: id})
+	sighting.identificationURI = body.identificationURI
+	sighting.identificationName = body.identificationName
+	sighting.confirmation = body.confirmation
+	sighting.save(async (err, results) => {
+		if (err) {
+			console.log(req.body)
+			console.log(results)
+			console.log(err)
+			res.status(500).send('Invalid data!')
+		} else {
+			res.redirect(`/sighting/show/${id}`)
+		}
+	})
+
 }

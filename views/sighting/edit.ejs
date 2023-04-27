@@ -1,0 +1,38 @@
+<div class="modal-content">
+
+    <div class="modal-header">
+    <h3>Edit Sighting Identification</h3>
+    </div>
+    <div class="modal-body">
+        <form id="xForm" method="post" action="/sighting/update">
+            <label for="unknownIdentification">If unknown, please tick:</label>
+            <input type="checkbox" id="unknownIdentification" name="unknownIdentification">
+            <br>
+            <label for="identificationSearch">Search identification by name: </label>
+            <input type="text" id="identificationSearch" name="identificationSearch">
+
+
+            <button type="button" id="findIdentifications" name="findIdentifications">Find</button><br>
+
+            <div id="identificationInputs" style="visibility: hidden">
+                <label for="identification" id="identificationLabel">Select Identification</label>
+                <select name="identification" id="identification"></select><br>
+                <label for="confirmIdentification">Confirmed Identification?</label>
+                <input type="checkbox" id="confirmIdentification" name="confirmIdentification">
+
+                <div id="identificationHiddenFields" style="display:none">
+                    <input type="hidden" name="identificationURI" id="identificationURI" value="<%= sighting.identificationURI%>>">
+                    <input type="hidden" name="identificationName" id="identificationName" value="<%= sighting.identificationName%>">
+                    <input type="hidden" name="confirmation" id="confirmation" value="<%= sighting.confirmation%>">
+                    <input type="hidden" name="id" id="sightingId" value="<%= sighting._id %>">
+                </div>
+            </div>
+            <br>
+            <input type="submit">
+        </form>
+    </div>
+    <script src="/javascripts/sighting/identification.js" defer></script>
+    <script src="/javascripts/sighting/edit_helper.js" defer></script>
+</div>
+
+

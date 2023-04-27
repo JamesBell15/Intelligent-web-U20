@@ -14,6 +14,7 @@ router.get("/sighting/show", sighting_controller.index)
 router.get("/sighting/show/:id", sighting_controller.show)
 router.get("/sighting/new", sighting_controller.new)
 router.post("/sighting/new", upload.single('sightingImage'), sighting_controller.create)
+router.post("/sighting/update",sighting_controller.update)
 
 // Routes accociated with online chat messages
 const User = require('../models/user')

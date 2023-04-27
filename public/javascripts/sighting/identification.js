@@ -16,10 +16,10 @@
 
 //get selection of bird species from DBPedia similar to search term
 const searchIdentifications = () =>{
-    let birdName = document.getElementById("identificationSearch").value.toLowerCase();
+    let birdName = document.getElementById("identificationSearch").value.toLowerCase()
 
     // The DBpedia SPARQL endpoint URL being queried
-    const endpointUrl = "https://dbpedia.org/sparql";
+    const endpointUrl = "https://dbpedia.org/sparql"
 
     // SPARQL query to return a list of birds with names similar to the entered query
     // TODO: get names that are "similar" / "LIKE" the query in case of misspellings
@@ -35,36 +35,39 @@ const searchIdentifications = () =>{
                 rdfs:label ?label.
             FILTER(langMatches(lang(?label), "en" ))
             FILTER(contains(lcase(?label), "`+ birdName +`"))
-        } LIMIT 15`;
+        } LIMIT 15`
 
     // Encode the query as a URL parameter
-    const encodedQuery = encodeURIComponent(sparqlQuery);
+    const encodedQuery = encodeURIComponent(sparqlQuery)
     // Build the URL for the SPARQL query
-    const url = `${endpointUrl}?query=${encodedQuery}&format=json`;
+    const url = `${endpointUrl}?query=${encodedQuery}&format=json`
 
     // Use fetch to retrieve the data
     fetch(url)
         .then(response => response.json())
         .then(data => {
             // The results are in the 'data' object
-            let bindings = data.results.bindings;
-            let result = JSON.stringify(bindings);
+            let bindings = data.results.bindings
+            let result = JSON.stringify(bindings)
             //add each returned value to dropdown
 
 
-            let dropdown = document.getElementById("identification");
-            let identificationWrapper = document.getElementById("identificationInputs");
+            let dropdown = document.getElementById("identification")
+            while (dropdown.options.length >0){dropdown.options.remove(0)}
+
+            let identificationWrapper = document.getElementById("identificationInputs")
             for (i in bindings){
+
                 //create option per result from query
-                let opt = document.createElement("option");
-                let bird = bindings[i];
-                opt.value = bird.bird.value;
-                opt.innerHTML = bird.label.value;
-                dropdown.appendChild(opt);
+                let opt = document.createElement("option")
+                let bird = bindings[i]
+                opt.value = bird.bird.value
+                opt.innerHTML = bird.label.value
+                dropdown.appendChild(opt)
             }
             //make inputs visible as they are now populated
-            identificationWrapper.style.visibility= "visible";
-        });
+            identificationWrapper.style.visibility= "visible"
+        })
 }
 
 //get confirmation status of sighting
@@ -72,12 +75,11 @@ const searchIdentifications = () =>{
 function getConfirmation() {
     //if user has checked the "unknown" checkbox
     if(document.getElementById("unknownIdentification").checked){
-        return "unknown";
+        return "unknown"
     }
-    //if no options are present, but user has not checked the "unknown" checkbox (user is offline)
     else if(!optionsPopulated()){
-        return "unconfirmed";
-    }
+            return "unconfirmed"
+        }
     //if user has selected the "identification confirmed" checkbox
     else if(document.getElementById("confirmIdentification").checked){
         return "confirmed"
@@ -85,6 +87,23 @@ function getConfirmation() {
     //otherwise, identification is unconfirmed
     else{
         return "unconfirmed"
+    }
+}
+
+//disables/enables identification inputs when unknown checkbox is checked/unchecked
+function disableFields(){
+
+    let inputs = [
+        document.getElementById("identificationSearch"),
+        document.getElementById("findIdentifications"),
+        document.getElementById("identification"),
+        document.getElementById("confirmIdentification")
+    ]
+    if (document.getElementById("unknownIdentification").checked){
+        for (let input of inputs){input.setAttribute("disabled","disabled")}
+    }
+    else{
+        for (let input of inputs){input.removeAttribute("disabled")}
     }
 }
 
@@ -98,63 +117,51 @@ function optionsPopulated(){
 //get identifications (DBPedia URI and label) from frontend
 //handles different input selections
 function getIdentificationDetails(){
-    let details = ["unknown","unknown"];
+    let details = ["unknown","unknown"]
     //if user has selected "unknown", ignore other inputs
     //or if user hasn't entered anything in the search field
     if (getConfirmation() === "unknown"){
-        return details;
+        return details
     }
     //if no options are provided (user offline or naming is incorrect)
     else if (!optionsPopulated()){
         //no options provided, so don't try to get value from dropdown
         //use entered search term instead in lieu of a verified identification
-        details[1] = document.getElementById("identificationSearch").value;
+        details[1] = document.getElementById("identificationSearch").value
     }
     //otherwise, there should be options to select from
     else{
-        let identification = document.getElementById("identification");
+        let identification = document.getElementById("identification")
         //get identification DBPedia URI (value of dropdown selection)
-        details[0] = identification.value;
+        details[0] = identification.value
         //get name of bird (label attribute of DBPedia resource)
-        details[1] = identification.options[identification.selectedIndex].text;
+        details[1] = identification.options[identification.selectedIndex].text
     }
-    return details;
+    return details
 }
 
 //set values of hidden fields to be sent in form
 //occurs whenever fields are edited
 function setHiddenFields(){
-    let identificationDetails = getIdentificationDetails();
+    let identificationDetails = getIdentificationDetails()
 
     //don't overwrite identificationName with empty string
     if(identificationDetails[1] !== ''){
-        document.getElementById("identificationURI").value = identificationDetails[0];
-        document.getElementById("identificationName").value = identificationDetails[1];
+        document.getElementById("identificationURI").value = identificationDetails[0]
+        document.getElementById("identificationName").value = identificationDetails[1]
     }
 
-    document.getElementById("confirmation").value = getConfirmation();
+    document.getElementById("confirmation").value = getConfirmation()
+
 }
 
 
-const searchButton = document.getElementById("findIdentifications");
-searchButton.addEventListener("click", searchIdentifications);
+const searchButton = document.getElementById("findIdentifications")
+searchButton.addEventListener("click", searchIdentifications)
 
-const form = document.getElementById("xForm");
-form.addEventListener("change", setHiddenFields);
+const form = document.getElementById("xForm")
+form.addEventListener("change", setHiddenFields)
 
-/*
-currently inactive, JQuery not working as intended, so hidden inputs are verified/kept valid as they update
+const unknownIdentification = document.getElementById("unknownIdentification")
+unknownIdentification.addEventListener("change", disableFields)
 
-//add custom validation preceding form submission
-$("#xForm").on("submit", (function() {
-    //return false = block form submission
-    let searchInput = document.getElementById("identificationSearch");
-    let unknownCheckbox = document.getElementById("unknownIdentification");
-    //check if user hasn't entered a search term, not selected an identification, nor selected "unknown"
-    //(if user hasn't provided any input in the identification section at all
-
-
-    //return true = allow submission, as fields are sanitised
-    return true;
-}));
-*/
