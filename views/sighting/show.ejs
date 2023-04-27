@@ -2,10 +2,9 @@
     <button id="editModalBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal">
         <i class="fa-solid fa-pen"></i> Edit Sighting
     </button>
-    <span><%= sighting.userId.username %></span><br>
+    <span id="author"><%= sighting.userId.username %></span><br>
     <span><%= sighting.identificationName %></span><br>
     <span><%= sighting.confirmation %></span><br>
-    <span id="author"><%= sighting.userId.username %></span><br>
     <span><%= sighting.description %></span><br>
     <span><%= sighting.timeAsUTC() %></span><br>
     <span><%= sighting.location.coordinates %></span><br>
