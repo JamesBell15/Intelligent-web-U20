@@ -4,7 +4,7 @@
     <h3>Edit Sighting Identification</h3>
     </div>
     <div class="modal-body">
-        <form id="xForm" method="post" action="update">
+        <form id="xForm" method="post" action="/sighting/update">
             <label for="unknownIdentification">If unknown, please tick:</label>
             <input type="checkbox" id="unknownIdentification" name="unknownIdentification">
             <br>
@@ -16,8 +16,8 @@
 
             <div id="identificationInputs" style="visibility: hidden">
                 <label for="identification" id="identificationLabel">Select Identification</label>
-                <select name="identification" id="identification"></select>
-                <label for="confirmIdentification">Confirmed?</label>
+                <select name="identification" id="identification"></select><br>
+                <label for="confirmIdentification">Confirmed Identification?</label>
                 <input type="checkbox" id="confirmIdentification" name="confirmIdentification">
 
                 <div id="identificationHiddenFields" style="display:none">

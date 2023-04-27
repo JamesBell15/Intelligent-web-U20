@@ -78,10 +78,9 @@ function getConfirmation() {
     if(document.getElementById("unknownIdentification").checked){
         return "unknown"
     }
-    //if no options are present, but user has not checked the "unknown" checkbox (user is offline)
     else if(!optionsPopulated()){
-        return "unconfirmed"
-    }
+            return "unconfirmed"
+        }
     //if user has selected the "identification confirmed" checkbox
     else if(document.getElementById("confirmIdentification").checked){
         return "confirmed"
@@ -89,6 +88,26 @@ function getConfirmation() {
     //otherwise, identification is unconfirmed
     else{
         return "unconfirmed"
+    }
+}
+
+//disables/enables identification inputs when unknown checkbox is checked/unchecked
+function disableFields(){
+    console.log("disable fields called");
+
+    let inputs = [
+        document.getElementById("identificationSearch"),
+        document.getElementById("findIdentifications"),
+        document.getElementById("identification"),
+        document.getElementById("confirmIdentification")
+    ]
+    if (document.getElementById("unknownIdentification").checked){
+        for (let input of inputs){input.setAttribute("disabled","disabled")}
+        console.log("disabled")
+    }
+    else{
+        for (let input of inputs){input.removeAttribute("disabled")}
+        console.log("enabled")
     }
 }
 
@@ -137,6 +156,7 @@ function setHiddenFields(){
     }
 
     document.getElementById("confirmation").value = getConfirmation()
+
 }
 
 
@@ -146,4 +166,7 @@ searchButton.addEventListener("click", searchIdentifications)
 const form = document.getElementById("xForm")
 form.addEventListener("change", setHiddenFields)
 
+const unknownIdentification = document.getElementById("unknownIdentification")
+unknownIdentification.addEventListener("change", disableFields)
+disableFields()
 
