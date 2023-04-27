@@ -1,3 +1,6 @@
+
+DELETE THIS LATER - JUST A COPY/PASTE THING FOR GETTING DBPEDIA DATA
+
 PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX dbprop: <http://dbpedia.org/property/>
 PREFIX dbr: <http://dbpedia.org/resource>
