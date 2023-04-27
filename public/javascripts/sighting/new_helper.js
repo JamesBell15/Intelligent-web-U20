@@ -1,21 +1,21 @@
 const addNewRecord = (requestIDB) => {
     //no identification URI can be provided, set to default of "unknown"
-    let identificationURI = "unknown";
+    let identificationURI = "unknown"
     //offline sighting = unconfirmed sighting (since knowledge graph cannot be reached)
-    let confirmation = "unconfirmed";
+    let confirmation = "unconfirmed"
 
     //get identification name from text box
-    let identificationName = document.getElementById("identificationSearch").value;
+    let identificationName = document.getElementById("identificationSearch").value
 
     //if nothing entered in text box, identification is unknown
     if (identificationName === ""){
-        identificationName = "unknown";
-        confirmation = "unknown";
+        identificationName = "unknown"
+        confirmation = "unknown"
     }
 
     //if user clicked unknown identification button
     if(document.getElementById("unknownIdentification").checked){
-        confirmation = "unknown";
+        confirmation = "unknown"
     }
 
 
