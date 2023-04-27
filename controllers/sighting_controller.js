@@ -135,14 +135,21 @@ exports.edit = (req, res) => {
 
 //update sighting object with new identification details
 exports.update = (req,res) => {
-	sighting_id = req.params.id;
 	let body = req.body
+	console.log(req.body);
 
+	//find and update function being called, but gets stuck trying to update
+	//either it's not able to find a record, or it doesn't update properly, or i've got this whole thing wrong lol
 	Sighting.findOneAndUpdate(
-		{id: body.id},
+		{_id: body.id},
 		{identificationURI: body.identificationURI,
 			identificationName: body.identificationName,
-			confirmation: body.confirmation}
+			confirmation: body.confirmation},
+		async function (err, sighting) {
+			console.log("tried to update");
+			if (err) {err.type = "database";}
+			else {res.redirect(`/sighting/show/${body.id}`);}
+		}
 	)
-	res.redirect(`/sighting/show/${body.id}`);
+
 }
