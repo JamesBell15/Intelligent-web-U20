@@ -29,11 +29,16 @@ const searchIdentifications = () =>{
         PREFIX dbprop: <http://dbpedia.org/property/>
         PREFIX dbr: <http://dbpedia.org/resource>
         
-        select distinct ?bird ?label
+        select distinct ?bird ?label ?species ?genus ?abstract
         where {
             ?bird a dbo:Bird;
-                rdfs:label ?label.
+                rdfs:label ?label;
+                dbo:abstract ?abstract;
+                dbp:genus ?genus;
+                dbp:species ?species;
+                dbprop:species ?species.
             FILTER(langMatches(lang(?label), "en" ))
+            FILTER(langMatches(lang(?abstract), "en" ))
             FILTER(contains(lcase(?label), "`+ birdName +`"))
         } LIMIT 15`;
 
@@ -57,10 +62,12 @@ const searchIdentifications = () =>{
 
             let identificationWrapper = document.getElementById("identificationInputs");
             for (i in bindings){
+
                 //create option per result from query
                 let opt = document.createElement("option");
                 let bird = bindings[i];
                 opt.value = bird.bird.value;
+                console.log(bird);
                 opt.innerHTML = bird.label.value;
                 dropdown.appendChild(opt);
             }

@@ -1,0 +1,18 @@
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX dbprop: <http://dbpedia.org/property/>
+PREFIX dbr: <http://dbpedia.org/resource>
+PREFIX brd: < insert URI here >
+
+select distinct ?label ?abstract ?species ?genus ?thumbnail
+where {
+    ?bird a dbo:Bird;
+        rdfs:label ?label;
+        dbo:abstract ?abstract;
+        dbp:genus ?genus;
+        dbp:species ?species;
+        dbo:thumbnail ?thumbnail.
+
+    FILTER(langMatches(lang(?label), "en" ))
+    FILTER(langMatches(lang(?abstract), "en" ))
+    FILTER(contains(lcase(?label), "bird"))
+} LIMIT 15
