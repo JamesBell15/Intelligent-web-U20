@@ -23,7 +23,7 @@ router.post('/api/data/users', async function (req, res) {
 })
 
 // Routes accociated with syncing server and client db
-router.get("/db/get", db_controller.get_server_data)
+router.get("/db/get/:username", db_controller.get_server_data)
 router.post("/db/sighting/update", db_controller.update_sighting_data)
 router.post("/db/message/update", db_controller.update_message_data)
 

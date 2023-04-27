@@ -8,12 +8,27 @@ exports.get_server_data = async (req, res) => {
     // + messages connected to those sightings
     // + all the sightings but with bare min data birdID, userID, location & time
 
-    let json = {}
+    username = req.params.username
+
+    let json = {sightings: {}, messages: {}}
     // split into messages controller and sighting controller
     Sighting.find().populate('userId').exec(function (err, sightings) {
         if (err) err.type = 'database'
 
-        json['sightings'] = sightings
+        for (let sighting of sightings) {
+            if (sighting.userId.username == username) {
+                json['sightings'][`${sighting.id}`] = sighting
+            } else {
+                let reducedSighting = {
+                    identificationName: sighting.identificationName,
+                    userId: sighting.userId,
+                    location: sighting.location,
+                    dateTime: sighting.dateTime
+                }
+
+                json['sightings'][`${sighting.id}`] = reducedSighting
+            }
+        }
 
         Message.find().populate('sender').exec(function (err, messages) {
             if (err) err.type = 'database'

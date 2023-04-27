@@ -16,17 +16,25 @@ const showAllRecords = (requestIDB) => {
         if (cursor) {
             let key = cursor.primaryKey
             let value = cursor.value
-
-            table.innerHTML += `
-            <section sighting-post-id="${key}" id="sightingBody" class="container p-2">
+            let html =`<section sighting-post-id="${key}" id="sightingBody" class="container p-2">
                 <div class="row row-cols-5 border-bottom border-light-dark">
                 <h4 class="col fs-6"> ${value.identificationName} (${value.confirmation})</h4>
                 <div class="col fs-6"> ${value.userId} </div>
                 <div class="col fs-6"> ${value.location.coordinates} </div>
-                <div class="col fs-6"> ${value.dateTime} </div>
-                <div class="col fs-6"><button class="showButton" id="${key}" type="button"><i class="fa-solid fa-binoculars"></i></button></div>
+                <div class="col fs-6"> ${value.dateTime} </div>`
+
+
+            if (typeof value.image != 'undefined') {
+                html += `
+                <div class="col fs-6"><button class="showButton" id="${key}" type="button">
+                    <i class="fa-solid fa-binoculars"></i></button>
                 </div>
-            </section>`
+                `
+            }
+
+            html += `</div></section>`
+
+            table.innerHTML += html
 
             cursor.continue()
         }
