@@ -87,7 +87,7 @@ const renderSightingHTML = (record) => {
 const addChatMessage = () => {
     let msg = document.getElementById("msgIn")
 
-    if (msg) {
+    if (msg.value != '') {
         const db = requestIDB.result
         const transaction = db.transaction(["currentSighting", "userInfo", "messages"], "readwrite")
         const messageObjStr = transaction.objectStore("messages")
