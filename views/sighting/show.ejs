@@ -1,19 +1,25 @@
-<div>
-    <button id="editModalBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-        <i class="fa-solid fa-pen"></i> Edit Sighting
-    </button>
-    <span id="author"><%= sighting.userId.username %></span><br>
-    <span><%= sighting.identificationName %></span><br>
-    <span><%= sighting.confirmation %></span><br>
-    <span><%= sighting.description %></span><br>
-    <span><%= sighting.timeAsUTC() %></span><br>
-    <span><%= sighting.location.coordinates %></span><br>
-    <% if (sighting.image.contentType != null) {%>
-        <span><img src="data:<%=sighting.image.contentType%>;base64,
-                        <%=sighting.image.data.toString('base64')%>" height=200px></span><br>
-    <%} else if (sighting.image.url != null) { %>
-        <span><img src="<%=sighting.image.url%>%>" height=200px></span><br>
-    <%}%>
+<div class="flex-container">
+    <div>
+        <button id="editModalBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+            <i class="fa-solid fa-pen"></i> Edit Sighting
+        </button>
+        <span id="author"><%= sighting.userId.username %></span><br>
+        <span><%= sighting.identificationName %></span><br>
+        <span><%= sighting.confirmation %></span><br>
+        <span><%= sighting.description %></span><br>
+        <span><%= sighting.timeAsUTC() %></span><br>
+        <span><%= sighting.location.coordinates %></span><br>
+        <% if (sighting.image.contentType != null) {%>
+            <span><img src="data:<%=sighting.image.contentType%>;base64,
+                            <%=sighting.image.data.toString('base64')%>" height=200px></span><br>
+        <%} else if (sighting.image.url != null) { %>
+            <span><img src="<%=sighting.image.url%>%>" height=200px></span><br>
+        <%}%>
+    </div>
+    <div>
+        <span id="DBPediaLink"><%- sighting.identificationURI%></span>
+
+    </div>
 </div>
 
 <div id="chat">

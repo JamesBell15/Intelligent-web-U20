@@ -1,21 +1,16 @@
-
-DELETE THIS LATER - JUST A COPY/PASTE THING FOR GETTING DBPEDIA DATA
-
 PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX dbprop: <http://dbpedia.org/property/>
 PREFIX dbr: <http://dbpedia.org/resource>
-PREFIX brd: < insert URI here >
 
 select distinct ?label ?abstract ?species ?genus ?thumbnail
 where {
-    ?bird a dbo:Bird;
+    <http://dbpedia.org/resource/Cactus_wren> rdf:type dbo:Bird;
         rdfs:label ?label;
-        dbo:abstract ?abstract;
-        dbp:genus ?genus;
+        dbo:abstract ?abstract.
+    OPTIONAL{
+    <http://dbpedia.org/resource/Cactus_wren> dbp:genus ?genus;
         dbp:species ?species;
-        dbo:thumbnail ?thumbnail.
-
+        dbo:thumbnail ?thumbnail.}
     FILTER(langMatches(lang(?label), "en" ))
     FILTER(langMatches(lang(?abstract), "en" ))
-    FILTER(contains(lcase(?label), "bird"))
 } LIMIT 15
