@@ -1,6 +1,6 @@
 //get details of bird from related DBPedia page
 
-let uri = document.getElementById("DBPediaLink").innerText
+let uri = document.getElementById("DBPediaURI").href
 
 // The DBpedia SPARQL endpoint URL being queried
 const endpointUrl = "https://dbpedia.org/sparql"
@@ -19,9 +19,11 @@ const sparqlQuery = `
             rdfs:label ?label;
             dbo:abstract ?abstract.
         OPTIONAL{
-        <`+uri+`> dbp:genus ?genus;
-            dbp:species ?species;
-            dbo:thumbnail ?thumbnail.}
+        <`+uri+`> dbp:genus ?genus.}
+        OPTIONAL{
+        <`+uri+`> dbp:species ?species.}
+        OPTIONAL{
+        <`+uri+`> dbo:thumbnail ?thumbnail.}
         FILTER(langMatches(lang(?label), "en" ))
         FILTER(langMatches(lang(?abstract), "en" ))
     } LIMIT 15`
@@ -35,48 +37,47 @@ const url = `${endpointUrl}?query=${encodedQuery}&format=json`
 fetch(url)
     .then(response => response.json())
     .then(data => {
-    // The results are in the 'data' object
-    let bindings = data.results.bindings
-    let result = JSON.stringify(bindings)
-    console.log(bindings[0])
-    //create and populate div with the info received from DBPedia
-    let dataBox = document.getElementById("DBPediaLink")
-    let bird = bindings[0];
 
-    //get and display name of bird from DBPedia entry
-    let name = document.createElement("h2")
-    name.id = "DBPName"
-    name.innerHTML = bird.label.value
-    dataBox.appendChild(name);
+        // The results are in the 'data' object
+        let bindings = data.results.bindings
+        let result = JSON.stringify(bindings)
+        //create and populate div with the info received from DBPedia
+        let dataBox = document.getElementById("DBPediaData")
+        let bird = bindings[0];
+        console.log(bindings[0])
 
-    //get latin binomial nomenclature (append genus and species)
-    let latinName = ""
-    //values may not have been present in dbpedia entry
-    if(bird.genus.value){
-        latinName += bird.genus.value + " "
-    }
-    if(bird.species.value){
-        latinName += bird.species.value
-    }
-    let latin = document.createElement("h3")
-    latin.id = "latinName"
-    latin.innerHTML = latinName
-    dataBox.append(latin)
+        //get and display name of bird from DBPedia entry
+        let name = document.createElement("h2")
+        name.id = "DBPName"
+        name.innerHTML = bird.label.value
+        dataBox.appendChild(name)
 
-    //get dbpedia entry's image (if present)
-    if(bird.thumbnail.value){
-        let birdImg = document.createElement("img")
-        birdImg.src = bird.thumbnail.value
-        dataBox.append(birdImg)
-    }
+        //get latin binomial nomenclature (append genus and species)
+        let latinName = ""
+        //values may not have been present in dbpedia entry
+        if("genus" in bird){
+            latinName += bird.genus.value + " "
+        }
+        if("species" in bird){
+            latinName += bird.species.value
+        }
+        let latin = document.createElement("h3")
+        latin.id = "latinName"
+        latin.innerHTML = latinName
+        dataBox.append(latin)
 
-    //add description ("abstract" attribute of DBPedia entry, which is always present)
-    let description = document.createElement("div")
-    description.id = "DBPDescription"
-    description.innerHTML = bird.abstract.value
-    description.style.overflow = "auto"
-    description.style.maxHeight = "300px"
-    dataBox.appendChild(description)
+        //get dbpedia entry's image (if present)
+        if("thumbnail" in bird){
+            let birdImg = document.createElement("img")
+            birdImg.src = bird.thumbnail.value
+            dataBox.append(birdImg)
+        }
 
-
-    }).catch(err => {return err});
+        //add description ("abstract" attribute of DBPedia entry, which is always present)
+        let description = document.createElement("div")
+        description.id = "DBPDescription"
+        description.innerHTML = bird.abstract.value
+        description.style.overflow = "auto"
+        description.style.maxHeight = "300px"
+        dataBox.appendChild(description)
+    }).catch(err => {console.log(err)});
