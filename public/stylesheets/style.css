@@ -40,6 +40,19 @@ a {
   padding-top: 10px;
   text-decoration: underline;
 }
+#showBox {
+  max-height: 60%;
+}
+.flex-container {
+  display: flex;
+  max-height: 60%;
+}
+.flex-left {
+  flex: 0 1 50%;
+}
+.flex-right {
+  flex: 0 1 50%;
+}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
