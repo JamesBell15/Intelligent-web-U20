@@ -1,19 +1,36 @@
-<div>
-    <button id="editModalBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-        <i class="fa-solid fa-pen"></i> Edit Sighting
-    </button>
-    <span id="author"><%= sighting.userId.username %></span><br>
-    <span><%= sighting.identificationName %></span><br>
-    <span><%= sighting.confirmation %></span><br>
-    <span><%= sighting.description %></span><br>
-    <span><%= sighting.timeAsUTC() %></span><br>
-    <span><%= sighting.location.coordinates %></span><br>
-    <% if (sighting.image.contentType != null) {%>
-        <span><img src="data:<%=sighting.image.contentType%>;base64,
-                        <%=sighting.image.data.toString('base64')%>" height=200px></span><br>
-    <%} else if (sighting.image.url != null) { %>
-        <span><img src="<%=sighting.image.url%>%>" height=200px></span><br>
-    <%}%>
+<div class="flex-container" id="showBox">
+    <div class="flex-left">
+        <button id="editModalBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+            <i class="fa-solid fa-pen"></i> Edit Sighting
+        </button> <br>
+        <span id="author"><%= sighting.userId.username %></span><br>
+        <span><%= sighting.identificationName %></span><br>
+        <span><%= sighting.confirmation %></span><br>
+        <span><%= sighting.description %></span><br>
+        <span><%= sighting.timeAsUTC() %></span><br>
+        <span><%= sighting.location.coordinates %></span><br>
+        <% if (sighting.image.contentType != null) {%>
+            <span><img src="data:<%=sighting.image.contentType%>;base64,
+                            <%=sighting.image.data.toString('base64')%>" height=200px></span><br>
+        <%} else if (sighting.image.url != null) { %>
+            <span><img src="<%=sighting.image.url%>%>" height=200px></span><br>
+        <%}%>
+    </div>
+    <div class ="flex-right">
+
+        <div id="DBPediaData">
+            <h2 id="DBPName"></h2>
+            <a href="<%-sighting.identificationURI%>" id="DBPediaURI" title="Go to DBPedia Page"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+
+            <h3 id="DBPLatinName"></h3>
+            <img id="DBPthumbnail">
+            <br>
+
+            <div id="DBPDescription">
+
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="chat">
@@ -45,4 +62,5 @@
 </div>
 
 <button id="toIndexBtn" type="button" class="btn btn-outline-primary">Return to index.</button>
-<script type="module" src="/javascripts/tempChat.js" ></script>
+<script type="module" src="/javascripts/tempChat.js" defer></script>
+<script src="/javascripts/sighting/show_dbpedia.js" defer ></script>
