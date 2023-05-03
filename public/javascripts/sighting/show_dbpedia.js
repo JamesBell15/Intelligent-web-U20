@@ -36,9 +36,9 @@ const encodedQuery = encodeURIComponent(sparqlQuery)
 const url = `${endpointUrl}?query=${encodedQuery}&format=json`
 
 // Use fetch to retrieve the data
-if(uri === "unknown") {
+if(document.getElementById("identificationURI").value === "unknown") {
     let dataBox = document.getElementById("DBPediaData")
-    dataBox.style.display = "hidden"
+    dataBox.style.display = "none"
 }
 else{
     fetch(url)
