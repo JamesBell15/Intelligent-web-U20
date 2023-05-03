@@ -12,7 +12,7 @@ const sparqlQuery = `
     PREFIX dbprop: <http://dbpedia.org/property/>
     PREFIX dbr: <http://dbpedia.org/resource/>
     
-    select distinct ?label ?abstract ?species ?genus ?thumbnail
+    select distinct ?label ?abstract ?species ?genus ?thumbnail ?caption
     where {
         <`+uri+`> rdf:type dbo:Bird;
             rdfs:label ?label;
@@ -23,8 +23,11 @@ const sparqlQuery = `
         <`+uri+`> dbp:species ?species.}
         OPTIONAL{
         <`+uri+`> dbo:thumbnail ?thumbnail.}
+        OPTIONAL{
+        <`+uri+`> dbprop:imageCaption ?caption.}
         FILTER(langMatches(lang(?label), "en" ))
         FILTER(langMatches(lang(?abstract), "en" ))
+        FILTER(langMatches(lang(?caption), "en" ))
     } LIMIT 15`
 
 // Encode the query as a URL parameter
@@ -74,6 +77,12 @@ else{
             if("thumbnail" in bird){
                 birdImg.src = bird.thumbnail.value
             }
+            if("caption" in bird) {
+                console.log(bird.caption)
+                birdImg.title= bird.caption.value
+                birdImg.alt = "image of: " + bird.caption.value
+            }
+            console.log(birdImg)
             //add description ("abstract" attribute of DBPedia entry, which is always present)
             let description = document.createElement("div")
             description.id = "DBPDescription"
