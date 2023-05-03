@@ -1,59 +1,71 @@
-<div class="flex-container" id="showBox">
-    <div class="flex-left">
-        <button id="editModalBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-            <i class="fa-solid fa-pen"></i> Edit Sighting
-        </button> <br>
-        <span id="author"><%= sighting.userId.username %></span><br>
-        <span><%= sighting.identificationName %></span><br>
-        <span><%= sighting.confirmation %></span><br>
-        <span><%= sighting.description %></span><br>
-        <span><%= sighting.timeAsUTC() %></span><br>
-        <span><%= sighting.location.coordinates %></span><br>
-        <% if (sighting.image.contentType != null) {%>
+<div class="row" id="showBox">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3>Sighting Information</h3>
+                </div>
+                <div class="col-md-4">
+                    <button id="editModalBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                        <i class="fa-solid fa-pen"></i> Edit Sighting
+                    </button><br>
+                </div>
+            </div>
+
+            <span id="author"><%= sighting.userId.username %></span><br>
+            <span><%= sighting.identificationName %></span><br>
+            <span><%= sighting.confirmation %></span><br>
+            <span><%= sighting.description %></span><br>
+            <span><%= sighting.timeAsUTC() %></span><br>
+            <span><%= sighting.location.coordinates %></span><br>
+            <% if (sighting.image.contentType != null) {%>
             <span><img src="data:<%=sighting.image.contentType%>;base64,
-                            <%=sighting.image.data.toString('base64')%>" height=200px></span><br>
-        <%} else if (sighting.image.url != null) { %>
+                                <%=sighting.image.data.toString('base64')%>" height=200px></span><br>
+            <%} else if (sighting.image.url != null) { %>
             <span><img src="<%=sighting.image.url%>%>" height=200px></span><br>
-        <%}%>
+            <%}%>
+        </div>
+        <div class="row">
+            <div id="chat" class="container">
+                <div id="chatTitle"><h4>Chat</h4></div>
+                <section id="chatHistory">
+                    <% if (typeof messages != 'undefined') {%>
+                        <% messages.forEach(function(message) {%>
+                            <div><p><strong><%= message.sender.username %>:</strong> <%= message.msg %></p></div>
+                        <%})%>
+                    <%}%>
+                </section>
+                <form id="chatForm" class="chatFormContainer">
+                    <input
+                        id="msgIn"
+                        type="text"
+                        class="form-control-sm"
+                        placeholder="Enter Message"
+                        required
+                        autocomplete="off"
+                    />
+                    <input id="sendMsgBtn" type="button" value="Send"/>
+                </form>
+            </div>
+        </div>
     </div>
-    <div class ="flex-right">
+
+
+    <div class ="col-md-6">
 
         <div id="DBPediaData">
             <h2 id="DBPName"></h2>
             <a href="<%-sighting.identificationURI%>" id="DBPediaURI" title="Go to DBPedia Page"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-
             <h3 id="DBPLatinName"></h3>
             <img id="DBPthumbnail">
             <br>
-
             <div id="DBPDescription">
-
             </div>
         </div>
     </div>
 </div>
 
-<div id="chat">
-    <div id="chatTitle"></div>
-    <section id="chatHistory">
-        <% if (typeof messages != 'undefined') {%>
-            <% messages.forEach(function(message) {%>
-                <div><p><strong><%= message.sender.username %>:</strong> <%= message.msg %></p></div>
-            <%})%>
-        <%}%>
-    </section>
-    <form id="chatForm" class="chatFormContainer">
-        <input
-                id="msgIn"
-                type="text"
-                class="form-control-sm"
-                placeholder="Enter Message"
-                required
-                autocomplete="off"
-        />
-        <input id="sendMsgBtn" type="button" value="Send"/>
-    </form>
-</div>
+
 
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
