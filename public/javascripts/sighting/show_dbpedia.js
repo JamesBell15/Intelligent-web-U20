@@ -33,9 +33,9 @@ const encodedQuery = encodeURIComponent(sparqlQuery)
 const url = `${endpointUrl}?query=${encodedQuery}&format=json`
 
 // Use fetch to retrieve the data
-if(document.getElementById("identificationURI").value === "unknown") {
-    let link = document.getElementById("DBPediaURI")
-    link.style.display = "none"
+if(uri === "unknown") {
+    let dataBox = document.getElementById("DBPediaData")
+    dataBox.style.display = "hidden"
 }
 else{
     fetch(url)
@@ -50,10 +50,12 @@ else{
             console.log(bindings[0])
 
             //get and display name of bird from DBPedia entry
-            let name = document.createElement("h2")
-            name.id = "DBPName"
-            name.innerHTML = bird.label.value
-            dataBox.appendChild(name)
+            let name = document.getElementById("DBPName")
+            name.innerHTML = bird.label.value + " "
+
+            //move link into name element now it's populated (would otherwise be overwritten)
+            let link = document.getElementById("DBPediaURI")
+            name.appendChild(link);
 
             //get latin binomial nomenclature (append genus and species)
             let latinName = ""
@@ -64,18 +66,14 @@ else{
             if("species" in bird){
                 latinName += bird.species.value
             }
-            let latin = document.createElement("h3")
-            latin.id = "latinName"
+            let latin = document.getElementById("DBPLatinName")
             latin.innerHTML = latinName
-            dataBox.append(latin)
 
+            let birdImg = document.getElementById("DBPthumbnail")
             //get dbpedia entry's image (if present)
             if("thumbnail" in bird){
-                let birdImg = document.createElement("img")
                 birdImg.src = bird.thumbnail.value
-                dataBox.append(birdImg)
             }
-
             //add description ("abstract" attribute of DBPedia entry, which is always present)
             let description = document.createElement("div")
             description.id = "DBPDescription"
