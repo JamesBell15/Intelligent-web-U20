@@ -54,6 +54,11 @@ a {
   flex: 0 1 50%;
 }
 
+#DBPDescription{
+    overflow : auto;
+    max-height: 300px;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }

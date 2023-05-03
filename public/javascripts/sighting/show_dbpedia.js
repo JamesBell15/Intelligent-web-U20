@@ -77,6 +77,7 @@ else{
             if("thumbnail" in bird){
                 birdImg.src = bird.thumbnail.value
             }
+            //add image caption as alt & hover text
             if("caption" in bird) {
                 console.log(bird.caption)
                 birdImg.title= bird.caption.value
@@ -84,12 +85,8 @@ else{
             }
             console.log(birdImg)
             //add description ("abstract" attribute of DBPedia entry, which is always present)
-            let description = document.createElement("div")
-            description.id = "DBPDescription"
+            let description = document.getElementById("DBPDescription")
             description.innerHTML = bird.abstract.value
-            description.style.overflow = "auto"
-            description.style.maxHeight = "300px"
-            dataBox.appendChild(description)
         }).catch(err => {console.log(err)});
 }
 
