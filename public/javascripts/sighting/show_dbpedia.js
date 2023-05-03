@@ -84,6 +84,6 @@ else{
             //add description ("abstract" attribute of DBPedia entry, which is always present)
             let description = document.getElementById("DBPDescription")
             description.innerHTML = bird.abstract.value
-        }).catch(err => {console.log(err)});
+        }).catch(err => {console.log(err)})
 }
 
