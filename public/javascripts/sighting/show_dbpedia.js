@@ -49,8 +49,7 @@ else{
             let result = JSON.stringify(bindings)
             //create and populate div with the info received from DBPedia
             let dataBox = document.getElementById("DBPediaData")
-            let bird = bindings[0];
-            console.log(bindings[0])
+            let bird = bindings[0]
 
             //get and display name of bird from DBPedia entry
             let name = document.getElementById("DBPName")
@@ -58,7 +57,7 @@ else{
 
             //move link into name element now it's populated (would otherwise be overwritten)
             let link = document.getElementById("DBPediaURI")
-            name.appendChild(link);
+            name.appendChild(link)
 
             //get latin binomial nomenclature (append genus and species)
             let latinName = ""
@@ -79,11 +78,9 @@ else{
             }
             //add image caption as alt & hover text
             if("caption" in bird) {
-                console.log(bird.caption)
                 birdImg.title= bird.caption.value
                 birdImg.alt = "image of: " + bird.caption.value
             }
-            console.log(birdImg)
             //add description ("abstract" attribute of DBPedia entry, which is always present)
             let description = document.getElementById("DBPDescription")
             description.innerHTML = bird.abstract.value
