@@ -1,55 +1,60 @@
 <div class="row" id="showBox">
     <div id="sightingWrapper" class="col-md-6">
-        <div class="row">
-            <div class="row">
-                <div class="col-md-8">
-                    <h3>Sighting Information</h3>
-                </div>
-                <div class="col-md-4">
-                    <button id="editModalBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal">
-                        <i class="fa-solid fa-pen"></i> Edit Sighting
-                    </button><br>
-                </div>
+        <div id="showTopRow" class="row">
+            <div class="col-md-6">
+                <h3>Sighting Information</h3>
             </div>
+            <div class="col-md-6">
+                <button id="editModalBtn" type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+                    <i class="fa-solid fa-pen"></i> Edit Sighting
+                </button>
+                <button id="toIndexBtn" type="button" class="btn btn-primary">
+                    <i class="fa-solid fa-house"></i> Return to index.
+                </button>
 
-            <div id="sightingData" class=" row">
-                <div class="showGroup">
-                    <div class="showTitle">Author</div>
-                    <div id="showAuthor" class="showField"><%= sighting.userId.username %></div>
-                </div>
-
-                <div class="showGroup">
-                    <div class="showTitle">Identification</div>
-                    <div id="showName" class="showField"><%= sighting.identificationName %></div>
-                </div>
-
-                <div class="showGroup">
-                    <div class="showTitle">Confirmation Status</div>
-                    <div id="showConfirmation" class="showField"><%= sighting.confirmation %></div>
-                </div>
-                <div class="showGroup">
-                    <div class="showTitle">Description</div>
-                    <div id="showDescription" class="showField"><%= sighting.description %></div>
-                </div>
-                <div class="showGroup">
-                    <div class="showTitle">Date Sighted</div>
-                    <div id="showDate" class="showField"><%= sighting.timeAsUTC() %></div>
-                </div>
-                <div class="showGroup">
-                    <div class="showTitle">Location</div>
-                    <div id="showCoordinates"class="showField"><%= sighting.location.coordinates %></div>
-                </div>
-                <div class="showGroup showImageGroup">
-                    <div class="showTitle">Attached Image</div>
-                    <% if (sighting.image.contentType != null) {%>
-                    <div id="showImage" class="showField"><img src="data:<%=sighting.image.contentType%>;base64,
-                                    <%=sighting.image.data.toString('base64')%>" height=200px></div>
-                    <%} else if (sighting.image.url != null) { %>
-                    <div id="showImage" class="showField"><img src="<%=sighting.image.url%>%>" height=200px></div>
-                    <%}%>
-                </div>
             </div>
         </div>
+
+        <div id="sightingData" class=" row">
+            <div class="showGroup">
+                <div class="showTitle">Author</div>
+                <div id="showAuthor" class="showField"><%= sighting.userId.username %></div>
+            </div>
+
+            <div class="showGroup">
+                <div class="showTitle">Identification</div>
+                <div id="showName" class="showField"><%= sighting.identificationName %></div>
+            </div>
+
+            <div class="showGroup">
+                <div class="showTitle">Confirmation Status</div>
+                <div id="showConfirmation" class="showField"><%= sighting.confirmation %></div>
+            </div>
+            <div class="showGroup">
+                <div class="showTitle">Description</div>
+                <div id="showDescription" class="showField"><%= sighting.description %></div>
+            </div>
+            <div class="showGroup">
+                <div class="showTitle">Date Sighted</div>
+                <div id="showDate" class="showField"><%= sighting.timeAsUTC() %></div>
+            </div>
+            <div class="showGroup">
+                <div class="showTitle">Location</div>
+                <div id="showCoordinates"class="showField"><%= sighting.location.coordinates %></div>
+            </div>
+            <div class="showGroup showImageGroup">
+                <div class="showTitle">Attached Image</div>
+                <% if (sighting.image.contentType != null) {%>
+                <div id="showImage" class="showField"><img src="data:<%=sighting.image.contentType%>;base64,
+                                <%=sighting.image.data.toString('base64')%>" height=200px></div>
+                <%} else if (sighting.image.url != null) { %>
+                <div id="showImage" class="showField"><img src="<%=sighting.image.url%>%>" height=200px></div>
+                <%}%>
+            </div>
+        </div>
+    </div>
+
+    <div class ="col-md-6">
         <div class="row">
             <div id="chat" class="container">
                 <div id="chatTitle"><h3>Chat</h3></div>
@@ -62,25 +67,18 @@
                 </section>
                 <form id="chatForm" class="chatFormContainer">
                     <input
-                        id="msgIn"
-                        type="text"
-                        class="form-control-sm"
-                        placeholder="Enter Message"
-                        required
-                        autocomplete="off"
+                            id="msgIn"
+                            type="text"
+                            class="form-control-sm"
+                            placeholder="Enter Message"
+                            required
+                            autocomplete="off"
                     />
                     <input id="sendMsgBtn" type="button" value="Send" class="btn btn-primary btn-sm"/>
                 </form>
             </div>
         </div>
-        <button id="toIndexBtn" type="button" class="btn btn-outline-primary">Return to index.</button>
-        <br>
-    </div>
-
-
-    <div class ="col-md-6">
-
-        <div id="DBPediaData">
+        <div id="DBPediaData" class="row">
             <h2 id="DBPName"></h2>
             <a href="<%-sighting.identificationURI%>" id="DBPediaURI" title="Go to DBPedia Page"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             <h3 id="DBPLatinName"></h3>
