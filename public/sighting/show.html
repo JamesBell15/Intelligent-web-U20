@@ -25,21 +25,25 @@
 
     </table>
 
-    <section id="chatHistory">
+    <div id="chat" class="container">
+        <div id="chatTitle"><h3>Chat</h3></div>
+        <section id="chatHistory">
 
-    </section>
+        </section>
 
-    <form id="chatForm" class="chatFormContainer">
-        <input
+        <form id="chatForm" class="chatFormContainer">
+            <input
                 id="msgIn"
                 type="text"
                 class="form-control-sm"
                 placeholder="Enter Message"
                 required
                 autocomplete="off"
-        />
-        <input id="sendMsgBtn" type="button" value="Send"/>
-    </form>
+            />
+            <input id="sendMsgBtn" type="button" value="Send"/>
+        </form>
+    </div>
+
 
     <a href="/sighting/index"> see all </a>
 </body>
