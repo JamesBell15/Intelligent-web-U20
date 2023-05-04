@@ -31,6 +31,16 @@ a {
   text-decoration: inherit;
 }
 
+#sighting-headers {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-bottom: solid;
+    border-width: 2px;
+    border-color: #dee2e6;
+
+}
+
+
 /* NEW / CREATE */
 #sightingSearch {
   width: 20rem;
