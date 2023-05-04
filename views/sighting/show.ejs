@@ -1,5 +1,5 @@
 <div class="row" id="showBox">
-    <div class="col-md-6">
+    <div id="sightingWrapper" class="col-md-6">
         <div class="row">
             <div class="row">
                 <div class="col-md-8">
@@ -12,18 +12,43 @@
                 </div>
             </div>
 
-            <span id="author"><%= sighting.userId.username %></span><br>
-            <span><%= sighting.identificationName %></span><br>
-            <span><%= sighting.confirmation %></span><br>
-            <span><%= sighting.description %></span><br>
-            <span><%= sighting.timeAsUTC() %></span><br>
-            <span><%= sighting.location.coordinates %></span><br>
-            <% if (sighting.image.contentType != null) {%>
-            <span><img src="data:<%=sighting.image.contentType%>;base64,
-                                <%=sighting.image.data.toString('base64')%>" height=200px></span><br>
-            <%} else if (sighting.image.url != null) { %>
-            <span><img src="<%=sighting.image.url%>%>" height=200px></span><br>
-            <%}%>
+            <div id="sightingData" class=" row">
+                <div class="showGroup">
+                    <div class="showTitle">Author</div>
+                    <div id="showAuthor" class="showField"><%= sighting.userId.username %></div>
+                </div>
+
+                <div class="showGroup">
+                    <div class="showTitle">Identification</div>
+                    <div id="showName" class="showField"><%= sighting.identificationName %></div>
+                </div>
+
+                <div class="showGroup">
+                    <div class="showTitle">Confirmation Status</div>
+                    <div id="showConfirmation" class="showField"><%= sighting.confirmation %></div>
+                </div>
+                <div class="showGroup">
+                    <div class="showTitle">Description</div>
+                    <div id="showDescription" class="showField"><%= sighting.description %></div>
+                </div>
+                <div class="showGroup">
+                    <div class="showTitle">Date Sighted</div>
+                    <div id="showDate" class="showField"><%= sighting.timeAsUTC() %></div>
+                </div>
+                <div class="showGroup">
+                    <div class="showTitle">Location</div>
+                    <div id="showCoordinates"class="showField"><%= sighting.location.coordinates %></div>
+                </div>
+                <div class="showGroup showImageGroup">
+                    <div class="showTitle">Attached Image</div>
+                    <% if (sighting.image.contentType != null) {%>
+                    <div id="showImage" class="showField"><img src="data:<%=sighting.image.contentType%>;base64,
+                                    <%=sighting.image.data.toString('base64')%>" height=200px></div>
+                    <%} else if (sighting.image.url != null) { %>
+                    <div id="showImage" class="showField"><img src="<%=sighting.image.url%>%>" height=200px></div>
+                    <%}%>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div id="chat" class="container">
@@ -48,6 +73,8 @@
                 </form>
             </div>
         </div>
+        <button id="toIndexBtn" type="button" class="btn btn-outline-primary">Return to index.</button>
+        <br>
     </div>
 
 
@@ -73,6 +100,6 @@
     </div>
 </div>
 
-<button id="toIndexBtn" type="button" class="btn btn-outline-primary">Return to index.</button>
+
 <script type="module" src="/javascripts/tempChat.js" defer></script>
 <script src="/javascripts/sighting/show_dbpedia.js" defer ></script>

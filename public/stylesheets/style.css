@@ -55,13 +55,43 @@ a {
 
 /* SHOW */
 
-.fieldTitle {
-    font-size: 1.5em;
-    padding-top: 10px;
-    text-decoration: underline;
+#sightingWrapper {
+    padding-bottom: 20px;
 }
 #showBox {
     max-height: 60%;
+}
+#sightingData {
+    padding: 5px;
+    margin: 0px;
+    width: 100%;
+}
+.showGroup {
+    border-style: solid;
+    border-color: #c4c4c4;
+    border-radius: 5px;
+    padding: 0px;
+    margin-bottom: 5px;
+}
+.showTitle {
+    font-weight: bold;
+    font-size: 1.3em;
+    padding: 2px 6px 6px;
+    border-bottom: solid;
+    border-color: #c4c4c4;
+    background-color: #ececec;
+}
+.showField {
+    padding: 6px;
+}
+
+#showImage img{
+    object-fit: cover;
+    width: 100%;
+    height:auto;
+}
+.showImageGroup {
+    width: 100%
 }
 
 #DBPDescription{
