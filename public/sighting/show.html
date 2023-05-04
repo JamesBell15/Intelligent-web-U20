@@ -10,41 +10,50 @@
 
 <body>
     <h1>Showing offline sighting</h1>
+    <div id="showBox" class="row offline">
+        <div id="sightingWrapper" class="col-md-6">
+            <div id="showTopRow" class="row container">
+                <div class="col-md-4">
+                    <h3>Offline Sighting Information</h3>
+                </div>
+                <div class="col-md-8">
+                    <a href="/sighting/index">
+                        <button id="toIndexBtn" type="button" class="btn btn-primary">
+                            <i class="fa-solid fa-house"></i> Return to index.
+                        </button>
+                    </a>
+                </div>
+            </div>
 
-    <div>
-        <span>User</span>
-        <span>Description</span>
-        <span>Time</span>
-        <span>Identification</span>
-        <span>Confirmation</span>
-        <span>Location</span>
-        <span>Image</span>
+            <div id="sightingData" class=" row">
+
+            </div>
+        </div>
+
+        <div id="chat" class="row container">
+            <div id="chatTitle"><h3>Chat</h3></div>
+            <section id="chatHistory">
+
+            </section>
+
+            <form id="chatForm" class="chatFormContainer">
+                <input
+                        id="msgIn"
+                        type="text"
+                        class="form-control-sm"
+                        placeholder="Enter Message"
+                        required
+                        autocomplete="off"
+                />
+                <input id="sendMsgBtn" type="button" value="Send"/>
+            </form>
+        </div>
+
     </div>
-
-    <table id="sightingTable">
-
-    </table>
-
-    <div id="chat" class="container">
-        <div id="chatTitle"><h3>Chat</h3></div>
-        <section id="chatHistory">
-
-        </section>
-
-        <form id="chatForm" class="chatFormContainer">
-            <input
-                id="msgIn"
-                type="text"
-                class="form-control-sm"
-                placeholder="Enter Message"
-                required
-                autocomplete="off"
-            />
-            <input id="sendMsgBtn" type="button" value="Send"/>
-        </form>
-    </div>
-
-
-    <a href="/sighting/index"> see all </a>
+    <a href="/sighting/index">
+        <button type="button" class="btn btn-primary">
+            <i class="fa-solid fa-house"></i> Return to index.
+        </button>
+    </a>
 </body>
 </html>
