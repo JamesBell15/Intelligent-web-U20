@@ -27,7 +27,7 @@
         </div>
         <div class="row">
             <div id="chat" class="container">
-                <div id="chatTitle"><h4>Chat</h4></div>
+                <div id="chatTitle"><h3>Chat</h3></div>
                 <section id="chatHistory">
                     <% if (typeof messages != 'undefined') {%>
                         <% messages.forEach(function(message) {%>
@@ -44,7 +44,7 @@
                         required
                         autocomplete="off"
                     />
-                    <input id="sendMsgBtn" type="button" value="Send"/>
+                    <input id="sendMsgBtn" type="button" value="Send" class="btn btn-primary btn-sm"/>
                 </form>
             </div>
         </div>

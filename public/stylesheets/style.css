@@ -7,6 +7,11 @@ a {
   color: #00B7FF;
 }
 
+::placeholder {
+    color: #333333;
+    opacity: 1;
+}
+
 .navbar-brand {
   padding-left: 2%;
   font-size: 3em;
@@ -26,9 +31,35 @@ a {
     display: none;
 }
 
+#chat{
+    border-style: solid;
+    border-color: #98bed7;
+    border-radius: 15px;
+    background-color: #dedede;
+    padding: 0px;
+    margin: 5px;
+}
+#chatTitle h3{
+    padding: 10px;
+    margin-bottom: 0px;
+    font-weight: bold;
+
+}
+#chatForm {
+    border-radius: 10px;
+    background-color: #c4c4c4;
+    padding: 8px;
+    margin: 5px;
+    display: inline-block;
+}
+
 #chatHistory {
     max-height: 300px;
     overflow: auto;
+    border-top: 3px #98bed7 solid;
+    border-bottom: 3px #98bed7 solid;
+    padding: 5px;
+    background-color: #ffffff;
 }
 
 .loader {
