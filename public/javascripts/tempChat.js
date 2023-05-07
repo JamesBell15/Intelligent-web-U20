@@ -6,7 +6,7 @@ import {subscribe} from "./subscription_helper.mjs"
     let db
     socket.emit('join sighting', sightingID)
 
-    const author = document.querySelector('#author').innerHTML
+    const author = document.querySelector('#showAuthor').innerHTML
 
     const checkUserIsAuthor = () => {
         useUserInfo(async (user) => {
