@@ -40,13 +40,35 @@ a {
 
 }
 
-
-/* NEW / CREATE */
 #sightingSearch {
-  width: 20rem;
-  height: 2rem;
+    width: 20rem;
+    height: 2rem;
 }
 
+
+/* NEW / CREATE */
+.sectionWrapper {
+    border-style: solid;
+    border-color: #c4c4c4;
+    border-radius: 5px;
+    padding: 0px;
+    margin-bottom: 5px;
+}
+.inputTitle {
+    font-weight: bold;
+    font-size: 1.3em;
+    padding: 6px;
+    border-bottom: solid;
+    border-color: #c4c4c4;
+    background-color: #ececec;
+}
+.inputWrapper {
+    padding: 10px;
+    margin-bottom: 5px;
+}
+.inputField {
+    padding: 6px 6px 0px;
+}
 .loader {
     border: 8px solid #f3f3f3; /* Light grey */
     border-top: 8px solid #3498db; /* Blue */
