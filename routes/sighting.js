@@ -15,11 +15,6 @@ const privateVapidKey = "Am9PJ-cUOEEbo4Xa69RTP7p_ftGvNImAtv_L9OEGkVg"
 
 webPush.setVapidDetails("mailto: chrishowkins10@gmail.com", publicVapidKey, privateVapidKey)
 
-
-router.get('/', function(req, res) {
-    res.redirect('/sighting/index')
-})
-
 // Routes accociated with online sightings
 router.get("/sighting/index", sighting_controller.index)
 router.get("/sighting/show", sighting_controller.index)
@@ -44,5 +39,11 @@ router.post('/subscribe', subscription_controller.create)
 router.get("/db/get/:username", db_controller.get_server_data)
 router.post("/db/sighting/update", db_controller.update_sighting_data)
 router.post("/db/message/update", db_controller.update_message_data)
+
+// Default route
+router.get('*', function(req, res) {
+    res.redirect('/sighting/index')
+})
+
 
 module.exports = router
