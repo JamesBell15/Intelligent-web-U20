@@ -1,4 +1,4 @@
-import {subscribe} from "./subscription_helper.mjs";
+import {subscribe} from "/javascripts/subscription_helper.mjs";
 
 const registerServiceWorker = async () => {
     if ("serviceWorker" in navigator) {
