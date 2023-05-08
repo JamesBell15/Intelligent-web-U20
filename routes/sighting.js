@@ -16,6 +16,9 @@ const privateVapidKey = "Am9PJ-cUOEEbo4Xa69RTP7p_ftGvNImAtv_L9OEGkVg"
 webPush.setVapidDetails("mailto: chrishowkins10@gmail.com", publicVapidKey, privateVapidKey)
 
 
+router.get('/', function(req, res) {
+    res.redirect('/sighting/index')
+})
 
 // Routes accociated with online sightings
 router.get("/sighting/index", sighting_controller.index)
