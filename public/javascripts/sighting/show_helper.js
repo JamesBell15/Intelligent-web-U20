@@ -62,24 +62,44 @@ const renderChatHTML = (record) => {
 }
 
 const renderSightingHTML = (record) => {
-    let table = document.getElementById("sightingTable")
+    let table = document.getElementById("sightingData")
 
     // Set up headers
     let output = `
-    <div>
-        <span>${record.userId}</span><br>
-        <span>${record.description}</span><br>
-        <span>${record.dateTime}</span><br>
-        <span>${record.identificationName}</span><br>
-        <span>${record.confirmation}</span><br>
-        <span>${record.location.coordinates}</span><br>`
+    <div class="showGroup">
+        <div class="showTitle">Author</div>
+            <div id="showAuthor" class="showField">${ record.userId }</div>
+        </div>
+
+        <div class="showGroup">
+            <div class="showTitle">Identification</div>
+            <div id="showName" class="showField">${ record.identificationName }</div>
+        </div>
+
+        <div class="showGroup">
+            <div class="showTitle">Confirmation Status</div>
+            <div id="showConfirmation" class="showField"> ${record.confirmation}</div>
+        </div>
+        <div class="showGroup">
+            <div class="showTitle">Description</div>
+            <div id="showDescription" class="showField"> ${record.description}</div>
+        </div>
+        <div class="showGroup">
+            <div class="showTitle">Date Sighted</div>
+            <div id="showDate" class="showField">${ record.dateTime }</div>
+        </div>
+        <div class="showGroup">
+            <div class="showTitle">Location</div>
+            <div id="showCoordinates"class="showField">${ record.location.coordinates }</div>
+        </div>
+        <div class="showGroup showImageGroup">
+            <div class="showTitle">Attached Image</div>`
 
     if (record.image.contentType != null) {
-        output += `<span><img src="data:${record.image.contentType};base64,${record.image.data}" height=200px></span><br>`
+        output += `<div id="showImage" class="showField"><img src="data:${record.image.contentType};base64,${record.image.data}" height=200px></div>`
     } else if (record.image.url != null) {
-        output += `<span><img src="${record.image.url}" height=200px></span><br>`
+        output += `<div id="showImage" class="showField"><img src="${record.image.url}" height=200px></div><br>`
     }
-
 
     table.innerHTML = output + `</div>`
 }

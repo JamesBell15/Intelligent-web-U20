@@ -5,21 +5,33 @@
     </div>
     <div class="modal-body">
         <form id="xForm" method="post" action="/sighting/update">
-            <label for="unknownIdentification">If unknown, please tick:</label>
-            <input type="checkbox" id="unknownIdentification" name="unknownIdentification">
-            <br>
-            <label for="identificationSearch">Search identification by name: </label>
-            <input type="text" id="identificationSearch" name="identificationSearch">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <input type="checkbox" id="unknownIdentification" name="unknownIdentification" class="btn-check">
+                    <label for="unknownIdentification" class="btn btn-outline-danger btn-sm">Unknown</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="identificationSearch" class="col-sm-3 my-2 col-form-label">Search Bird Species: </label>
+                <div class="col-sm-7 my-2">
+                    <input type="text" id="identificationSearch" name="identificationSearch" class="form-control mb2">
+                </div>
+                <div class="col-sm-2 my-2" >
+                    <button type="button" id="findIdentifications" name="findIdentifications" class="btn btn-primary">
+                        <i class="fa-solid fa-magnifying-glass"></i>  Find</button>
+                </div>
+            </div>
 
+            <div id="identificationInputs" class="form-group row" style="visibility: hidden">
+                <label for="identification" id="identificationLabel" class="col-md-3 my-2 col-form-label">Select Identification:</label>
+                <div class="col-md-5 my-2">
+                    <select name="identification" class="form-select" id="identification"></select>
+                </div>
 
-            <button type="button" id="findIdentifications" name="findIdentifications">Find</button><br>
-
-            <div id="identificationInputs" style="visibility: hidden">
-                <label for="identification" id="identificationLabel">Select Identification</label>
-                <select name="identification" id="identification"></select><br>
-                <label for="confirmIdentification">Confirmed Identification?</label>
-                <input type="checkbox" id="confirmIdentification" name="confirmIdentification">
-
+                <div class="col-md-3">
+                    <input type="checkbox" id="confirmIdentification" name="confirmIdentification" class="btn-check">
+                    <label for="confirmIdentification" class="btn btn-outline-success btn-md my-2">Confirmed?</label>
+                </div>
                 <div id="identificationHiddenFields" style="display:none">
                     <input type="hidden" name="identificationURI" id="identificationURI" value="<%= sighting.identificationURI%>">
                     <input type="hidden" name="identificationName" id="identificationName" value="<%= sighting.identificationName%>">
@@ -27,9 +39,9 @@
                     <input type="hidden" name="id" id="sightingId" value="<%= sighting._id %>">
                 </div>
             </div>
-            <br>
-            <input type="submit">
+            <input type="submit" class="btn btn-primary btn-sm">
         </form>
+
     </div>
     <script src="/javascripts/sighting/identification.js" defer></script>
     <script src="/javascripts/sighting/edit_helper.js" defer></script>

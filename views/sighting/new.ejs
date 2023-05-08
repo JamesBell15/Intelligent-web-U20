@@ -1,52 +1,103 @@
 <form id="xForm" method="post" action="new" enctype="multipart/form-data">
-
-    <h4>Sighting Identification</h4>
-
-    <label for="unknownIdentification">If unknown, please tick:</label>
-    <input type="checkbox" id="unknownIdentification" name="unknownIdentification">
-    <br>
-    <label for="identificationSearch">Search identification by name: </label>
-    <input type="text" id="identificationSearch" name="identificationSearch">
-
-
-    <button type="button" id="findIdentifications" name="findIdentifications">Find</button><br>
-
-    <div id="identificationInputs" style="visibility: hidden">
-        <label for="identification" id="identificationLabel">Select Identification</label>
-        <select name="identification" id="identification"></select>
-        <label for="confirmIdentification">Confirmed?</label>
-        <input type="checkbox" id="confirmIdentification" name="confirmIdentification">
-
-        <div id="identificationHiddenFields" style="display:none">
-            <input type="hidden" name="identificationURI" id="identificationURI" value="unknown">
-            <input type="hidden" name="identificationName" id="identificationName" value="unknown">
-            <input type="hidden" name="confirmation" id="confirmation" value="unknown">
+    <div class="sectionWrapper">
+        <div class="inputTitle">
+            Sighting Identification
         </div>
+
+        <div class="inputWrapper">
+            <div class="form-group row">
+                <div class="col-sm-12">
+                    <input type="checkbox" id="unknownIdentification" name="unknownIdentification" class="btn-check">
+                    <label for="unknownIdentification" class="btn btn-outline-danger btn-sm">Unknown</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="identificationSearch" class="col-sm-3 my-2 col-form-label">Search Bird Species: </label>
+                <div class="col-sm-7 my-2">
+                    <input type="text" id="identificationSearch" name="identificationSearch" class="form-control mb2">
+                </div>
+                <div class="col-sm-2 my-2" >
+                    <button type="button" id="findIdentifications" name="findIdentifications" class="btn btn-primary">
+                    <i class="fa-solid fa-magnifying-glass"></i>  Find</button>
+                </div>
+            </div>
+
+            <div id="identificationInputs" class="form-group row" style="visibility: hidden">
+                <label for="identification" id="identificationLabel" class="col-md-3 my-2 col-form-label">Select Identification:</label>
+                <div class="col-md-5 my-2">
+                    <select name="identification" class="form-select" id="identification"></select>
+                </div>
+
+                <div class="col-md-3">
+                    <input type="checkbox" id="confirmIdentification" name="confirmIdentification" class="btn-check">
+                    <label for="confirmIdentification" class="btn btn-outline-success btn-md my-2">Confirmed?</label>
+                </div>
+                <div id="identificationHiddenFields" style="display:none">
+                    <input type="hidden" name="identificationURI" id="identificationURI" value="unknown">
+                    <input type="hidden" name="identificationName" id="identificationName" value="unknown">
+                    <input type="hidden" name="confirmation" id="confirmation" value="unknown">
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <h4>Sighting Information</h4>
-    <label for="description">Description: </label>
-    <input type="text" id="description" name="description" required> <br>
 
-    <label for="dateTime">Date & Time: </label>
-    <input type="datetime-local" id="dateTime" name="dateTime" required> <br>
+    <div class="sectionWrapper">
+        <div class="inputTitle">
+            Sighting Information
+        </div>
 
-    <label for="location">Location: </label>
-    <input type="button" id="locationButton" value="Get current location">
-    <div id="loader" class="loader hidden"></div>
-    <input type="text" id="location" name="location"> <br>
+        <div class="inputWrapper">
+            <div class="form-group row my-2">
+                <label for="description" class="col-sm-2 col-form-label">Description: </label>
+                <div class="col-sm-10">
+                    <textarea id="description" name="description" class="form-control" required></textarea>
+                </div>
+            </div>
 
-    <label for="sightingImage">Image: </label>
-    <div>
-        <input type="file" id="sightingImage" name="sightingImage" accept="image/*">
-        <br>Or paste url:<br>
-        <input type="url" id="sightingImage" name="sightingImage">
+            <div class="form-group row my-2">
+                <label for="dateTime" class="col-sm-2 col-form-label">Date & Time: </label>
+                <div class="col-sm-4">
+                    <input type="datetime-local" id="dateTime" class="form-control" name="dateTime" required> <br>
+                </div>
+            </div>
+
+            <div class="form-group row my-2">
+                <label for="dateTime" class="col-sm-2 col-form-label">Location: </label>
+                <div class="col-sm-3">
+                    <input type="button" id="locationButton" class="btn btn-success" value="Get current location">
+
+                </div>
+                <div class="col-sm-1">
+                    <div id="loader" class="loader hidden"></div>
+                </div>
+                <div class="col-sm-4">
+                    <input type="text" id="location" class="form-control" name="location" required>
+                </div>
+            </div>
+
+            <div class="form-group row my-2">
+                <label for="sightingImage" class="col-sm-2 col-form-label my-3">Image: </label>
+                <div class="col-sm-6">
+                    <div class="row my-3    ">
+                        <input type="file" id="sightingImage" name="sightingImage" accept="image/*" class="form-control">
+                    </div>
+                    <label for="sightingImage" class="form-label">Or Enter an image URL</label>
+                    <div class="row">
+                        <input type="url" id="sightingImage" name="sightingImage" class="form-control" placeholder="Enter image URL">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
-    <br>
-
-
-    <input id="submitBtn" type="submit">
+    <input id="submitBtn" type="submit" class="btn btn-primary">
 </form>
-<a href="index"> Cancel </a>
+
+<a href="index">
+    <button class="btn btn-danger btn-md my-2">Cancel</button>
+</a>
 <script src="/javascripts/form.js" defer></script>
 <script src="/javascripts/sighting/identification.js" defer></script>
