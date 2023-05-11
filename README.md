@@ -12,4 +12,5 @@ Installation:
 * Open a browser (preferably Chrome) and go to `http://localhost:3000/`
 
 Quick guide to features:
-*
+* Online messaging and creating a new sighting https://www.youtube.com/watch?v=cqZuNUIxnDw
+* different sighting filters https://www.youtube.com/watch?v=Z5ZzRrqCGwY
