@@ -10,6 +10,7 @@ const userSchema = new Schema({
             required: true
         },
         coordinates: {
+            // LONG, LAT
             type: [Number],
             required: true
         }

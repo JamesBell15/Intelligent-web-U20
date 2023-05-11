@@ -104,7 +104,6 @@ const newSighting = async (id) => {
                        console.err("error fetching data")
                     }
 
-
                     request.onsuccess = function(event) {
                         let cursor = event.target.result
 
