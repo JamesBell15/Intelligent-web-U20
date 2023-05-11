@@ -45,8 +45,6 @@ const searchIdentifications = () =>{
     const endpointUrl = "https://dbpedia.org/sparql"
 
     // SPARQL query to return a list of birds with names similar to the entered query
-    // TODO: get names that are "similar" / "LIKE" the query in case of misspellings
-    // TODO: get some way of prioritising "more relevant" entities
     const sparqlQuery = `
         PREFIX dbo: <http://dbpedia.org/ontology/>
         PREFIX dbprop: <http://dbpedia.org/property/>
