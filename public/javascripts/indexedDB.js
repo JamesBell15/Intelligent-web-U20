@@ -1,3 +1,5 @@
+
+// Creates the schema for indexedDB
 const upgradeStores = (event) => {
     console.log("Upgrading...")
 
@@ -5,6 +7,7 @@ const upgradeStores = (event) => {
 
     db.createObjectStore('userInfo', {autoIncrement: false})
 
+    // auto incement to allow for offline sightings
     const sightingStore = db.createObjectStore("sightings", { autoIncrement: true })
 
     // SCHEMA
@@ -15,10 +18,10 @@ const upgradeStores = (event) => {
     sightingStore.createIndex("identificationName", "identificationURI", { unique: false })
     sightingStore.createIndex("confirmation","confirmation", {unique: false })
     sightingStore.createIndex("location", "location", { unique: false })
-    // JSON object { data, contentType, url }
+    // Image JSON object { data, contentType, url }
     sightingStore.createIndex("image", "image", { unique: false })
 
-
+    // Used to store the current sighting for the show page
     const currentSightingStore = db.createObjectStore("currentSighting", { keyPath: "key" })
 
     // SCHEMA
@@ -27,9 +30,10 @@ const upgradeStores = (event) => {
     // Add record to manipulate
     const request = currentSightingStore.add({key: 'current', sightingId: null})
     request.onsuccess = (event) => {
-    console.log(`added currentSighting`)
+        console.log(`added currentSighting`)
     }
 
+    // auto incement to allow for offline messages
     const messagesStore = db.createObjectStore("messages", { autoIncrement: true })
 
     // SCHEMA
@@ -58,8 +62,8 @@ requestIDB.onerror = (event) => {
 // Make avaliable in other helpers
 const setCurrentSighting = (recordId) => {
     const currentSightingStore = requestIDB.result
-    .transaction(["currentSighting"], "readwrite")
-    .objectStore("currentSighting")
+        .transaction(["currentSighting"], "readwrite")
+        .objectStore("currentSighting")
 
     currentSightingStore.get('current').onsuccess = (event) => {
         const data = event.target.result

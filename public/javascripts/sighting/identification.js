@@ -14,6 +14,29 @@
 
 */
 
+/*
+Functions related to the handling of identifying a bird
+
+searchIdentifications - query the DBPedia knowledge graph to find bird species with matching names to a user query
+    Populates a dropdown with options for the user to pick from
+
+getConfirmation - gets the confirmation status of the sighting based off of the combination of user inputs
+
+disableFields - disables the identification-related fields when the user selects the "unknown identification" option
+
+optionsPopulated - is the identification selection dropdown populated
+    - it will have options if the user has successfully found a species from DBPedia
+
+getIdentificationDetails - handles the logic surrounding the identification inputs and outputs values to be used
+    - if identification is unknown, the other input fields are ignored
+    - sometimes there may not be an associated DBPedia URI for a sighting
+
+setHiddenFields - sets the values of the hidden fields for sighting identification
+    - these are sanitised before form submission so the server only receives correct data
+
+ */
+
+
 //get selection of bird species from DBPedia similar to search term
 const searchIdentifications = () =>{
     let birdName = document.getElementById("identificationSearch").value.toLowerCase()
@@ -22,8 +45,6 @@ const searchIdentifications = () =>{
     const endpointUrl = "https://dbpedia.org/sparql"
 
     // SPARQL query to return a list of birds with names similar to the entered query
-    // TODO: get names that are "similar" / "LIKE" the query in case of misspellings
-    // TODO: get some way of prioritising "more relevant" entities
     const sparqlQuery = `
         PREFIX dbo: <http://dbpedia.org/ontology/>
         PREFIX dbprop: <http://dbpedia.org/property/>
