@@ -1,9 +1,18 @@
+/*
+    checkUserIsAuthor - checks if the user stored in IndexedDB matches the author of a post in order to query the user to turn notifications on.
+    sendMsg - retrieves a message from the chat input which is posted to the /notify route in order to prompt a notification to the author of the post.
+        - emits the message as an event via a socket so that messages appear in the chat for a post in real time for other user and for the message to be stored
+          in the MongoDB database.
+    outPutMsg - receives events which contain a message sent to the current post which is then displayed in the chat area in the front-end.
+ */
+
 import {subscribe} from "./subscription_helper.mjs"
 
 {
     const sightingID = window.location.pathname.split('/').pop().replace(/\s/g, '')
     let socket = io()
     let db
+    // the user needs to join a room to receive the appropriate events related to a given sighting.
     socket.emit('join sighting', sightingID)
 
     const author = document.querySelector('#showAuthor').innerHTML

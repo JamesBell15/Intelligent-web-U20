@@ -1,3 +1,7 @@
+/*
+    checkLoginStatus - This function is ran at the very start of loading a page in order to display the correct items in the navbar depending on the login status.
+ */
+
 {
     const requestIDB = indexedDB.open('db', 4)
 

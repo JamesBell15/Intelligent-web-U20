@@ -1,3 +1,11 @@
+/*
+    The model for messages linked to a particular sighting and user. Three fields are required:
+
+    sender - references a user in the database who is responsible for sending a given message.
+    post - references a sighting in the database for which a message is attached to.
+    msg - a message that has been sent.
+ */
+
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 

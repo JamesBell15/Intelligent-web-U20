@@ -1,3 +1,8 @@
+/*
+	Controller for sightings. The methods below are used to render pages or redirect to other pages sometimes after fulfilling
+	another task such as adding a new entry to the database.
+ */
+
 const bodyParser = require("body-parser")
 const multer = require('multer')
 const Helper = require('../helpers/controller_helpers/sighting')
@@ -26,7 +31,7 @@ exports.create = async (req, res) => {
 		location: {
 			type: 'Point',
 			coordinates: [longitude, latitude]
-		}, // -> this needs to be updated to be a numbered coordinate
+		},
 		description: body.description,
 		dateTime: new Date(body.dateTime),
 		image: image

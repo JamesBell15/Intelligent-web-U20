@@ -1,8 +1,8 @@
 /*
-The model for storing the subscriptions in the database. Two fields are required:
+    The model for storing the subscriptions in the database. Two fields are required:
 
-userId - References a user in the database that the subscription is attached to
-subscriptionObject - The unique subscription for the user containing the endpoint and keys. Stored as a string
+    userId - References a user in the database that the subscription is attached to
+    subscriptionObject - The unique subscription for the user containing the endpoint and keys. Stored as a string
 
  */
 

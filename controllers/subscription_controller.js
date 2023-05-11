@@ -1,10 +1,10 @@
 /*
-Controller for subscriptions. It has two methods:
+    Controller for subscriptions. It has two methods:
 
-create - Creates a subscription object from the data that is passed in and inserts it into the db
+    create - Creates a subscription object from the data that is passed in and inserts it into the db
 
-sendNotification - Uses webpush.sendNotification to send a push event to the specified user with the
-                   payload (the body of the notification)
+    sendNotification - Uses webpush.sendNotification to send a push event to the specified user with the
+                       payload (the body of the notification)
 
  */
 
