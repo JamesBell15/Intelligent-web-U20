@@ -14,3 +14,4 @@ Installation:
 Quick guide to features:
 * Online messaging and creating a new sighting https://www.youtube.com/watch?v=cqZuNUIxnDw
 * different sighting filters https://www.youtube.com/watch?v=Z5ZzRrqCGwY
+* Offline sighting creation and messages https://youtu.be/svJoPXcJmPU
