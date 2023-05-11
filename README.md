@@ -21,6 +21,7 @@ Summary of functionality:
 * Index Page
   * Index page shows a list of all sightings, with a selection of their data:
     *   Species name, Confirmation status, observer, location  and time observed
+  * When offline, a list of all sightings will be displayed, but further details can only be viewed for sightings the user authored (this requires signing in when online to cache the relevant information)
   * Sightings can be sorted by Name, Distance and by most recent
   * Sightings can also be searched for by name
   * A user can log in, allowing them to create sightings, send messages and receive notifications when comments have been left on their sightings
