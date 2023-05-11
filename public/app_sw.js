@@ -1,3 +1,20 @@
+/*
+    install - Handles the service worker is created and installed on the clients browser
+    it caches the required files
+
+    sync - Handles the background sync events for when
+        sighting-data-sync - syncing offline IDB with the most up-to-date
+        new-sighting - send a new sighting to the server with any messages made during that session
+        new-message - sends new messages on pre existing sightings
+
+    fetch - Handles the requests to the server, and reroutes them to the cache when offline or
+    sends the request to the server if online
+
+    push - Chris
+
+    notificationclick - Chris
+*/
+
 self.importScripts("/javascripts/serviceWorkerHelper.mjs")
 
 self.addEventListener("install", (event) => {
