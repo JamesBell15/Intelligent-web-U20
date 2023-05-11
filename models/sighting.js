@@ -31,6 +31,7 @@ const sighting = new Schema({
         coordinates: {
             // LONG, LAT
             type: [Number],
+            get: shortenFloat,
             required: true
         }
     },
@@ -70,6 +71,11 @@ sighting.statics.findSighting = async (sightingId) => {
 function binaryString(data) {
     if (data != null)
     return data.toString('base64')
+}
+
+// returns smaller float values
+function shortenFloat(numbers) {
+    return [Number((numbers[0]).toFixed(3)), Number((numbers[1]).toFixed(3))]
 }
 
 var Sighting = mongoose.model('Sighting', sighting)
