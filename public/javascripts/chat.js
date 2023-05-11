@@ -71,7 +71,7 @@
             for (let message of messages) {
                 const div = document.createElement('div')
                 div.innerHTML = `<p><strong>${message.sender}:</strong>${message.msg}</p>`
-                fragment.appendChild(div);
+                fragment.appendChild(div)
             }
             document.getElementById('chatHistory').appendChild(fragment)
         }
