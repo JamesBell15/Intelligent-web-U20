@@ -94,9 +94,6 @@ a {
     padding: 0px;
 }
 
-#showBox.offline {
-    width:60%;
-}
 #sightingData {
     padding: 5px;
     margin: 0px;
@@ -107,6 +104,7 @@ a {
     border-color: #c4c4c4;
     border-radius: 5px;
     padding: 0px;
+    padding-left: 0px;
     margin-bottom: 5px;
 }
 .showTitle {
@@ -162,6 +160,9 @@ a {
     background-color: #dedede;
     padding: 0px;
     margin-bottom: 10px;
+}
+#chat.offline{
+    margin-left: 15px;
 }
 #chatTitle h3{
     padding: 10px;
