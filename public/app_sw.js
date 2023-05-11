@@ -10,9 +10,11 @@
     fetch - Handles the requests to the server, and reroutes them to the cache when offline or
     sends the request to the server if online
 
-    push - Chris
+    push - An event listener for the 'push' event. This occurs when a notification needs to be sent and
+           then showNotification is actually called to display the notification to the user
 
-    notificationclick - Chris
+    notificationclick - Handles the event when the user clicks on a notification.
+                        On click, it opens the page in a browser
 */
 
 self.importScripts("/javascripts/serviceWorkerHelper.mjs")
@@ -99,9 +101,7 @@ self.addEventListener("fetch", (event) => {
 })
 
 
-// Adds an event listener for the 'push' event. This occurs when a notification
-// needs to be sent and then showNotification is actually called to display
-// the notification to the user
+
 self.addEventListener("push", (event) => {
     const data = event.data.json()
     self.registration.showNotification(
@@ -111,8 +111,7 @@ self.addEventListener("push", (event) => {
 })
 
 
-// Adds an event listener for when the user clicks on a notification.
-// On click, it opens the page in a browser
+
 self.addEventListener("notificationclick", function (event) {
     const data = event.notification.data
     event.notification.close()
