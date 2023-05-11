@@ -16,7 +16,6 @@ import {subscribe} from "./subscription_helper.mjs"
                 } catch (e) {
                     // Strange quirk on Firefox where the permissions don't update
                     // in real time, so have to force a refresh
-                    // Probably a better way of doing this
                     if (navigator.userAgent.indexOf("Firefox") > -1) {
                         setInterval(function () {
                             if (Notification.permission === 'granted') {
