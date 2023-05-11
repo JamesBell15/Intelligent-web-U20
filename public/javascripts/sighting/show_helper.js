@@ -163,6 +163,7 @@ requestIDB.onsuccess = async (event) => {
     document.getElementById("chatForm").onkeypress = function(e) {
         var key = e.charCode || e.keyCode || 0
 
+        // enter key for sending chat messages offline
         if (key == 13) {
             addChatMessage()
             e.preventDefault()

@@ -1,3 +1,11 @@
+/*
+    The model for users. Two fields are required:
+
+    username - the name assigned to a user.
+    location - represents the coordinates for a given user which is stored as a GeoJSON object.
+
+ */
+
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -10,6 +18,7 @@ const userSchema = new Schema({
             required: true
         },
         coordinates: {
+            // LONG, LAT
             type: [Number],
             required: true
         }

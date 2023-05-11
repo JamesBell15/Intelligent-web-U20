@@ -1,157 +1,134 @@
+/*
+    checkUserIsAuthor - checks if the user stored in IndexedDB matches the author of a post in order to query the user to turn notifications on.
+    sendMsg - retrieves a message from the chat input which is posted to the /notify route in order to prompt a notification to the author of the post.
+        - emits the message as an event via a socket so that messages appear in the chat for a post in real time for other user and for the message to be stored
+          in the MongoDB database.
+    outPutMsg - receives events which contain a message sent to the current post which is then displayed in the chat area in the front-end.
+ */
+
+import {subscribe} from "./subscription_helper.mjs"
+
 {
-    let db, room
+    const sightingID = window.location.pathname.split('/').pop().replace(/\s/g, '')
     let socket = io()
-    const requestIDB = indexedDB.open('db', 4)
+    let db
+    // the user needs to join a room to receive the appropriate events related to a given sighting.
+    socket.emit('join sighting', sightingID)
 
-    requestIDB.onsuccess = (event) => {
-        /**
-         * Give on click method to rooms loaded via routes.
-         */
-        function init() {
-            const children = document.querySelector('#chatRoomCatalogue').children
-            for (let i = 0; i < children.length; i++) {
-                children[i].onclick = handleClickChatRoom
-            }
-        }
+    const author = document.querySelector('#showAuthor').innerHTML
 
-        /**
-         * Method will be replaced with handling posts rather than manually generated rooms
-         */
-
-        const insertChatRoom = () => {
-            const chatRoomIn = document.getElementById('chatRoomIn').value
-            const div = document.createElement('div')
-            div.setAttribute("chat-room-id", chatRoomIn)
-            div.innerHTML = `${chatRoomIn}`
-            div.onclick = handleClickChatRoom
-            const chatRoomCatalogue = document.getElementById('chatRoomCatalogue')
-            chatRoomCatalogue.appendChild(div)
-
-            if (document.querySelector('#noChatRoomsMsg').style.display != 'none') {
-                document.querySelector('#noChatRoomsMsg').style.display = 'none'
-            }
-        }
-        const handleClickChatRoom = (ev) => {
-            const clicked_elem = ev.target
-            enterChat()
-            const chatTitle = document.getElementById('chatTitle')
-            room = clicked_elem.getAttribute("chat-room-id")
-            chatTitle.innerHTML = room
-            getMessages(room, (messages) => {
-                populateChatHistory(messages)
-            })
-                .catch(e => {
-                    console.error(e)
-                })
-            socket.emit('create or join', room)
-        }
-
-        const getMessages = async (room, onSuccess) => {
-            const data = {
-                room: room
-            }
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            }
-            try {
-                const response = await fetch('/api/data/messages', options)
-                const json = await response.json()
-                onSuccess(json)
-            } catch (e) {
-                console.error(e)
-            }
-        }
-
-        const populateChatHistory = (messages) => {
-            const fragment = document.createDocumentFragment()
-            for (let message of messages) {
-                const div = document.createElement('div')
-                div.innerHTML = `<p><strong>${message.sender}:</strong>${message.msg}</p>`
-                fragment.appendChild(div)
-            }
-            document.getElementById('chatHistory').appendChild(fragment)
-        }
-
-        const handleExitChatRoom = () => {
-            const history = document.getElementById('chatHistory')
-            while (history.firstChild) {
-                history.removeChild(history.firstChild)
-            }
-            enterChat(false)
-            socket.emit('leave chatroom', room)
-        }
-
-        const enterChat = (enter = true) => {
-            let hide = document.getElementById('chatRoomMain')
-            let show = document.getElementById('chatMain')
-            if (!enter)
-                [hide, show] = [show, hide]
-            hide.classList.add('hidden')
-            show.classList.remove('hidden')
-        }
-
-        const sendChatMsg = () => {
-            const msg = document.getElementById('msgIn').value
-            db = requestIDB.result
-            const store = db.transaction('userInfo', 'readonly').objectStore('userInfo')
-            const storeRequest = store.get('user')
-            storeRequest.onsuccess = () => {
-                useUserInfo(
-                    (user) => {
-                        socket.emit('send msg', room, user.username, msg)
+    const checkUserIsAuthor = () => {
+        useUserInfo(async (user) => {
+            if (user.username === author) {
+                try {
+                    await subscribe()
+                } catch (e) {
+                    // Strange quirk on Firefox where the permissions don't update
+                    // in real time, so have to force a refresh
+                    if (navigator.userAgent.indexOf("Firefox") > -1) {
+                        setInterval(function () {
+                            if (Notification.permission === 'granted') {
+                                location.reload()
+                            }}, 500)
                     }
-                )
-            }
-        }
-
-        /**
-         * Queries indexedDB for the current logged-in user which can be used in a self-defined onSuccess function.
-         * e.g. Used for socket.io connection where we need the logged-in user's username
-         * @param onSuccess
-         */
-        const useUserInfo = (onSuccess) => {
-            db = requestIDB.result
-            const store = db.transaction('userInfo', 'readwrite').objectStore('userInfo')
-            const storeRequest = store.get('user')
-            storeRequest.onsuccess = (event) => {
-                const user = event.target.result
-                if (user) {
-                    onSuccess(user)
-                } else {
-                    // This is placeholder for now, you want to do something if you are not logged in
-                    console.log('You are not logged in.')
                 }
             }
-            storeRequest.onerror = (event) => {
-                console.error(event.target.error)
-            }
-        }
-
-        socket.on('msg', (data) => {
-            outputMsg(data)
         })
-
-        const outputMsg = (data) => {
-            const div = document.createElement('div')
-            div.innerHTML = `<p><strong>${data.sender}:</strong>${data.msg}</p>`
-            document.getElementById('chatHistory').appendChild(div)
-            document.getElementById('msgIn').value = ''
-        }
-
-        init()
-        const addChatRoomBtn = document.getElementById('addChatRoomBtn')
-        const exitChatBtn = document.getElementById('exitChatBtn')
-        const sendMsgBtn = document.getElementById('sendMsgBtn')
-        addChatRoomBtn.addEventListener('click', insertChatRoom)
-        exitChatBtn.addEventListener('click', handleExitChatRoom)
-        sendMsgBtn.addEventListener('click', sendChatMsg)
     }
+
+
+    document.querySelector('#chatForm').addEventListener('submit', function(event) {event.preventDefault()})
+
+    const requestIDB = indexedDB.open('db', 4)
 
     requestIDB.onerror = (event) => {
-        console.error('IDB: '+requestIDB.error)
+        console.error('IDB: ' + requestIDB.error)
     }
+
+    requestIDB.onsuccess = (event) => {
+        document.querySelector('#sendMsgBtn').addEventListener('click', sendMsg)
+        document.querySelector('#msgIn').addEventListener('keyup', ({key}) => {
+            if (key === 'Enter') sendMsg()
+        })
+        checkUserIsAuthor()
+    }
+
+    const sendMsg = (e) => {
+        const msg = document.querySelector('#msgIn').value
+        if (msg.trim()) {
+            useUserInfo(async (user) => {
+                socket.emit('send msg', sightingID, user, msg)
+                // Send a post request to /notify with all the data necessary to display the notification
+                const data = ({
+                    sighting: sightingID,
+                    user: user,
+                    msg: msg,
+                    url: window.location.href
+                })
+                const options = {
+                    method: 'POST',
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Content-type': 'application/json'
+                    }
+                }
+                try {
+                    const response = await fetch('/notify', options)
+                    const json = await response.json()
+
+                } catch (err) {
+                    console.error(err)
+                }
+            })
+        }
+    }
+
+    const useUserInfo = (onSuccess) => {
+        db = requestIDB.result
+        const store = db.transaction('userInfo', 'readonly').objectStore('userInfo')
+        const storeRequest = store.get('user')
+        storeRequest.onsuccess = (event) => {
+            const user = event.target.result
+            if (user) {
+                onSuccess(user)
+            } else {
+                console.log('You are not logged in.')
+            }
+        }
+        storeRequest.onerror = (event) => {
+            console.error(event.target.error)
+        }
+    }
+
+    document.querySelector('#toIndexBtn').addEventListener('click', () => {
+        socket.emit('leave sighting', sightingID)
+        window.location.href = '/sighting/index'
+    })
+
+    const outputMsg = (data) => {
+        const div = document.createElement('div')
+        div.innerHTML = `<p><strong>${data.sender.username}:</strong> ${data.msg}</p>`
+        document.getElementById('chatHistory').appendChild(div)
+        document.getElementById('msgIn').value = ''
+    }
+
+    socket.on('msg', async (message) => {
+        outputMsg(message)
+
+        const options = {
+            method: 'POST',
+            body: JSON.stringify(subscription),
+            headers: {
+                'Content-type': 'application/json'
+            }
+
+        }
+        try {
+            const response = await fetch('/subscribe', options)
+            const json = await response.json()
+
+        } catch (err) {
+            console.error(err)
+        }
+    })
 }

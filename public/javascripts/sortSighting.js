@@ -1,3 +1,10 @@
+/*
+    Function relating to retrieving and displaying the sorted list of sightings
+
+    getSorted - Responsible for performing a fetch request to the index route based on filter/search options in the front-end to retrieve a sorted list of sightings.
+    updateSightingHtml - Injects a list of sightings into the index page.
+    getUser - Retrieves the logged-in user from IndexedDB.
+ */
 {
     let sortParameters = ''
     const search = document.querySelector('#sightingSearch')
@@ -88,6 +95,10 @@
         console.error('IDB: ' + requestIDB.error)
     }
 
+    /*
+        Queries the index route to retrieve sightings that match search terms.
+        This works on top of requesting filtering on the sightings.
+     */
     search.addEventListener('keyup', async (e) => {
         let searchQuery = e.target.value.trim()
         let response = await fetch(`/sighting/index?${sortParameters}&name=${searchQuery}`)

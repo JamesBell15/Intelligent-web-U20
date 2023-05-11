@@ -1,3 +1,5 @@
+
+// For syncing with the online db
 const syncIDB = () => {
     const requestIDB = indexedDB.open("db", 4)
 
@@ -9,10 +11,12 @@ const syncIDB = () => {
             // Use epoc to uniquely identify sync when not logged in
             let requestId = Date.now()
 
+            // If the user is logged in, else send a regular '/db/get/' request
             if (typeof event.target.result !== 'undefined') {
                 requestId = event.target.result.username
             }
 
+            // Sends a request to the server
             fetch(`/db/get/${requestId}`).then(
                 (response) => response.json()
             ).then((body) => {
@@ -30,6 +34,7 @@ const syncIDB = () => {
 
                 const clearRequest = sightingStore.clear()
 
+                // Clears the indexedDB storage to be replaced with up-to-date records
                 clearRequest.onsuccess = (event) => {
                     for (let key in body.data['sightings']){
                         sighting = body.data['sightings'][key]
@@ -106,6 +111,7 @@ const newSighting = async (id) => {
                             let key = cursor.primaryKey
                             let value = cursor.value
 
+                            // if the key is a number it was made offline else it's up-to-date
                             if(value.postId == Number(id)) {
                                 let message = value
 
@@ -156,14 +162,10 @@ const newMessage = (id) => {
     }
 }
 
+// Adds an array of file paths to the cache
 const addResourcesToCache = async (resources) => {
     const cache = await caches.open("v1")
     await cache.addAll(resources)
-}
-
-const addResourceToCahce = async (request, response) => {
-    const cache = await caches.open("v1")
-    await cache.put(request, response)
 }
 
 // PWA Architecture cache first

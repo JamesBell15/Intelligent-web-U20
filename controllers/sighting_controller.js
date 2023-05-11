@@ -1,3 +1,8 @@
+/*
+	Controller for sightings. The methods below are used to render pages or redirect to other pages sometimes after fulfilling
+	another task such as adding a new entry to the database.
+ */
+
 const bodyParser = require("body-parser")
 const multer = require('multer')
 const Helper = require('../helpers/controller_helpers/sighting')
@@ -5,17 +10,19 @@ const Sighting = require('../models/sighting')
 const User = require('../models/user')
 const Message = require('../models/messages')
 
+// GET
 exports.new = (req, res) => {
 	res.render('sighting/new')
 }
 
+// POST
 exports.create = async (req, res) => {
 	let body = req.body
+
 	const user = await User.findUser(body.user)
-	const temp = body.location.split(','),
-		longitude = Number(temp[0]), latitude = Number(temp[1])
-	console.log(typeof longitude + " " + longitude)
+	const temp = body.location.split(','), longitude = Number(temp[0]), latitude = Number(temp[1])
     const image = await Helper.getImageFormReq(req)
+
 	let sighting = new Sighting({
 		identificationURI: body.identificationURI,
 		identificationName: body.identificationName,
@@ -24,7 +31,7 @@ exports.create = async (req, res) => {
 		location: {
 			type: 'Point',
 			coordinates: [longitude, latitude]
-		}, // -> this needs to be updated to be a numbered coordinate
+		},
 		description: body.description,
 		dateTime: new Date(body.dateTime),
 		image: image
@@ -56,6 +63,7 @@ exports.create = async (req, res) => {
     })
 }
 
+// GET
 exports.index = async (req, res) => {
 	const {sort, long, lat, name} = req.query
 	const queryObject = {}
@@ -83,29 +91,15 @@ exports.index = async (req, res) => {
 		result = result.sort('identificationName')
 	}
 
-	/*
-	const page = Number(req.query.page) || 1
-	const limit = Number(req.query.limit) || 5
-	const skip = (page - 1) * limit
-
-	result = result.skip(skip).limit(limit)
-	*/
-
 	result = await result.exec()
 
 	res.render('sighting/index', {sightings: result})
-
-	/**
-       //1 Paris - 2.3291015625000004, 48.864714761802794
-       //2 NY - -73.97094726562501, 40.697299008636755
-       //3 London - -0.087890625, 51.45400691005982
-       //4 Sheffield - -1.4282226562500002, 53.31774904749089
-       //5 Tokyo - 139.74609375000003, 35.67068501330238
-	 **/
 }
 
+// GET
 exports.show = (req, res) => {
     sighting_id = req.params.id
+
     Sighting.findById(sighting_id).populate('userId').exec(async function (err, sighting) {
         if (err) {
             err.type = 'database'
@@ -120,13 +114,16 @@ exports.show = (req, res) => {
 }
 
 //update sighting object with new identification details
+// POST
 exports.update = async (req,res) => {
 	let body = req.body
 	let id = body.id
 	let sighting = await Sighting.findOne({_id: id})
+
 	sighting.identificationURI = body.identificationURI
 	sighting.identificationName = body.identificationName
 	sighting.confirmation = body.confirmation
+
 	sighting.save(async (err, results) => {
 		if (err) {
 			console.log(req.body)

@@ -9,10 +9,10 @@ let router = express.Router()
 const sighting_controller = require("../controllers/sighting_controller")
 const db_controller = require("../controllers/db_controller")
 const subscription_controller = require("../controllers/subscription_controller")
+
+// Public and private keys necessary for the notifications
 const publicVapidKey = "BLbjzsibeJ_ETEMWPGY6gS5Mvu-tDYwurLa0GIk05Q5-0MEZMRG2swTsI-mW_UgXOaCBuAph_BFKNVOZiM85X_0"
 const privateVapidKey = "Am9PJ-cUOEEbo4Xa69RTP7p_ftGvNImAtv_L9OEGkVg"
-
-
 webPush.setVapidDetails("mailto: chrishowkins10@gmail.com", publicVapidKey, privateVapidKey)
 
 // Routes accociated with online sightings

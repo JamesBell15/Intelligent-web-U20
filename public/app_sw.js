@@ -1,3 +1,22 @@
+/*
+    install - Handles the service worker is created and installed on the clients browser
+    it caches the required files
+
+    sync - Handles the background sync events for when
+        sighting-data-sync - syncing offline IDB with the most up-to-date
+        new-sighting - send a new sighting to the server with any messages made during that session
+        new-message - sends new messages on pre existing sightings
+
+    fetch - Handles the requests to the server, and reroutes them to the cache when offline or
+    sends the request to the server if online
+
+    push - An event listener for the 'push' event. This occurs when a notification needs to be sent and
+           then showNotification is actually called to display the notification to the user
+
+    notificationclick - Handles the event when the user clicks on a notification.
+                        On click, it opens the page in a browser
+*/
+
 self.importScripts("/javascripts/serviceWorkerHelper.mjs")
 
 self.addEventListener("install", (event) => {
@@ -63,6 +82,7 @@ self.addEventListener("fetch", (event) => {
     let pathname = requestURL.pathname
 
     if (event.request.method == "GET"){
+        // critial routes for the application
         if(
             pathname == '/sighting/index'      ||
             pathname == '/sighting/show'       ||
@@ -73,11 +93,13 @@ self.addEventListener("fetch", (event) => {
         // for syncing related taskes
         } else if (pathname.startsWith("/db/")) {
             event.respondWith(syncNetwork(requestURL))
+        // for non critial routes return to the index while offline
         } else {
             event.respondWith(cacheFirst(event.request, "/sighting/index.html"))
         }
     }
 })
+
 
 
 self.addEventListener("push", (event) => {
@@ -87,6 +109,8 @@ self.addEventListener("push", (event) => {
             data: { url: data.url } },
     )
 })
+
+
 
 self.addEventListener("notificationclick", function (event) {
     const data = event.notification.data

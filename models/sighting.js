@@ -1,8 +1,21 @@
+/*
+    Model for a sighting. It has 8 parameters:
+
+    userId - references a user in the database that the sighting is attached to.
+    description - a description of the sighting.
+    dateTime - the date and time the sighting was made.
+    identificationName - the name of the bird that was sighted.
+    identificationURI - a link to the corresponding DBpedia page for the bird identified in the sighting.
+    confirmation - a boolean representing if the sighting was confirmed or not.
+    location - the coordinates where the sighting was made which is stored as a GeoJSON object.
+    image - either an image from a url or from a local device.
+
+ */
+
 let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
 const sighting = new Schema({
-    active: {type: Boolean, default: true},
     userId: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
     description: {type: String, required: true, max:280},
     dateTime: {type: Date, required: true},
@@ -16,7 +29,9 @@ const sighting = new Schema({
             required: true
         },
         coordinates: {
+            // LONG, LAT
             type: [Number],
+            get: shortenFloat,
             required: true
         }
     },
@@ -56,6 +71,11 @@ sighting.statics.findSighting = async (sightingId) => {
 function binaryString(data) {
     if (data != null)
     return data.toString('base64')
+}
+
+// returns smaller float values
+function shortenFloat(numbers) {
+    return [Number((numbers[0]).toFixed(3)), Number((numbers[1]).toFixed(3))]
 }
 
 var Sighting = mongoose.model('Sighting', sighting)

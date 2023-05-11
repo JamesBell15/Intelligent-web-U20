@@ -1,3 +1,6 @@
+/*
+    Manages socket-io events.
+ */
 const User = require('../models/user.js')
 const Sighting = require('../models/sighting.js')
 const Message = require('../models/messages.js')
@@ -6,7 +9,6 @@ const Subscription = require('../models/subscription.js')
 exports.init = function(io) {
     io.sockets.on('connection', function (socket) {
         try {
-            // THESE ARE NEW ONES
             socket.on('join sighting', (room) => {
                 socket.join(room)
             })
@@ -25,16 +27,12 @@ exports.init = function(io) {
                     msg: msg
                 })
 
-
+                // messages are saved in mongoDB.
                 await message.insert()
                 io.to(room).emit('msg', message)
 
 
             })
-
-            // NEED to update lists of chat rooms/posts when one is created from another user.
-
-            // INTERACTIONS WITH USER DB
             socket.on('login/register', (data) => {
                 const user = new User({
                     username: data.username,
