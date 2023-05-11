@@ -1,3 +1,24 @@
+//check if user is logged in, and if they're the author
+let author = document.getElementById("showAuthor").innerHTML
+const requestUser = indexedDB.open('db', 4)
+requestUser.onerror = (event) => {
+    console.error('IDB: '+requestUser.error)
+}
+requestUser.onsuccess = (event) => {
+    const db = requestUser.result
+    const storeRequest = db.transaction('userInfo', 'readonly').objectStore('userInfo').get('user')
+    storeRequest.onsuccess = (event) => {
+        const user = event.target.result
+        if (user) {
+            if (user.username === author){
+                const editButton = document.getElementById('editModalBtn')
+                editButton.classList.remove('hidden')
+            }
+
+        }
+    }
+}
+
 //set input field initial values using hidden fields
 let identificationURI = document.getElementById("identificationURI").value
 let identificationName = document.getElementById("identificationName").value
