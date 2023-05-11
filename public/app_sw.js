@@ -80,6 +80,7 @@ self.addEventListener("fetch", (event) => {
     let pathname = requestURL.pathname
 
     if (event.request.method == "GET"){
+        // critial routes for the application
         if(
             pathname == '/sighting/index'      ||
             pathname == '/sighting/show'       ||
@@ -90,6 +91,7 @@ self.addEventListener("fetch", (event) => {
         // for syncing related taskes
         } else if (pathname.startsWith("/db/")) {
             event.respondWith(syncNetwork(requestURL))
+        // for non critial routes return to the index while offline
         } else {
             event.respondWith(cacheFirst(event.request, "/sighting/index.html"))
         }
