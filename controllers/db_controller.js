@@ -1,17 +1,25 @@
+/*
+    get_server_data - Returns JSON of all the records in the database, only adding more detail
+    to records that have the same username as the request. If no username, just the bare minimum
+
+    update_sighting_data - Recieves a new sighting request made by the service worker and stores
+    the new offline sighting and any messages attached to that sighthing in the db
+
+    update_message_data - Recieves a new message request made by the service worker and stores
+    the new message in the db
+*/
+
+
 const Sighting = require('../models/sighting')
 const User = require('../models/user')
 const Message = require('../models/messages')
 const Helper = require('../helpers/controller_helpers/db')
 
 exports.get_server_data = async (req, res) => {
-    // takes user ID and returns all sightings connected to that user
-    // + messages connected to those sightings
-    // + all the sightings but with bare min data birdID, userID, location & time
-
     username = req.params.username
 
     let json = {sightings: {}, messages: {}}
-    // split into messages controller and sighting controller
+
     Sighting.find().populate('userId').exec(function (err, sightings) {
         if (err) err.type = 'database'
 
@@ -41,10 +49,9 @@ exports.get_server_data = async (req, res) => {
 }
 
 exports.update_sighting_data = async (req, res) => {
-    // recieves and updates server with new sighting
-
     let body = req.body
 
+    // an offline sighting might not always have a user so a new one is created
     const user = await Helper.resolveNoUser(body.userId, body.location)
 
     let sighting = new Sighting({
