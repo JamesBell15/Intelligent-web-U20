@@ -2,8 +2,8 @@ const bodyParser = require("body-parser")
 const multer = require('multer')
 const Subscription = require('../models/subscription')
 const User = require("../models/user")
-const Sighting = require("../models/sighting");
-const webPush = require("web-push");
+const Sighting = require("../models/sighting")
+const webPush = require("web-push")
 
 exports.create = async (req, res) => {
     let body = req.body
