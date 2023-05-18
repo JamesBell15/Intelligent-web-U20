@@ -11,6 +11,9 @@ Installation:
 * Run `node www/bin`
 * Open a browser (preferably Chrome) and go to `http://localhost:3000/`
 
+Our repository:
+* https://github.com/JamesBell15/Intelligent-web-U20
+
 Quick video guide to features:
 * Online messaging and creating a new sighting https://www.youtube.com/watch?v=cqZuNUIxnDw
 * different sighting filters https://www.youtube.com/watch?v=Z5ZzRrqCGwY
